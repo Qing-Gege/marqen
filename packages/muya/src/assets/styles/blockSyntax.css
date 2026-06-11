@@ -203,6 +203,21 @@
     border-radius: 3px;
 }
 
+.mu-code-block .mu-code {
+    display: block;
+    overflow: auto;
+}
+
+.mu-code-block .mu-code::-webkit-scrollbar {
+    display: block;
+    height: 6px;
+    width: 3px;
+}
+
+.mu-code-block .mu-content {
+    white-space: inherit;
+}
+
 .mu-code-copy {
     position: absolute;
     top: 0.5em;
