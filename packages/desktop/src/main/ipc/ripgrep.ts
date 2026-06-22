@@ -2,12 +2,22 @@ import { spawn, type ChildProcess } from 'child_process'
 import path from 'path'
 import { ipcMain, type WebContents } from 'electron'
 import log from 'electron-log'
-import { rgPath as bundledRgPath } from '@vscode/ripgrep'
 
-const resolveRgPath = (): string => {
+const resolveRgPath = (): string | null => {
   if (process.env.MARKTEXT_RIPGREP_PATH) return process.env.MARKTEXT_RIPGREP_PATH
-  return bundledRgPath.replace(/\bapp\.asar\b/, 'app.asar.unpacked')
+  try {
+    // Optional platform packages may be absent in cross-built installers.
+    // Search can degrade gracefully; app startup must not depend on it.
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { rgPath } = require('@vscode/ripgrep') as { rgPath: string }
+    return rgPath.replace(/\bapp\.asar\b/, 'app.asar.unpacked')
+  } catch (err) {
+    log.warn('Ripgrep binary is unavailable:', err)
+    return null
+  }
 }
+
+const unavailableRipgrepMessage = 'Folder search is unavailable because the bundled search engine is missing.'
 
 interface ActiveSearch {
   sender: WebContents
@@ -172,6 +182,13 @@ const startTextSearch = (
   options: SearchOptions
 ): void => {
   const rgPath = resolveRgPath()
+  if (!rgPath) {
+    sendIfAlive(sender, 'mt::rg::error', {
+      searchId,
+      error: unavailableRipgrepMessage
+    })
+    return
+  }
   const children: ChildProcess[] = []
   let cancelled = false
   let pendingPaths = 0
@@ -330,6 +347,13 @@ const startFileSearch = (
   options: SearchOptions
 ): void => {
   const rgPath = resolveRgPath()
+  if (!rgPath) {
+    sendIfAlive(sender, 'mt::rg::error', {
+      searchId,
+      error: unavailableRipgrepMessage
+    })
+    return
+  }
   const children: ChildProcess[] = []
   let cancelled = false
   let pendingPaths = 0

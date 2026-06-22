@@ -3,6 +3,7 @@
     v-show="showSideBar"
     ref="sideBar"
     class="side-bar"
+    :class="{ 'has-workspace': hasWorkspace }"
     :style="[!rightColumn ? { 'min-width': '45px' } : {}, { width: `${finalSideBarWidth}px` }]"
   >
     <div class="left-column">
@@ -36,7 +37,6 @@
         :opened-files="openedFiles"
         :tabs="tabs"
       />
-      <side-bar-search v-else-if="rightColumn === 'search'" />
       <toc v-else-if="rightColumn === 'toc'" />
     </div>
     <div
@@ -55,10 +55,13 @@ import { useEditorStore } from '@/store/editor'
 
 import { sideBarIcons, sideBarBottomIcons } from './help'
 import Tree from './tree.vue'
-import SideBarSearch from './search.vue'
 import Toc from './toc.vue'
 import { storeToRefs } from 'pinia'
 import type { TabDescriptor } from './types'
+
+defineProps<{
+  hasWorkspace?: boolean
+}>()
 
 const layoutStore = useLayoutStore()
 const projectStore = useProjectStore()
@@ -148,6 +151,14 @@ const handleLeftBottomClick = (name: string): void => {
   user-select: none;
   background: var(--sideBarBgColor);
   border-right: 1px solid var(--itemBgColor);
+}
+
+.side-bar.has-workspace {
+  border-right-color: color-mix(in srgb, var(--themeColor) 24%, var(--itemBgColor));
+}
+
+.side-bar.has-workspace .left-column {
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--themeColor) 42%, transparent);
 }
 
 .side-bar .left-column svg {

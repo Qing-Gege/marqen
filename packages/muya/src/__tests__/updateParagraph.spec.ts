@@ -73,13 +73,13 @@ describe('muya.updateParagraph()', () => {
         });
     });
 
-    it('upgrade heading cycles paragraph -> h6 and h2 -> h1', async () => {
+    it('upgrade heading moves paragraph -> h3 and h2 -> h1', async () => {
         const muya = bootMuya('plain\n');
         placeCursorOnFirstBlock(muya);
         muya.updateParagraph('upgrade heading');
         await vi.waitFor(() => {
             expect(firstBlock(muya).name).toBe('atx-heading');
-            expect(firstBlock(muya).meta.level).toBe(6);
+            expect(firstBlock(muya).meta.level).toBe(3);
         });
 
         const muya2 = bootMuya('## two\n');
@@ -96,6 +96,15 @@ describe('muya.updateParagraph()', () => {
         muya.updateParagraph('degrade heading');
         await vi.waitFor(() => {
             expect(firstBlock(muya).meta.level).toBe(2);
+        });
+    });
+
+    it('degrade heading moves h3 back to paragraph', async () => {
+        const muya = bootMuya('### three\n');
+        placeCursorOnFirstBlock(muya);
+        muya.updateParagraph('degrade heading');
+        await vi.waitFor(() => {
+            expect(firstBlock(muya).name).toBe('paragraph');
         });
     });
 

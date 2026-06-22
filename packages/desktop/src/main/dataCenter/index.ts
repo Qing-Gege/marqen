@@ -1,7 +1,6 @@
 import fs from 'fs'
 import path from 'path'
 import { BrowserWindow, dialog, ipcMain } from 'electron'
-import keytar from 'keytar'
 import schema from './schema.json'
 import Store from 'electron-store'
 import log from 'electron-log'
@@ -35,7 +34,7 @@ class DataCenter extends TypedEmitter<DataCenterEvents> {
     const { dataCenterPath, userDataPath } = paths
     this.dataCenterPath = dataCenterPath
     this.userDataPath = userDataPath
-    this.serviceName = 'marktext'
+    this.serviceName = 'marqen'
     this.encryptKeys = []
     this.hasDataCenterFile = fs.existsSync(
       path.join(this.dataCenterPath, `./${DATA_CENTER_NAME}.json`)
@@ -74,27 +73,16 @@ class DataCenter extends TypedEmitter<DataCenterEvents> {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async getAll(): Promise<Record<string, any>> {
-    const { serviceName, encryptKeys } = this
+    const { encryptKeys } = this
     const data = this.store.store
-    try {
-      const encryptData = await Promise.all(
-        encryptKeys.map((key) => {
-          return keytar.getPassword(serviceName, key)
-        })
-      )
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const encryptObj = encryptKeys.reduce<Record<string, any>>((acc, k, i) => {
-        return {
-          ...acc,
-          [k]: encryptData[i]
-        }
-      }, {})
+    const encryptObj = encryptKeys.reduce<Record<string, any>>((acc, key) => {
+      return {
+        ...acc,
+        [key]: this.store.get(key)
+      }
+    }, {})
 
-      return Object.assign(data, encryptObj)
-    } catch (err) {
-      log.error('Failed to decrypt secure keys:', err)
-      return data
-    }
+    return Object.assign(data, encryptObj)
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -126,9 +114,9 @@ class DataCenter extends TypedEmitter<DataCenterEvents> {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getItem(key: string): Promise<any> | any {
-    const { encryptKeys, serviceName } = this
+    const { encryptKeys } = this
     if (encryptKeys.includes(key)) {
-      return keytar.getPassword(serviceName, key)
+      return Promise.resolve(this.store.get(key))
     } else {
       const value = this.store.get(key)
       return Promise.resolve(value)
@@ -137,17 +125,13 @@ class DataCenter extends TypedEmitter<DataCenterEvents> {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async setItem(key: string, value: any): Promise<any> {
-    const { encryptKeys, serviceName } = this
+    const { encryptKeys } = this
     if (key === 'screenshotFolderPath') {
       ensureDirSync(value as string)
     }
     ipcMain.emit('broadcast-user-data-changed', { [key]: value })
     if (encryptKeys.includes(key)) {
-      try {
-        return await keytar.setPassword(serviceName, key, value)
-      } catch (err) {
-        log.error('Keytar error:', err)
-      }
+      return this.store.set(key, value)
     } else {
       return this.store.set(key, value)
     }

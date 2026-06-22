@@ -28,7 +28,7 @@ import {
 } from './selection/offsetCursor';
 import { getTOC } from './state/getTOC';
 import { isAnyListState, isAtxHeadingState } from './state/types';
-import { insertFrontMatterAtStart, replaceBlockByLabel } from './ui/paragraphQuickInsertMenu/config';
+import { replaceBlockByLabel } from './ui/paragraphQuickInsertMenu/config';
 import { Ui } from './ui/ui';
 import { deepClone } from './utils';
 import './assets/styles/blockSyntax.css';
@@ -55,29 +55,18 @@ interface IPlugin {
 const PARAGRAPH_LABEL_MAP: Record<string, string> = {
     'paragraph': 'paragraph',
     'hr': 'thematic-break',
-    'front-matter': 'frontmatter',
     'table': 'table',
     'mathblock': 'math-block',
-    'html': 'html-block',
-    'pre': 'code-block',
     'blockquote': 'block-quote',
     'heading 1': 'atx-heading 1',
     'heading 2': 'atx-heading 2',
     'heading 3': 'atx-heading 3',
-    'heading 4': 'atx-heading 4',
-    'heading 5': 'atx-heading 5',
-    'heading 6': 'atx-heading 6',
     'ul-bullet': 'bullet-list',
     'ol-order': 'order-list',
     // The desktop command palette emits `ol-bullet` for the ordered-list
     // command while the menu emits `ol-order`; accept both.
     'ol-bullet': 'order-list',
     'ul-task': 'task-list',
-    'mermaid': 'diagram mermaid',
-    'plantuml': 'diagram plantuml',
-    'vega-lite': 'diagram vega-lite',
-    'flowchart': 'diagram flowchart',
-    'sequence': 'diagram sequence',
 };
 
 export class Muya {
@@ -865,8 +854,8 @@ export class Muya {
     /**
      * Convert the block at the cursor to another type. `type` uses the
      * paragraph-menu
-     * vocabulary: `paragraph`, `heading 1`–`heading 6`, `upgrade heading`,
-     * `degrade heading`, `blockquote`, `pre`, `mathblock`, `html`, `hr`,
+     * vocabulary: `paragraph`, `heading 1`–`heading 3`, `upgrade heading`,
+     * `degrade heading`, `blockquote`, `hr`,
      * `table`, `front-matter`, `ul-bullet`/`ol-order`/`ul-task`,
      * `loose-list-item`, `reset-to-paragraph`, and the diagram types.
      */
@@ -896,15 +885,6 @@ export class Muya {
         const label = PARAGRAPH_LABEL_MAP[type];
         if (!label)
             return;
-
-        // Front matter is only valid as the very first block of a document, so
-        // it is never an in-place replacement of the cursor block: idempotent
-        // no-op if the document already starts with front matter, otherwise
-        // prepend one at the top.
-        if (label === 'frontmatter') {
-            insertFrontMatterAtStart(this);
-            return;
-        }
 
         // The plain `paragraph` menu item only converts the *leaf* block that
         // directly wraps the cursor (heading, hr, …) back to a paragraph; it
@@ -1023,16 +1003,16 @@ export class Muya {
             : text;
     }
 
-    /** Cycle the heading level (marktext upgrade/degrade semantics). */
+    /** Move between plain text and the simplified heading levels H1-H3. */
     private _changeHeadingLevel(block: Parent, type: 'upgrade heading' | 'degrade heading') {
         const state = block.getState();
         const level = isAtxHeadingState(state) ? state.meta.level : 0;
-        let newLevel = level;
+        let newLevel: number;
 
-        if (type === 'upgrade heading' && level !== 1)
-            newLevel = level === 0 ? 6 : level - 1;
-        else if (type === 'degrade heading' && level !== 0)
-            newLevel = level === 6 ? 0 : level + 1;
+        if (type === 'upgrade heading')
+            newLevel = level === 0 ? 3 : Math.max(1, Math.min(level, 4) - 1);
+        else
+            newLevel = level >= 3 ? 0 : level + 1;
 
         if (newLevel === level)
             return;

@@ -12,6 +12,7 @@ import type AtxHeading from '../commonMark/atxHeading';
 import type BulletList from '../commonMark/bulletList';
 import type SetextHeading from '../commonMark/setextHeading';
 import type TreeNode from './treeNode';
+import katex from 'katex';
 import Content from '../../block/base/content';
 import { ScrollPage } from '../../block/scrollPage';
 import {
@@ -42,6 +43,23 @@ const debug = logger('block.format:');
 
 function isEmojiToken(token: Token): token is CodeEmojiMathToken {
     return token.type === 'emoji';
+}
+
+export function isValidInlineMath(math: string): boolean {
+    if (!math.trim())
+        return false;
+
+    try {
+        katex.renderToString(math, {
+            displayMode: false,
+            strict: 'error',
+            throwOnError: true,
+        });
+        return true;
+    }
+    catch {
+        return false;
+    }
 }
 
 const INLINE_UPDATE_FRAGMENTS = [
@@ -218,7 +236,7 @@ function checkTokenIsInlineFormat(token: Token) {
         return true;
 
     if (type === 'html_tag')
-        return /^(?:u|sub|sup|mark)$/i.test(token.tag);
+        return /^(?:code|strong|em|s|del|u|sub|sup|mark)$/i.test(token.tag);
 
     return false;
 }
@@ -1569,17 +1587,36 @@ class Format extends Content {
             return debug.warn('You need to special the range you want to format.');
 
         start.delta = end.delta = 0;
+
+        if (
+            type === 'inline_math'
+            && start.offset !== end.offset
+            && !isValidInlineMath(this.text.substring(start.offset, end.offset))
+        ) {
+            this.setCursor(start.offset, end.offset, true);
+            return;
+        }
+
         const { formats, tokens, neighbors } = this.getFormatsInRange(cursor);
+
+        const matchesFormatType = (format: Token) => {
+            if (format.type === type)
+                return true;
+
+            if (format.type !== 'html_tag')
+                return false;
+
+            return (
+                format.tag === type
+                || (type === 'del' && format.tag === 's')
+                || (type === 'inline_code' && format.tag === 'code')
+            );
+        };
 
         const [currentFormats, currentNeighbors] = [formats, neighbors].map(
             item =>
                 item
-                    .filter((format) => {
-                        return (
-                            format.type === type
-                            || (format.type === 'html_tag' && format.tag === type)
-                        );
-                    })
+                    .filter(format => matchesFormatType(format))
                     .reverse(),
         );
 
@@ -1653,14 +1690,6 @@ class Format extends Content {
         { start, end }: { start: IOffset; end: IOffset },
     ) {
         switch (type) {
-            case 'em':
-
-            case 'del':
-
-            case 'inline_code':
-
-            case 'strong':
-
             case 'inline_math': {
                 const MARKER = FORMAT_MARKER_MAP[type];
                 const oldText = this.text;
@@ -1678,14 +1707,22 @@ class Format extends Content {
                     end.offset += MARKER.length;
                 }
                 else {
-                    // When wrapping a non-empty selection, collapse the caret
-                    // PAST the closing marker so the next keystroke lands
-                    // outside the format instead of extending it.
-                    end.offset += MARKER.length * 2;
-                    start.offset = end.offset;
+                    // Word/Feishu-style selection formatting keeps the visible
+                    // text selected so repeated toolbar clicks toggle the same
+                    // range instead of inserting stray marker characters.
+                    start.offset += MARKER.length;
+                    end.offset += MARKER.length;
                 }
                 break;
             }
+
+            case 'strong':
+
+            case 'em':
+
+            case 'del':
+
+            case 'inline_code':
 
             case 'sub':
 
@@ -1708,8 +1745,8 @@ class Format extends Content {
                     end.offset += MARKER.open.length;
                 }
                 else {
-                    end.offset += MARKER.open.length + MARKER.close.length;
-                    start.offset = end.offset;
+                    start.offset += MARKER.open.length;
+                    end.offset += MARKER.open.length;
                 }
                 break;
             }

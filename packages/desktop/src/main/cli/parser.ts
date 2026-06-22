@@ -19,7 +19,6 @@ const parseArgs = (argv: string[] | null = null, permissive: boolean = true) => 
     '-n': '--new-window',
 
     '--disable-gpu': Boolean,
-    '--disable-spellcheck': Boolean,
     '--user-data-dir': String,
 
     // Misc

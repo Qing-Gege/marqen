@@ -9,9 +9,6 @@ const DISABLE_LABELS: readonly string[] = [
   'heading1MenuItem',
   'heading2MenuItem',
   'heading3MenuItem',
-  'heading4MenuItem',
-  'heading5MenuItem',
-  'heading6MenuItem',
   'upgradeHeadingMenuItem',
   'degradeHeadingMenuItem',
   'tableMenuItem',
@@ -24,20 +21,13 @@ const MENU_ID_MAP: Readonly<Record<string, string>> = Object.freeze({
   heading1MenuItem: 'h1',
   heading2MenuItem: 'h2',
   heading3MenuItem: 'h3',
-  heading4MenuItem: 'h4',
-  heading5MenuItem: 'h5',
-  heading6MenuItem: 'h6',
   tableMenuItem: 'figure',
-  codeFencesMenuItem: 'pre',
-  htmlBlockMenuItem: 'html',
-  mathBlockMenuItem: 'multiplemath',
   quoteBlockMenuItem: 'blockquote',
   orderListMenuItem: 'ol',
   bulletListMenuItem: 'ul',
   // taskListMenuItem: 'ul',
   paragraphMenuItem: 'p',
-  horizontalLineMenuItem: 'hr',
-  frontMatterMenuItem: 'frontmatter' // 'pre'
+  horizontalLineMenuItem: 'hr'
 })
 
 const transformEditorElement = (win: Win, type: string): void => {
@@ -50,16 +40,8 @@ export const bulletList = (win: Win): void => {
   transformEditorElement(win, 'ul-bullet')
 }
 
-export const codeFence = (win: Win): void => {
-  transformEditorElement(win, 'pre')
-}
-
 export const degradeHeading = (win: Win): void => {
   transformEditorElement(win, 'degrade heading')
-}
-
-export const frontMatter = (win: Win): void => {
-  transformEditorElement(win, 'front-matter')
 }
 
 export const heading1 = (win: Win): void => {
@@ -74,32 +56,8 @@ export const heading3 = (win: Win): void => {
   transformEditorElement(win, 'heading 3')
 }
 
-export const heading4 = (win: Win): void => {
-  transformEditorElement(win, 'heading 4')
-}
-
-export const heading5 = (win: Win): void => {
-  transformEditorElement(win, 'heading 5')
-}
-
-export const heading6 = (win: Win): void => {
-  transformEditorElement(win, 'heading 6')
-}
-
 export const horizontalLine = (win: Win): void => {
   transformEditorElement(win, 'hr')
-}
-
-export const htmlBlock = (win: Win): void => {
-  transformEditorElement(win, 'html')
-}
-
-export const looseListItem = (win: Win): void => {
-  transformEditorElement(win, 'loose-list-item')
-}
-
-export const mathFormula = (win: Win): void => {
-  transformEditorElement(win, 'mathblock')
 }
 
 export const orderedList = (win: Win): void => {
@@ -130,19 +88,11 @@ export const increaseHeading = (win: Win): void => {
 
 export const loadParagraphCommands = (commandManager: CommandManager): void => {
   commandManager.add(COMMANDS.PARAGRAPH_BULLET_LIST, bulletList)
-  commandManager.add(COMMANDS.PARAGRAPH_CODE_FENCE, codeFence)
   commandManager.add(COMMANDS.PARAGRAPH_DEGRADE_HEADING, degradeHeading)
-  commandManager.add(COMMANDS.PARAGRAPH_FRONT_MATTER, frontMatter)
   commandManager.add(COMMANDS.PARAGRAPH_HEADING_1, heading1)
   commandManager.add(COMMANDS.PARAGRAPH_HEADING_2, heading2)
   commandManager.add(COMMANDS.PARAGRAPH_HEADING_3, heading3)
-  commandManager.add(COMMANDS.PARAGRAPH_HEADING_4, heading4)
-  commandManager.add(COMMANDS.PARAGRAPH_HEADING_5, heading5)
-  commandManager.add(COMMANDS.PARAGRAPH_HEADING_6, heading6)
   commandManager.add(COMMANDS.PARAGRAPH_HORIZONTAL_LINE, horizontalLine)
-  commandManager.add(COMMANDS.PARAGRAPH_HTML_BLOCK, htmlBlock)
-  commandManager.add(COMMANDS.PARAGRAPH_LOOSE_LIST_ITEM, looseListItem)
-  commandManager.add(COMMANDS.PARAGRAPH_MATH_FORMULA, mathFormula)
   commandManager.add(COMMANDS.PARAGRAPH_ORDERED_LIST, orderedList)
   commandManager.add(COMMANDS.PARAGRAPH_PARAGRAPH, paragraph)
   commandManager.add(COMMANDS.PARAGRAPH_QUOTE_BLOCK, quoteBlock)
@@ -180,7 +130,6 @@ const setMultipleStatus = (
 interface SelectionState {
   affiliation: Record<string, boolean>
   isTable?: boolean
-  isLooseListItem?: boolean
   isTaskList?: boolean
   isDisabled?: boolean
   isMultiline?: boolean
@@ -191,7 +140,7 @@ interface SelectionState {
 const setCheckedMenuItem = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   applicationMenu: any,
-  { affiliation, isTable, isLooseListItem, isTaskList }: SelectionState
+  { affiliation, isTable, isTaskList }: SelectionState
 ): void => {
   const paragraphMenuItem = applicationMenu.getMenuItemById('paragraphMenuEntry')
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -200,8 +149,6 @@ const setCheckedMenuItem = (
   paragraphMenuItem.submenu.items.forEach((item: any) => {
     if (!item.id) {
       return false
-    } else if (item.id === 'looseListItemMenuItem') {
-      item.checked = !!isLooseListItem
     } else if (
       Object.keys(affiliation).some((b) => {
         if (b === 'ul' && isTaskList) {
@@ -210,8 +157,6 @@ const setCheckedMenuItem = (
           }
           return false
         } else if (isTable && item.id === 'tableMenuItem') {
-          return true
-        } else if (item.id === 'codeFencesMenuItem' && /code$/.test(b)) {
           return true
         }
         return b === MENU_ID_MAP[item.id]
@@ -265,10 +210,6 @@ export const updateSelectionMenus = (
     if (isCodeContent) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ;(formatMenuItem.submenu as any).items.forEach((item: any) => (item.enabled = false))
-
-      if (Object.keys(affiliation).some((b) => /code$/.test(b))) {
-        setMultipleStatus(applicationMenu, ['codeFencesMenuItem'], true)
-      }
     }
   } else if (isMultiline) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -278,10 +219,5 @@ export const updateSelectionMenus = (
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .forEach((item: any) => (item.enabled = false))
     setMultipleStatus(applicationMenu, DISABLE_LABELS, false)
-  }
-
-  // Disable loose list item.
-  if (!affiliation.ul && !affiliation.ol) {
-    setMultipleStatus(applicationMenu, ['looseListItemMenuItem'], false)
   }
 }

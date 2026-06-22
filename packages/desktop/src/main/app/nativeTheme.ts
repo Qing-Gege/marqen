@@ -1,20 +1,19 @@
 import { isDarkThemeId } from '../../common/theme'
 
-export type NativeThemeSource = 'system' | 'dark' | 'light'
+export type NativeThemeSource = 'dark' | 'light' | 'system'
+
+type NativeThemePreferences = {
+  followSystemTheme?: boolean
+  theme?: unknown
+}
 
 export const isDarkApplicationTheme = (theme: unknown): boolean => {
   return isDarkThemeId(theme)
 }
 
-export const getNativeThemeSource = ({
-  followSystemTheme,
-  theme
-}: {
-  followSystemTheme: boolean
-  theme: unknown
-}): NativeThemeSource => {
-  if (followSystemTheme) {
+export const getNativeThemeSource = (preferences: NativeThemePreferences): NativeThemeSource => {
+  if (preferences.followSystemTheme) {
     return 'system'
   }
-  return isDarkApplicationTheme(theme) ? 'dark' : 'light'
+  return isDarkApplicationTheme(preferences.theme) ? 'dark' : 'light'
 }

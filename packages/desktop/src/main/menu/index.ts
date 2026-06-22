@@ -27,13 +27,8 @@ interface WindowMenuEntry {
   type: MenuTypeValue
 }
 
-interface AddEditorMenuOptions {
-  sourceCodeModeEnabled?: boolean
-}
-
 interface ThemeMenuChange {
   theme?: string
-  followSystemTheme?: boolean
 }
 
 class AppMenu {
@@ -183,28 +178,10 @@ class AppMenu {
    * Add the editor menu to the given window.
    *
    * @param window The editor browser window.
-   * @param options The menu options.
    */
-  addEditorMenu(window: BrowserWindow, options: AddEditorMenuOptions = {}): void {
-    const isSourceMode = !!options.sourceCodeModeEnabled
+  addEditorMenu(window: BrowserWindow): void {
     const { windowMenus } = this
     windowMenus.set(window.id, this._buildEditorMenu())
-
-    const entry = windowMenus.get(window.id)!
-    const menu = entry.menu!
-
-    // Set source-code editor if preferred.
-    const sourceCodeModeMenuItem = menu.getMenuItemById('sourceCodeModeMenuItem')
-    if (sourceCodeModeMenuItem) {
-      sourceCodeModeMenuItem.checked = isSourceMode
-    }
-
-    if (isSourceMode) {
-      const typewriterModeMenuItem = menu.getMenuItemById('typewriterModeMenuItem')
-      const focusModeMenuItem = menu.getMenuItemById('focusModeMenuItem')
-      if (typewriterModeMenuItem) typewriterModeMenuItem.enabled = false
-      if (focusModeMenuItem) focusModeMenuItem.enabled = false
-    }
 
     const { _keybindings } = this
     _keybindings.registerEditorKeyHandlers(window)
@@ -296,7 +273,6 @@ class AppMenu {
       if (!newMenu) return
 
       // all other menu items are set automatically
-      updateMenuItem(oldMenu, newMenu, 'sourceCodeModeMenuItem')
       updateMenuItem(oldMenu, newMenu, 'typewriterModeMenuItem')
       updateMenuItem(oldMenu, newMenu, 'focusModeMenuItem')
       updateMenuItem(oldMenu, newMenu, 'sideBarMenuItem')
@@ -344,7 +320,7 @@ class AppMenu {
   /**
    * Update theme menu state across editor menus.
    */
-  updateThemeMenu = ({ theme, followSystemTheme }: ThemeMenuChange = {}): void => {
+  updateThemeMenu = ({ theme }: ThemeMenuChange = {}): void => {
     this.windowMenus.forEach((value) => {
       const { menu, type } = value
       if (type !== MenuType.EDITOR || !menu) {
@@ -357,14 +333,6 @@ class AppMenu {
       }
 
       themeMenus.submenu.items.forEach((item) => {
-        if (item.type === 'radio' && typeof followSystemTheme !== 'undefined') {
-          item.enabled = !followSystemTheme
-        }
-
-        if (item.id === 'follow-system-theme' && typeof followSystemTheme !== 'undefined') {
-          item.checked = followSystemTheme
-        }
-
         if (item.type === 'radio' && typeof theme !== 'undefined') {
           item.checked = item.id === theme
         } else if (item.id && item.id === theme) {
@@ -426,7 +394,7 @@ class AppMenu {
    */
   async _initializeLanguage(): Promise<void> {
     try {
-      const currentLanguage = this._preferences.getItem('language')
+      const currentLanguage = this._resolveLanguage(this._preferences.getItem('language'))
       if (currentLanguage) {
         setLanguage(currentLanguage)
         log.info(`Main process language initialized to: ${currentLanguage}`)
@@ -434,6 +402,13 @@ class AppMenu {
     } catch (error) {
       log.error('Failed to initialize main process language:', error)
     }
+  }
+
+  private _resolveLanguage(language: string | null | undefined): string {
+    if (!language || language === 'system') {
+      return this._preferences._getSystemLanguage?.() ?? 'en'
+    }
+    return language
   }
 
   _listenForIpcMain(): void {
@@ -491,7 +466,7 @@ class AppMenu {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ipcMain.on('broadcast-preferences-changed', async(prefs: any) => {
-      if (prefs.theme !== undefined || prefs.followSystemTheme !== undefined) {
+      if (prefs.theme !== undefined) {
         this.updateAppMenu()
       }
       if (prefs.autoSave !== undefined) {
@@ -499,7 +474,7 @@ class AppMenu {
       }
       if (prefs.language) {
         // Update main process language and rebuild menu
-        setLanguage(prefs.language)
+        setLanguage(this._resolveLanguage(prefs.language))
         this.updateAppMenu()
       }
     })

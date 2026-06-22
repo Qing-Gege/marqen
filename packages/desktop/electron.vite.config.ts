@@ -9,6 +9,25 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+const bundledMainDeps = [
+  '@electron-toolkit/utils',
+  '@hfelix/electron-localshortcut',
+  'arg',
+  'chokidar',
+  'command-exists',
+  'dayjs',
+  'electron-log',
+  'electron-store',
+  'electron-updater',
+  'electron-window-state',
+  'fs-extra',
+  'fuzzaldrin',
+  'iconv-lite',
+  'minimatch',
+  'ms',
+  'plist'
+]
+
 export default defineConfig({
   main: {
     // --> Bundled as CommonJS
@@ -16,10 +35,13 @@ export default defineConfig({
     // electron-vite still builds the main and preload processes into commonJS
     // hence, we need to "exclude" (in order to NOT externalise) ESonly modules so that they can be converted to commonJS and can be required() afterwards correctly
     build: {
+      lib: {
+        entry: resolve(__dirname, 'src/main/index.ts')
+      },
       externalizeDeps: {
-        // Bundle electron-store inline so it is available as a CommonJS
-        // require() after electron-vite converts the main process output.
-        exclude: ['electron-store'],
+        // The packaged app currently ships without node_modules in app.asar, so
+        // JS-only main-process runtime deps must be bundled into out/main.
+        exclude: bundledMainDeps,
         include: ['native-keymap']
       }
     },
@@ -43,6 +65,9 @@ export default defineConfig({
     // (plus a few built-ins). Inline `pathe` (ESM-only) so the bundled preload
     // doesn't try to require it from node_modules at runtime.
     build: {
+      lib: {
+        entry: resolve(__dirname, 'src/preload/index.ts')
+      },
       externalizeDeps: {
         exclude: ['pathe']
       }
@@ -91,7 +116,7 @@ export default defineConfig({
         }
       }
     },
-    plugins: [vue(), svgLoader()],
+    plugins: [vue(), svgLoader() as unknown as ReturnType<typeof vue>],
     css: {
       postcss: {
         plugins: [

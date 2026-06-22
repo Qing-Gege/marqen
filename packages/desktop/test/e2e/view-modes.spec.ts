@@ -43,14 +43,4 @@ test.describe('View modes', () => {
       { timeout: 5000 }
     )
   })
-
-  test('Toggle source-code mode swaps editor for CodeMirror', async() => {
-    await clickMenuById(app, 'sourceCodeModeMenuItem')
-    await page.waitForSelector('.source-code .CodeMirror', { state: 'attached', timeout: 10000 })
-    await expect(page.locator('.editor-wrapper')).toHaveClass(/(^|\s)source(\s|$)/)
-    await clickMenuById(app, 'sourceCodeModeMenuItem')
-    await page.waitForFunction(() => !document.querySelector('.source-code'), null, {
-      timeout: 10000
-    })
-  })
 })

@@ -37,18 +37,8 @@ export const debugReloadWindow = (win: Win): void => {
   }
 }
 
-export const showCommandPalette = (win: Win): void => {
-  if (win && win.webContents) {
-    win.webContents.send('mt::show-command-palette')
-  }
-}
-
 export const toggleFocusMode = (win: Win): void => {
   toggleTypeMode(win, 'focus')
-}
-
-export const toggleSourceCodeMode = (win: Win): void => {
-  toggleTypeMode(win, 'sourceCode')
 }
 
 export const toggleSidebar = (win: Win): void => {
@@ -80,17 +70,13 @@ export const reloadImageCache = (win: Win): void => {
 // --- Commands -------------------------------------------------------------
 
 export const loadViewCommands = (commandManager: CommandManager): void => {
-  commandManager.add(COMMANDS.VIEW_COMMAND_PALETTE, showCommandPalette)
   commandManager.add(COMMANDS.VIEW_FOCUS_MODE, toggleFocusMode)
   commandManager.add(COMMANDS.VIEW_FORCE_RELOAD_IMAGES, reloadImageCache)
-  commandManager.add(COMMANDS.VIEW_SOURCE_CODE_MODE, toggleSourceCodeMode)
   commandManager.add(COMMANDS.VIEW_TOGGLE_SIDEBAR, toggleSidebar)
   commandManager.add(COMMANDS.VIEW_TOGGLE_TABBAR, toggleTabBar)
   commandManager.add(COMMANDS.VIEW_TOGGLE_TOC, showTableOfContents)
   commandManager.add(COMMANDS.VIEW_TYPEWRITER_MODE, toggleTypewriterMode)
 
-  commandManager.add(COMMANDS.VIEW_DEV_RELOAD, debugReloadWindow)
-  commandManager.add(COMMANDS.VIEW_TOGGLE_DEV_TOOLS, debugToggleDevTools)
 }
 
 // --- IPC events -------------------------------------------------------------
@@ -107,12 +93,9 @@ export const viewLayoutChanged = (
   applicationMenu: any,
   changes: Record<string, unknown>
 ): void => {
-  const disableMenuByName = (id: string, value: boolean): void => {
-    const menuItem: MenuItem = applicationMenu.getMenuItemById(id)
-    menuItem.enabled = value
-  }
   const changeMenuByName = (id: string, value: unknown): void => {
-    const menuItem: MenuItem = applicationMenu.getMenuItemById(id)
+    const menuItem: MenuItem | null = applicationMenu.getMenuItemById(id)
+    if (!menuItem) return
     menuItem.checked = !!value
   }
 
@@ -124,11 +107,6 @@ export const viewLayoutChanged = (
         break
       case 'showTabBar':
         changeMenuByName('tabBarMenuItem', value)
-        break
-      case 'sourceCode':
-        changeMenuByName('sourceCodeModeMenuItem', !!value)
-        disableMenuByName(focusModeMenuItemId, !value)
-        disableMenuByName(typewriterModeMenuItemId, !value)
         break
       case 'typewriter':
         changeMenuByName(typewriterModeMenuItemId, value)

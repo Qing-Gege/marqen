@@ -55,10 +55,15 @@ const { effectiveSideBarWidth } = storeToRefs(useLayoutStore())
   flex-direction: column;
 
   overflow: hidden;
-  background: var(--editorBgColor);
+  background: var(--marqenCanvas);
   & > .container {
     flex: 1;
     overflow: hidden;
+    margin: 0 14px 14px;
+    border: 1px solid var(--marqenLine);
+    border-radius: 8px;
+    background: var(--editorBgColor);
+    box-shadow: var(--marqenShadow);
   }
 }
 </style>

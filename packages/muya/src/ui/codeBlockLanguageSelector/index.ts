@@ -1,8 +1,6 @@
 import type { VNode } from 'snabbdom';
 import type LangInputContent from '../../block/content/langInputContent';
-import type ParagraphContent from '../../block/content/paragraphContent';
 import type { Muya } from '../../index';
-import { ScrollPage } from '../../block/scrollPage';
 import { search } from '../../utils/prism';
 
 import { h, patch } from '../../utils/snabbdom';
@@ -24,7 +22,7 @@ const defaultOptions = {
 export class CodeBlockLanguageSelector extends BaseScrollFloat {
     static pluginName = 'codePicker';
     private _oldVNode: VNode | null = null;
-    private _block: ParagraphContent | LangInputContent | null = null;
+    private _block: LangInputContent | null = null;
 
     constructor(muya: Muya, options = {}) {
         const name = 'mu-list-picker';
@@ -38,19 +36,11 @@ export class CodeBlockLanguageSelector extends BaseScrollFloat {
         const { eventCenter } = this.muya;
 
         eventCenter.on('content-change', ({ block }) => {
-            if (block.blockName !== 'paragraph.content' && block.blockName !== 'language-input')
+            if (block.blockName !== 'language-input')
                 return;
 
             const { text, domNode } = block;
-            let lang = '';
-            if (block.blockName === 'paragraph.content') {
-                const token = text.match(/(^ {0,3}`{3,})([^` ]+)/);
-                if (token && token[2])
-                    lang = token[2];
-            }
-            else if (block.blockName === 'language-input') {
-                lang = text;
-            }
+            const lang = text;
 
             const modes = search(lang);
             if (modes.length) {
@@ -141,45 +131,10 @@ export class CodeBlockLanguageSelector extends BaseScrollFloat {
         if (!block)
             return;
 
-        function isParagraphContent(
-            b: ParagraphContent | LangInputContent,
-        ): b is ParagraphContent {
-            return b.blockName === 'paragraph.content';
-        }
-
-        if (isParagraphContent(block)) {
-            const state
-                = muya.options.isGitlabCompatibilityEnabled && name === 'math'
-                    ? {
-                            name: 'math-block',
-                            meta: {
-                                mathStyle: 'gitlab',
-                            },
-                            text: '',
-                        }
-                    : {
-                            name: 'code-block',
-                            meta: {
-                                lang: name,
-                                type: 'fenced',
-                            },
-                            text: '',
-                        };
-
-            const newBlock = ScrollPage.loadBlock(state.name).create(
-                this.muya,
-                state,
-            );
-            block.parent?.replaceWith(newBlock);
-            const codeContent = newBlock.lastContentInDescendant();
-            codeContent.setCursor(0, 0);
-        }
-        else {
-            block.text = name;
-            block.update();
-            block.parent!.lang = name;
-            block.parent?.lastContentInDescendant()?.setCursor(0, 0);
-        }
+        block.text = name;
+        block.update();
+        block.parent!.lang = name;
+        block.parent?.lastContentInDescendant()?.setCursor(0, 0);
 
         super.selectItem(item);
     }

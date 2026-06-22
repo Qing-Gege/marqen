@@ -24,15 +24,13 @@ const headingMenuChecked = async(app: ElectronApplication, id: string): Promise<
   }, id)
 }
 
-// A heading renders `span.mu-atxheading-content`, not `mu-paragraph-content`,
-// so the paragraph-only `placeCaretInEditor` helper would not place the caret
-// here. Collapse the selection inside the heading's content span and nudge the
-// engine to recompute its active block (same keyup trick the helper uses).
+// Collapse the selection inside the heading content. Prefer Milkdown's h1 DOM,
+// retaining the old Muya span selector as a fallback.
 const placeCaretInHeading = async(page: Page): Promise<boolean> => {
   const ok = await page.evaluate(() => {
-    const root = document.querySelector('.editor-component') as HTMLElement | null
+    const root = document.querySelector('.editor-component .ProseMirror, .editor-component') as HTMLElement | null
     if (!root) return false
-    const span = root.querySelector('h1 span.mu-content') as HTMLElement | null
+    const span = root.querySelector('h1, h1 span.mu-content') as HTMLElement | null
     if (!span) return false
     root.focus()
     const range = document.createRange()

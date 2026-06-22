@@ -10,18 +10,17 @@
       />
     </section>
     <Separator />
-    <FolderSetting v-if="imageInsertAction === 'folder' || imageInsertAction === 'path'" />
-    <Uploader v-if="imageInsertAction === 'upload'" />
+    <FolderSetting />
   </div>
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { usePreferencesStore } from '@/store/preferences'
 import type { PreferencesState } from '@/store/preferences'
 import Separator from '../common/separator/index.vue'
-import Uploader from './components/uploader/index.vue'
 import CurSelect from '../common/select/index.vue'
 import FolderSetting from './components/folderSetting/index.vue'
 import { getImageActions } from './config'
@@ -33,6 +32,12 @@ const preferenceStore = usePreferencesStore()
 const { imageInsertAction } = storeToRefs(preferenceStore)
 
 const imageActions = getImageActions()
+
+onMounted(() => {
+  if (imageInsertAction.value !== 'folder') {
+    onSelectChange('imageInsertAction', 'folder')
+  }
+})
 
 const onSelectChange = (type: keyof PreferencesState, value: unknown): void => {
   preferenceStore.SET_SINGLE_PREFERENCE({ type, value })

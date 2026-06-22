@@ -31,7 +31,7 @@
       "closeTab": "タブを閉じる",
       "closeWindow": "ウィンドウを閉じる",
       "quit": "終了",
-      "preferences": "環境設定"
+      "preferences": "設定"
     },
     "edit": {
       "edit": "編集",
@@ -82,7 +82,8 @@
       "looseListItem": "ルーズリストアイテム",
       "paragraphItem": "段落アイテム",
       "horizontalRule": "水平線",
-      "frontMatter": "フロントマター"
+      "frontMatter": "フロントマター",
+      "image": "画像"
     },
     "window": {
       "title": "ウィンドウ",
@@ -104,25 +105,12 @@
       "reportBug": "バグを報告",
       "viewSource": "ソースコードを表示",
       "followUs": "フォローする",
-      "support": "MarkTextを支援",
+      "support": "Marqenを支援",
       "license": "ライセンス",
       "checkForUpdates": "アップデートを確認",
-      "aboutMarkText": "MarkTextについて",
       "about": "について",
-      "checkUpdates": "アップデートを確認"
-    },
-    "marktext": {
-      "title": "MarkText",
-      "marktext": "MarkText",
-      "about": "MarkTextについて",
-      "checkUpdates": "アップデートを確認...",
-      "preferences": "環境設定",
-      "services": "サービス",
-      "hide": "MarkTextを隠す",
-      "hideMarkText": "MarkTextを隠す",
-      "hideOthers": "他を隠す",
-      "showAll": "すべて表示",
-      "quit": "MarkTextを終了"
+      "checkUpdates": "アップデートを確認",
+      "aboutMarqen": "Marqenについて"
     },
     "view": {
       "view": "表示",
@@ -213,6 +201,19 @@
       "tokyoNightLight": "Tokyo Night ライト",
       "tokyoNightStorm": "Tokyo Night Storm",
       "ulyssesLight": "ユリシーズ ライト"
+    },
+    "marqen": {
+      "title": "Marqen",
+      "about": "Marqenについて",
+      "checkUpdates": "アップデートを確認...",
+      "preferences": "設定",
+      "services": "サービス",
+      "hide": "Marqenを隠す",
+      "hideOthers": "他を隠す",
+      "showAll": "すべて表示",
+      "quit": "Marqenを終了",
+      "marqen": "Marqen",
+      "hideMarqen": "Marqenを隠す"
     }
   },
   "contextMenu": {
@@ -246,7 +247,9 @@
       "rename": "名前を変更",
       "copyPath": "パスをコピー",
       "showInFolder": "フォルダで表示"
-    }
+    },
+    "insertImage": "画像を挿入",
+    "insertTable": "表を挿入"
   },
   "search": {
     "searchPlaceholder": "検索",
@@ -389,7 +392,7 @@
   },
   "import": {
     "title": "インポートまたは開く",
-    "description": "ここにドラッグしてMarkTextにコンテンツをインポート"
+    "description": "ここにドラッグしてMarqenにコンテンツをインポート"
   },
   "preferences": {
     "title": "環境設定",
@@ -419,10 +422,10 @@
         "hideScrollbar": "スクロールバーを非表示にするかどうか",
         "wordWrapInToc": "目次で自動改行を有効にするかどうか",
         "fileSortBy": "開いたフォルダ内のファイルを作成時刻、変更時刻、タイトルで並べ替え",
-        "startUpAction": "MarkText起動後のアクション、最後に編集したコンテンツを開く、指定されたフォルダを開く、または空白ページ",
+        "startUpAction": "Marqen起動後のアクション、最後に編集したコンテンツを開く、指定されたフォルダを開く、または空白ページ",
         "restoreLayoutState": "起動時に前回のエディター状態を復元",
         "defaultDirectoryToOpen": "startUp=folderの場合に起動時に開かれるデフォルトディレクトリ",
-        "language": "MarkTextが使用する言語",
+        "language": "Marqenが使用する言語",
         "editorFontFamily": "エディターのフォントファミリー",
         "fontSize": "フォントサイズ（ピクセル）",
         "lineHeight": "行の高さ",
@@ -446,7 +449,7 @@
         "preferLooseListItem": "優先されるリストタイプ",
         "bulletListMarker": "箇条書きリストで使用されるマーカー",
         "orderListDelimiter": "順序付きリストで使用される区切り文字",
-        "preferHeadingStyle": "MarkTextで優先される見出しスタイル",
+        "preferHeadingStyle": "Marqenで優先される見出しスタイル",
         "tabSize": "タブをx個のスペースに置き換える",
         "listIndentation": "リストのインデントを選択",
         "frontmatterType": "フロントマターのタイプ",
@@ -455,7 +458,7 @@
         "isHtmlEnabled": "HTMLレンダリングを有効にする",
         "isGitlabCompatibilityEnabled": "GitLab互換モードを有効にする",
         "sequenceTheme": "シーケンス図のテーマ",
-        "theme": "MarkTextで使用するテーマを選択",
+        "theme": "Marqenで使用するテーマを選択",
         "followSystemTheme": "システムのテーマに従う",
         "lightModeTheme": "システムがライトモードの時に使用するテーマ",
         "darkModeTheme": "システムがダークモードの時に使用するテーマ",
@@ -469,7 +472,6 @@
         "imageRelativeDirectoryName": "相対画像フォルダ名",
         "sideBarVisibility": "サイドバーが表示されているかどうか",
         "tabBarVisibility": "タブが表示されているかどうか",
-        "sourceCodeModeEnabled": "ソースコードモードがデフォルトで有効かどうか",
         "searchExclusions": "検索から除外するglobパターンのリスト",
         "searchMaxFileSize": "最大ファイルサイズ（<maxFileSize><suffix>）。K、M、またはGの接尾辞が許可されます。接尾辞がない場合、数値はバイトとして扱われます",
         "searchIncludeHidden": "隠しファイルとディレクトリで検索するかどうか",
@@ -713,7 +715,7 @@
         "neverDetected": "検出されたことがない",
         "neverSuccessful": "成功したことがない"
       },
-      "defaultBehavior": "MarkTextに画像を貼り付けまたはドラッグした後のデフォルト動作"
+      "defaultBehavior": "Marqenに画像を貼り付けまたはドラッグした後のデフォルト動作"
     },
     "markdown": {
       "title": "Markdown",
@@ -887,12 +889,12 @@
     }
   },
   "about": {
-    "copyright": "著作権",
-    "copyrightContributors": "著作権貢献者"
+    "copyright": "Copyright © Marqen {year}",
+    "copyrightContributors": "Built with reference to MarkText"
   },
   "commands": {
     "mt": {
-      "hide": "MarkTextを隠す",
+      "hide": "Marqenを隠す",
       "hideOthers": "他を隠す"
     },
     "file": {
@@ -909,7 +911,7 @@
       "changeLineEnding": "改行コードを変更",
       "trailingNewline": "末尾の改行",
       "print": "印刷",
-      "preferences": "環境設定",
+      "preferences": "設定",
       "closeTab": "タブを閉じる",
       "closeWindow": "ウィンドウを閉じる",
       "quit": "終了",
@@ -1052,7 +1054,7 @@
     "fileExists": "ファイルが存在します",
     "files": "ファイル",
     "importWarning": "インポート警告",
-    "installPandoc": "Pandocをインストール",
+    "installPandoc": "Document import is unavailable because a required conversion component is missing.",
     "keepOpen": "開いたままにする",
     "replace": "置換",
     "save": "保存",
@@ -1063,7 +1065,7 @@
     "configSchemaViolation": "設定スキーマ違反",
     "copyError": "コピーエラー",
     "initializationFailed": "初期化に失敗",
-    "otherInstanceDetected": "MarkTextの別のインスタンスが既に実行中です",
+    "otherInstanceDetected": "Marqenの別のインスタンスが既に実行中です",
     "report": "報告",
     "startupError": "起動エラー",
     "terminatedDueToError": "エラーにより終了",
@@ -1108,7 +1110,8 @@
       "exportSuccessTitle": "エクスポートに成功",
       "exportSuccessMessage": "「{name}」を正常にエクスポートしました！",
       "fileRemovedOnDisk": "「{name}」はディスク上で削除されました。",
-      "fileChangedOnDisk": "「{name}」はディスク上で変更されました。再読み込みしますか？"
+      "fileChangedOnDisk": "「{name}」はディスク上で変更されました。再読み込みしますか？",
+      "untitled": "無題"
     }
   },
   "spellchecker": {

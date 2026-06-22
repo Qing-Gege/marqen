@@ -64,14 +64,6 @@ export const getDELETE = () => ({
   }
 })
 
-export const getShowInFolder = () => ({
-  label: t('contextMenu.sideBar.showInFolder'),
-  id: 'showInFolderMenuItem',
-  click(_menuItem: unknown, _browserWindow: unknown) {
-    contextMenu.showInFolder()
-  }
-})
-
 // Retained for backward compatibility
 export const NEW_FILE = getNewFile()
 export const NEW_DIRECTORY = getNewDirectory()
@@ -80,4 +72,3 @@ export const CUT = getCUT()
 export const PASTE = getPASTE()
 export const RENAME = getRENAME()
 export const DELETE = getDELETE()
-export const SHOW_IN_FOLDER = getShowInFolder()

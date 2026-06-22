@@ -1,104 +1,58 @@
 <template>
   <div class="pref-theme">
     <h4>{{ t('preferences.theme.title') }}</h4>
-    <section class="offcial-themes">
-      <div
-        v-for="themeItem of themes"
-        :key="themeItem.name"
-        class="theme"
-        :class="[
-          themeItem.name,
-          {
-            active: themeItem.name === theme,
-            disabled: followSystemTheme
-          }
-        ]"
-        @click="!followSystemTheme && onSelectChange('theme', themeItem.name)"
-      >
-        <!-- eslint-disable-next-line vue/no-v-html -->
-        <div v-html="themeItem.html" />
+
+    <section class="theme-mode-panel">
+      <div>
+        <h6>{{ t('preferences.theme.theme') }}</h6>
+        <p>{{ themeSummary }}</p>
       </div>
     </section>
-    <separator />
 
-    <Bool
-      :description="t('preferences.theme.followSystemTheme')"
-      :bool="followSystemTheme"
-      :on-change="(value) => onSelectChange('followSystemTheme', value)"
+    <cur-select
+      :description="t('preferences.theme.theme')"
+      :value="currentTheme"
+      :options="themeOptions"
+      :on-change="(value) => onThemeChange(value)"
     />
 
-    <compound v-if="followSystemTheme">
-      <template #head>
-        <h6 class="title">
-          {{ t('preferences.theme.modeThemes') }}
-        </h6>
-      </template>
-      <template #children>
-        <cur-select
-          :description="t('preferences.theme.lightModeTheme')"
-          :value="lightModeTheme"
-          :options="themeOptions"
-          :on-change="(value) => onSelectChange('lightModeTheme', value)"
-        />
+    <separator />
 
-        <cur-select
-          :description="t('preferences.theme.darkModeTheme')"
-          :value="darkModeTheme"
-          :options="themeOptions"
-          :on-change="(value) => onSelectChange('darkModeTheme', value)"
-        />
-      </template>
-    </compound>
-
-    <div class="custom-css">
-      <div class="description">
-        {{ t('preferences.theme.customCss') }}
-      </div>
-      <textarea
-        class="custom-css-input"
-        rows="10"
-        :value="customCss"
-        @change="
-          (event: Event) =>
-            onSelectChange('customCss', (event.target as HTMLTextAreaElement).value)
-        "
-      />
-    </div>
-    <separator v-show="false" />
-    <section
-      v-show="false"
-      class="import-themes ag-underdevelop"
-    >
-      <div>
-        <span>{{ t('preferences.theme.openThemesFolder') }}</span>
-        <el-button size="small">
-          {{ t('preferences.theme.openFolder') }}
-        </el-button>
-      </div>
-
-      <div>
-        <span>{{ t('preferences.theme.importCustomThemes') }}</span>
-        <el-button size="small">
-          {{ t('preferences.theme.importTheme') }}
-        </el-button>
+    <section class="theme-preview-list">
+      <h6 class="preview-title">
+        {{ t('preferences.theme.preview') }}
+      </h6>
+      <div class="official-themes">
+        <div
+          v-for="themeItem of themes"
+          :key="themeItem.name"
+          class="theme"
+          :class="[
+            themeItem.name,
+            {
+              active: isThemeActive(themeItem.name)
+            }
+          ]"
+          @click="onPreviewClick(themeItem.name)"
+        >
+          <!-- eslint-disable-next-line vue/no-v-html -->
+          <div v-html="themeItem.html" />
+        </div>
       </div>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { usePreferencesStore } from '@/store/preferences'
-import type { PreferencesState } from '@/store/preferences'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import themeMd from './theme.md?raw'
 import { themes as configThemes } from './config'
 import markdownToHtml from '@/util/markdownToHtml'
-import Bool from '../common/bool/index.vue'
 import CurSelect from '../common/select/index.vue'
 import Separator from '../common/separator/index.vue'
-import Compound from '../common/compound/index.vue'
 import type { PrefSelectOption } from '../common/types'
 
 interface ThemePreview {
@@ -111,15 +65,21 @@ const themes = ref<ThemePreview[]>([])
 const { t } = useI18n()
 const preferenceStore = usePreferencesStore()
 
-const { followSystemTheme, lightModeTheme, darkModeTheme, theme, customCss } =
+const { theme } =
   storeToRefs(preferenceStore)
+
+const currentTheme = computed(() => theme.value)
+const themeSummary = computed(() => labelForTheme(theme.value))
+
+const labelForTheme = (name: string): string =>
+  name
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
 
 // Generate dropdown options from configThemes
 const themeOptions: PrefSelectOption<string>[] = configThemes.map((theme) => ({
-  label: theme.name
-    .split('-')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' '),
+  label: labelForTheme(theme.name),
   value: theme.name
 }))
 
@@ -135,12 +95,73 @@ onMounted(async () => {
   themes.value = newThemes
 })
 
-const onSelectChange = (type: keyof PreferencesState, value: unknown): void => {
-  preferenceStore.SET_SINGLE_PREFERENCE({ type, value })
+const onThemeChange = (value: unknown): void => {
+  if (typeof value !== 'string') return
+  preferenceStore.SET_SINGLE_PREFERENCE({ type: 'theme', value })
+  if (isDarkTheme(value)) {
+    preferenceStore.SET_SINGLE_PREFERENCE({ type: 'darkModeTheme', value })
+  } else {
+    preferenceStore.SET_SINGLE_PREFERENCE({ type: 'lightModeTheme', value })
+  }
+}
+
+const isDarkTheme = (name: string): boolean => /(?:dark|night|moon|mocha|mirage|dracula|nord|kanagawa|monokai|palenight|cyberdream|synthwave|horizon|one-dark|oxocarbon)/.test(name)
+
+const isThemeActive = (themeName: string): boolean => {
+  return themeName === currentTheme.value
+}
+
+const onPreviewClick = (themeName: string): void => {
+  onThemeChange(themeName)
 }
 </script>
 
 <style>
+.pref-theme {
+  & > h4 {
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: var(--marqenInk);
+  }
+}
+
+.theme-mode-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 18px;
+  border: 1px solid var(--marqenLine);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--marqenPaper) 76%, var(--marqenAccentSoft));
+  box-shadow: 0 1px 0 rgba(24, 53, 47, 0.04);
+}
+
+.theme-mode-panel h6 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: var(--marqenInk);
+}
+
+.theme-mode-panel p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--editorColor60);
+}
+
+.theme-preview-list {
+  margin-top: 18px;
+}
+
+.preview-title {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--editorColor);
+}
+
+.official-themes,
 .offcial-themes {
   margin-top: 12px;
   display: grid;
@@ -149,16 +170,22 @@ const onSelectChange = (type: keyof PreferencesState, value: unknown): void => {
   & .theme {
     cursor: pointer;
     width: 100%;
-    height: 110px;
+    height: 118px;
     margin: 0;
-    padding: 16px 18px 16px 32px;
+    padding: 18px 20px 18px 34px;
     overflow: hidden;
     background: var(--editorBgColor);
     color: var(--editorColor);
     box-sizing: border-box;
-    box-shadow: 0 9px 28px -9px rgba(0, 0, 0, 0.4);
-    border-radius: 5px;
-    transition: opacity 0.2s ease;
+    border: 1px solid rgba(43, 57, 49, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 14px 28px -18px rgba(24, 53, 47, 0.42);
+    transition: transform 0.16s ease, opacity 0.16s ease, box-shadow 0.16s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 34px -20px rgba(24, 53, 47, 0.5);
+    }
 
     &.dark {
       color: rgba(255, 255, 255, 0.7);
@@ -396,23 +423,13 @@ const onSelectChange = (type: keyof PreferencesState, value: unknown): void => {
       }
     }
 
-    /* Disabled state when followSystemTheme is on */
-    &.disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
     /* Active theme - use outline instead of border to avoid layout shift? */
     &.active {
-      box-shadow: var(--floatShadow);
-      outline: 2px solid var(--themeColor);
-      outline-offset: -2px;
+      box-shadow: 0 0 0 2px var(--themeColor), 0 20px 42px -22px rgba(24, 53, 47, 0.56);
+      outline: 1px solid color-mix(in srgb, var(--marqenPaper) 76%, var(--themeColor));
+      outline-offset: -5px;
     }
 
-    /* Active + disabled: slightly more visible */
-    &.disabled.active {
-      opacity: 0.7;
-    }
   }
   & h3 {
     margin: 0;
@@ -443,44 +460,4 @@ const onSelectChange = (type: keyof PreferencesState, value: unknown): void => {
   }
 }
 
-.custom-css {
-  margin: 20px 0;
-  font-size: 14px;
-  color: var(--editorColor);
-  & .description {
-    margin-bottom: 10px;
-  }
-  & .custom-css-input {
-    width: 100%;
-    background: transparent;
-    color: var(--editorColor);
-    border: 1px solid var(--editorColor10);
-    border-radius: 4px;
-    padding: 8px 10px;
-    font-family: 'DejaVu Sans Mono', 'Source Code Pro', 'Droid Sans Mono', Consolas, monospace;
-    font-size: 12px;
-    line-height: 1.5;
-    box-sizing: border-box;
-    resize: vertical;
-  }
-  & .custom-css-input:focus {
-    outline: none;
-    border-color: var(--themeColor);
-  }
-}
-
-.import-themes {
-  padding: 10px 0;
-  display: flex;
-  justify-content: space-around;
-  color: var(--editorColor);
-  & > div {
-    display: flex;
-    flex-direction: column;
-    & > span {
-      display: inline-block;
-      margin-bottom: 20px;
-    }
-  }
-}
 </style>

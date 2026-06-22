@@ -3,55 +3,67 @@
   --titleBarHeight: 32px;
   --editorAreaWidth: 750px;
 
+  /* Marqen brand foundation */
+  --marqenInk: #18352f;
+  --marqenInkSoft: #31534b;
+  --marqenAccent: #2f7d69;
+  --marqenAccentSoft: #dcebe5;
+  --marqenGold: #b98b42;
+  --marqenPaper: #fffdf8;
+  --marqenCanvas: #f4f1ea;
+  --marqenCanvasDeep: #ece6da;
+  --marqenLine: rgba(43, 57, 49, 0.12);
+  --marqenShadow: 0 18px 46px rgba(33, 43, 37, 0.08), 0 1px 0 rgba(33, 43, 37, 0.05);
+
   /*editor*/
   /*Theme color cluster*/
-  --themeColor: rgba(33, 181, 111, 1);
-  --themeColor90: rgba(33, 181, 111, 0.9);
-  --themeColor80: rgba(33, 181, 111, 0.8);
-  --themeColor70: rgba(33, 181, 111, 0.7);
-  --themeColor60: rgba(33, 181, 111, 0.6);
-  --themeColor50: rgba(33, 181, 111, 0.5);
-  --themeColor40: rgba(33, 181, 111, 0.4);
-  --themeColor30: rgba(33, 181, 111, 0.3);
-  --themeColor20: rgba(33, 181, 111, 0.2);
-  --themeColor10: rgba(33, 181, 111, 0.1);
+  --themeColor: var(--marqenAccent);
+  --themeColor90: rgba(47, 125, 105, 0.9);
+  --themeColor80: rgba(47, 125, 105, 0.8);
+  --themeColor70: rgba(47, 125, 105, 0.7);
+  --themeColor60: rgba(47, 125, 105, 0.6);
+  --themeColor50: rgba(47, 125, 105, 0.5);
+  --themeColor40: rgba(47, 125, 105, 0.4);
+  --themeColor30: rgba(47, 125, 105, 0.3);
+  --themeColor20: rgba(47, 125, 105, 0.2);
+  --themeColor10: rgba(47, 125, 105, 0.1);
   --highlightThemeColor: var(--themeColor);
 
-  --highlightColor: rgba(33, 181, 111, 0.4);
-  --selectionColor: rgba(0, 0, 0, 0.1);
-  --editorColor: rgba(0, 0, 0, 0.7);
-  --editorColor80: rgba(0, 0, 0, 0.8);
-  --editorColor60: rgba(0, 0, 0, 0.6);
-  --editorColor50: rgba(0, 0, 0, 0.5);
-  --editorColor40: rgba(0, 0, 0, 0.4);
-  --editorColor30: rgba(0, 0, 0, 0.3);
-  --editorColor10: rgba(0, 0, 0, 0.1);
-  --editorColor04: rgba(0, 0, 0, 0.03);
-  --editorBgColor: rgba(255, 255, 255, 1);
+  --highlightColor: rgba(185, 139, 66, 0.28);
+  --selectionColor: rgba(47, 125, 105, 0.16);
+  --editorColor: rgba(24, 53, 47, 0.82);
+  --editorColor80: rgba(24, 53, 47, 0.9);
+  --editorColor60: rgba(24, 53, 47, 0.64);
+  --editorColor50: rgba(24, 53, 47, 0.5);
+  --editorColor40: rgba(24, 53, 47, 0.4);
+  --editorColor30: rgba(24, 53, 47, 0.3);
+  --editorColor10: rgba(24, 53, 47, 0.1);
+  --editorColor04: rgba(24, 53, 47, 0.045);
+  --editorBgColor: var(--marqenPaper);
   --deleteColor: #ff6969;
-  --iconColor: #6b737b;
+  --iconColor: #65736f;
   --codeBgColor: #d8d8d869;
-  --codeBlockBgColor: rgba(0, 0, 0, 0.03);
-  --footnoteBgColor: rgba(0, 0, 0, 0.03);
-  --inputBgColor: rgba(0, 0, 0, 0.06);
+  --codeBlockBgColor: rgba(49, 83, 75, 0.055);
+  --footnoteBgColor: rgba(49, 83, 75, 0.055);
+  --inputBgColor: rgba(49, 83, 75, 0.07);
   --focusColor: var(--themeColor);
 
   --buttonFontColor: var(--editorColor);
-  --buttonBgColor: #ffffff;
-  --buttonBorder: 1px solid #dcdfe6;
-  --buttonShadow: none;
+  --buttonBgColor: rgba(255, 253, 248, 0.86);
+  --buttonBorder: 1px solid var(--marqenLine);
+  --buttonShadow: 0 1px 0 rgba(24, 53, 47, 0.03);
   --buttonFontColorHover: var(--buttonFontColor);
-  --buttonBgColorHover: linear-gradient(#f9f9f9, #f2f2f2);
+  --buttonBgColorHover: color-mix(in srgb, var(--marqenPaper) 78%, var(--marqenAccentSoft));
   --buttonBorderHover: var(--buttonBorder);
   --buttonFontColorActive: var(--buttonFontColor);
-  --buttonBgColorActive: #f0f0f0;
+  --buttonBgColorActive: var(--marqenAccentSoft);
   --buttonBorderActive: var(--buttonBorder);
   --buttonFocusBorder: 1px solid var(--themeColor);
 
   --buttonPrimaryFontColor: #ffffff;
   --buttonPrimaryBgColor: var(--themeColor);
   --buttonPrimaryBorder: none;
-  --buttonPrimaryShadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
+  --buttonPrimaryShadow: 0 10px 24px rgba(47, 125, 105, 0.2);
   --buttonPrimaryFontColorHover: var(--buttonPrimaryFontColor);
   --buttonPrimaryBgColorHover: var(--buttonPrimaryBgColor);
   --buttonPrimaryBorderHover: var(--buttonPrimaryBorder);
@@ -78,23 +90,23 @@
   --emColor: var(--editorColor);
   --listMarkerColor: var(--editorColor50);
 
-  /*marktext*/
-  --sideBarColor: rgba(0, 0, 0, 0.6);
+  /*marqen*/
+  --sideBarColor: rgba(24, 53, 47, 0.62);
   --sideBarIconColor: var(--iconColor);
-  --sideBarTitleColor: rgba(0, 0, 0, 1);
-  --sideBarTextColor: rgba(0, 0, 0, 0.4);
-  --sideBarBgColor: rgba(242, 242, 242, 0.9);
-  --sideBarItemHoverBgColor: rgba(0, 0, 0, 0.03);
-  --itemBgColor: rgba(255, 255, 255, 0.6);
+  --sideBarTitleColor: var(--marqenInk);
+  --sideBarTextColor: rgba(24, 53, 47, 0.42);
+  --sideBarBgColor: var(--marqenCanvas);
+  --sideBarItemHoverBgColor: rgba(47, 125, 105, 0.08);
+  --itemBgColor: rgba(255, 253, 248, 0.76);
 
-  --floatFontColor: rgba(0, 0, 0, 0.6);
-  --floatBgColor: #fff;
-  --floatHoverColor: rgba(0, 0, 0, 0.04);
-  --floatBorderColor: rgba(0, 0, 0, 0.1);
+  --floatFontColor: rgba(24, 53, 47, 0.68);
+  --floatBgColor: var(--marqenPaper);
+  --floatHoverColor: rgba(47, 125, 105, 0.08);
+  --floatBorderColor: var(--marqenLine);
   --floatShadow:
-    rgba(15, 15, 15, 0.03) 0px 0px 0px 1px, rgba(15, 15, 15, 0.04) 0px 3px 6px,
-    rgba(15, 15, 15, 0.05) 0px 9px 24px;
-  --maskColor: rgba(232, 232, 232, 0.8);
+    rgba(31, 42, 37, 0.05) 0px 0px 0px 1px, rgba(31, 42, 37, 0.07) 0px 8px 20px,
+    rgba(31, 42, 37, 0.08) 0px 22px 46px;
+  --maskColor: rgba(236, 230, 218, 0.82);
 
   /* Notification colors */
   --notificationPrimaryColor: #ffffff;
@@ -132,7 +144,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: transparent !important;
+  background: var(--marqenCanvas) !important;
   caret-color: var(--editorColor);
 }
 

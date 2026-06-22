@@ -4,9 +4,7 @@ import {
   getCloseOthers,
   getCloseSaved,
   getCloseAll,
-  getRENAME,
-  getCopyPath,
-  getShowInFolder
+  getRENAME
 } from './menuItems'
 import { popupContextMenu } from '../popupMenu'
 
@@ -43,10 +41,8 @@ export const showContextMenu = (event: ContextMenuClickEvent, tab: TabLike): voi
   const closeSaved = getCloseSaved()
   const closeAll = getCloseAll()
   const rename = getRENAME()
-  const copyPath = getCopyPath()
-  const showInFolder = getShowInFolder()
 
-  ;([rename, copyPath, showInFolder] as MenuItemShape[]).forEach((item) => {
+  ;([rename] as MenuItemShape[]).forEach((item) => {
     item.enabled = !!pathname
   })
 
@@ -56,9 +52,7 @@ export const showContextMenu = (event: ContextMenuClickEvent, tab: TabLike): voi
     closeSaved,
     closeAll,
     SEPARATOR,
-    rename,
-    copyPath,
-    showInFolder
+    rename
   ].map((item) => wrapClick(item as MenuItemShape, tab.id))
 
   popupContextMenu(items, { x: event.clientX, y: event.clientY })

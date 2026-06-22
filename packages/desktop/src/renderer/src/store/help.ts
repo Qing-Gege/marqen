@@ -1,5 +1,7 @@
 import type { IFileState } from '@shared/types/files'
 import { getUniqueId, deepClone } from '../util'
+import { getMarkdownHistoryId } from '../util/documentHistory'
+import { t } from '../i18n'
 
 // Helper module (NOT a Pinia store): defaults and factories for the editor
 // document state objects.
@@ -48,6 +50,19 @@ const defaultFileStateWithoutId = {
   notifications: []
 } satisfies Omit<IFileState, 'id'>
 
+const getUntitledFilenamePrefix = (): string => {
+  const translated = t('store.editor.untitled')
+  return translated && translated !== 'store.editor.untitled' ? translated : 'Untitled'
+}
+
+const getUntitledIndex = (filename: string, prefix: string): number => {
+  if (filename === prefix) return 1
+  if (!filename.startsWith(`${prefix}-`)) return 0
+
+  const index = Number(filename.slice(prefix.length + 1))
+  return Number.isFinite(index) ? index : 0
+}
+
 /**
  * Default internal markdown document with editor options. Acts as the
  * template for cloning into per-tab state. Note: `id` is intentionally
@@ -93,11 +108,11 @@ export const getBlankFileState = (
   markdown: string | null = defaultFileStateWithoutId.markdown
 ): IFileState => {
   const fileState = deepClone(defaultFileStateWithoutId) as Omit<IFileState, 'id'>
-  const defaultFilenamePrefix = defaultFileStateWithoutId.filename.split('-')[0]
-  let untitleId = Math.max(
+  const defaultFilenamePrefix = getUntitledFilenamePrefix()
+  let untitledId = Math.max(
     ...tabs.map((f) => {
       if (f.pathname === '') {
-        return +f.filename.split('-')[1]
+        return getUntitledIndex(f.filename, defaultFilenamePrefix)
       } else {
         return 0
       }
@@ -117,14 +132,9 @@ export const getBlankFileState = (
     lineEnding,
     adjustLineEndingOnSave: lineEnding.toLowerCase() === 'crlf',
     id,
-    filename: `${defaultFilenamePrefix}-${++untitleId}`,
+    filename: `${defaultFilenamePrefix}-${++untitledId}`,
     markdown,
-    // The freshly-loaded document IS its on-disk/clean baseline. The engine
-    // clears its undo history on `setContent`, so the baseline undo-stack depth
-    // (the synthetic save-tracking id) is 0. Seeding `lastSavedHistoryId` to 0
-    // (not -1) lets the dirty indicator clear again when an edit is undone back
-    // to this baseline, even before the document has ever been saved.
-    lastSavedHistoryId: 0
+    lastSavedHistoryId: getMarkdownHistoryId(markdown)
   }) as IFileState
 }
 
@@ -148,9 +158,7 @@ export const createDocumentState = (
 
   return Object.assign(docState, {
     id,
-    // See `getBlankFileState`: the loaded document is its own clean baseline and
-    // the engine's baseline undo-stack depth (the synthetic id) is 0.
-    lastSavedHistoryId: 0
+    lastSavedHistoryId: getMarkdownHistoryId(String(docState.markdown ?? ''))
   }) as IFileState
 }
 

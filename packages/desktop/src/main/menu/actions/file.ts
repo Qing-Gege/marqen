@@ -12,7 +12,7 @@ import {
 import log from 'electron-log'
 import { isDirectory, isFile, exists } from 'common/filesystem'
 import { MARKDOWN_EXTENSIONS, isMarkdownFile } from 'common/filesystem/paths'
-import { checkUpdates, userSetting } from './marktext'
+import { checkUpdates, userSetting } from './marqen'
 import { showTabBar } from './view'
 import { COMMANDS } from '../../commands'
 import type { CommandManager } from '../../commands'
@@ -166,7 +166,7 @@ const handleResponseForSave = async(
 
   // If the file doesn't exist on disk add it to the recently used documents later
   // and execute file from filesystem watcher for a short time. The file may exists
-  // on disk nevertheless but is already tracked by MarkText.
+  // on disk nevertheless but is already tracked by Marqen.
   const alreadyExistOnDisk = !!pathname
 
   let filePath = pathname
@@ -350,7 +350,7 @@ ipcMain.on(
 
     // If the file doesn't exist on disk add it to the recently used documents later
     // and execute file from filesystem watcher for a short time. The file may exists
-    // on disk nevertheless but is already tracked by MarkText.
+    // on disk nevertheless but is already tracked by Marqen.
     const alreadyExistOnDisk = !!pathname
 
     let { filePath, canceled } = await dialog.showSaveDialog(win, {
@@ -613,7 +613,7 @@ ipcMain.on('mt::format-link-click', (e, { data, dirname }: FormatLinkPayload) =>
   }
 
   if (pathname) {
-    // decodeURIComponent() CommonMark #503, allow percent encoded path names to open files. https://github.com/marktext/marktext/issues/57
+    // decodeURIComponent() CommonMark #503, allow percent encoded path names to open files.
     pathname = path.normalize(decodeURIComponent(pathname))
     if (isMarkdownFile(pathname)) {
       const innerWin = BrowserWindow.fromWebContents(e.sender)
@@ -635,11 +635,6 @@ ipcMain.on('mt::cmd-open-file', (e) => {
 
 ipcMain.on('mt::cmd-new-editor-window', () => {
   newEditorWindow()
-})
-
-ipcMain.on('mt::cmd-open-folder', (e) => {
-  const win = BrowserWindow.fromWebContents(e.sender)
-  openFolder(win)
 })
 
 ipcMain.on('mt::cmd-close-window', (e) => {
@@ -813,7 +808,6 @@ export const loadFileCommands = (commandManager: CommandManager): void => {
   commandManager.add(COMMANDS.FILE_NEW_FILE, newEditorWindow)
   commandManager.add(COMMANDS.FILE_NEW_TAB, newBlankTab)
   commandManager.add(COMMANDS.FILE_OPEN_FILE, openFile)
-  commandManager.add(COMMANDS.FILE_OPEN_FOLDER, openFolder)
   commandManager.add(COMMANDS.FILE_PREFERENCES, userSetting)
   commandManager.add(COMMANDS.FILE_PRINT, printDocument)
   commandManager.add(COMMANDS.FILE_QUIT, app.quit)

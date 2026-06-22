@@ -4,8 +4,7 @@ import katexCss from 'katex/dist/katex.css?inline';
 import prismCss from 'prismjs/themes/prism.css?inline';
 import exportStyle from '../assets/styles/exportStyle.css?inline';
 import { EXPORT_DOMPURIFY_CONFIG } from '../config';
-import { isHTMLElement, sanitize, unescapeHTML } from '../utils';
-import loadRenderer from '../utils/diagram';
+import { sanitize } from '../utils';
 
 import { getHighlightHtml } from '../utils/marked';
 import { generateGithubSlug } from '../utils/slug';
@@ -31,101 +30,6 @@ export class MarkdownToHtml {
     private _exportContainer: HTMLDivElement | null = null;
 
     constructor(public markdown: string, public muya?: Muya) {}
-
-    async renderMermaid() {
-        const codes = this._exportContainer!.querySelectorAll(
-            'code.language-mermaid',
-        );
-        for (const code of codes) {
-            const preEle = code.parentNode;
-            if (!isHTMLElement(preEle))
-                continue;
-            const mermaidContainer = document.createElement('div');
-            mermaidContainer.innerHTML = sanitize(
-                unescapeHTML(code.innerHTML),
-                EXPORT_DOMPURIFY_CONFIG,
-                true,
-            ) as string;
-            mermaidContainer.classList.add('mermaid');
-            preEle.replaceWith(mermaidContainer);
-        }
-        const mermaid = await loadRenderer('mermaid');
-        // We only export light theme, so set mermaid theme to `default`, in the future, we can choose which theme to export.
-        mermaid.initialize({
-            startOnLoad: false,
-            securityLevel: 'strict',
-            theme: 'default',
-        });
-        await mermaid.run({
-            nodes: [...this._exportContainer!.querySelectorAll('div.mermaid')],
-        });
-        if (this.muya) {
-            mermaid.initialize({
-                securityLevel: 'strict',
-                theme: this.muya.options.mermaidTheme,
-            });
-        }
-    }
-
-    async renderDiagram() {
-        const selector
-            = 'code.language-vega-lite, code.language-plantuml, code.language-flowchart, code.language-sequence';
-        const codes = this._exportContainer!.querySelectorAll(selector);
-
-        for (const code of codes) {
-            const rawCode = unescapeHTML(code.innerHTML);
-            const functionType = (() => {
-                if (/plantuml/.test(code.className))
-                    return 'plantuml';
-                else if (/flowchart/.test(code.className))
-                    return 'flowchart';
-                else if (/sequence/.test(code.className))
-                    return 'sequence';
-                else
-                    return 'vega-lite';
-            })();
-            const render = await loadRenderer(functionType);
-            const preParent = code.parentNode;
-            if (!isHTMLElement(preParent))
-                continue;
-            const diagramContainer = document.createElement('div');
-            diagramContainer.classList.add(functionType);
-            preParent.replaceWith(diagramContainer);
-            const options = {};
-            if (functionType === 'vega-lite') {
-                Object.assign(options, {
-                    actions: false,
-                    tooltip: false,
-                    renderer: 'svg',
-                    theme: 'latimes', // only render light theme
-                });
-            }
-            else if (functionType === 'sequence') {
-                Object.assign(options, {
-                    theme: this.muya?.options.sequenceTheme ?? 'hand',
-                });
-            }
-
-            try {
-                if (functionType === 'plantuml') {
-                    const diagram = render.parse(rawCode);
-                    diagramContainer.innerHTML = '';
-                    diagram.insertImgElement(diagramContainer);
-                }
-                else if (functionType === 'flowchart' || functionType === 'sequence') {
-                    const diagram = render.parse(rawCode);
-                    diagramContainer.innerHTML = '';
-                    diagram.drawSVG(diagramContainer, options);
-                }
-                else if (functionType === 'vega-lite') {
-                    await render(diagramContainer, JSON.parse(rawCode), options);
-                }
-            }
-            catch {
-                diagramContainer.innerHTML = '< Invalid Diagram >';
-            }
-        }
-    }
 
     // Assign a github-compatible slug `id` to every `<h1>..<h6>` in the
     // export container. Headings that already carry an explicit id (none today,
@@ -177,10 +81,6 @@ export class MarkdownToHtml {
         exportContainer.classList.add('mu-render-container');
         exportContainer.innerHTML = html;
         document.body.appendChild(exportContainer);
-
-        // render only render the light theme of mermaid and diagram...
-        await this.renderMermaid();
-        await this.renderDiagram();
 
         // Inject github-compatible slug ids onto exported headings so the
         // exported document's [TOC] / `getHtmlToc` `href="#slug"` anchors

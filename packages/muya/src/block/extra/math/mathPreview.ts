@@ -52,9 +52,6 @@ class MathPreview extends Parent {
     clickHandler(event: Event) {
         event.preventDefault();
         event.stopPropagation();
-
-        const cursorBlock = this.parent!.firstContentInDescendant();
-        cursorBlock?.setCursor(0, 0);
     }
 
     update(math = this.math) {

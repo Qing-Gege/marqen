@@ -1,23 +1,26 @@
 .mu-float-wrapper.mu-format-picker-container {
     overflow: visible;
 
-    border-radius: 2px;
+    border-radius: 6px;
 }
 
 .mu-format-picker {
-    width: 265px;
-    height: 28px;
+    width: max-content;
+    min-width: 560px;
+    height: 50px;
 }
 
 .mu-format-picker ul,
-.mu-format-picker li {
+.mu-format-picker li,
+.mu-format-picker ol {
     margin: 0;
     padding: 0;
 }
 
 .mu-format-picker ul {
     display: flex;
-    padding: 0 7px;
+    align-items: center;
+    padding: 5px 10px;
 }
 
 .mu-format-picker li.item {
@@ -26,10 +29,11 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    width: 35px;
-    height: 28px;
+    width: 40px;
+    height: 40px;
 
     list-style: none;
+    border-radius: 4px;
     cursor: pointer;
 }
 
@@ -37,13 +41,13 @@
     background: var(--float-hover-color);
 }
 
-.mu-format-picker li.item:last-of-type {
+.mu-format-picker li.item.clear {
     margin-left: 6px;
 }
 
-.mu-format-picker li.item:last-of-type::before {
+.mu-format-picker li.item.clear::before {
     position: absolute;
-    top: 6px;
+    top: 7px;
     left: -3px;
 
     width: 1px;
@@ -54,10 +58,138 @@
     content: '';
 }
 
+.mu-format-picker li.separator {
+    width: 1px;
+    height: 28px;
+    margin: 0 8px;
+
+    list-style: none;
+    background: var(--editor-color-10);
+}
+
+.mu-format-picker li.block-style {
+    width: auto;
+    min-width: 108px;
+}
+
+.mu-format-picker .block-style-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 108px;
+    height: 40px;
+    padding: 0 10px;
+
+    color: var(--editor-color-80);
+    font-weight: 500;
+    font-size: 18px;
+    font-family: inherit;
+
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+
+.mu-format-picker .block-style-label {
+    max-width: 96px;
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.mu-format-picker .block-style-caret {
+    margin-left: 6px;
+
+    color: var(--editor-color-50);
+    font-size: 14px;
+}
+
+.mu-format-picker .block-style-menu {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    z-index: 1;
+
+    min-width: 230px;
+    max-height: 320px;
+    padding: 8px;
+    overflow-y: auto;
+
+    background: var(--float-bg-color);
+    border: 1px solid var(--float-border-color);
+    border-radius: 6px;
+    box-shadow: var(--float-shadow);
+    overscroll-behavior: contain;
+}
+
+.mu-format-picker .block-style-menu::-webkit-scrollbar {
+    width: 8px;
+}
+
+.mu-format-picker .block-style-menu::-webkit-scrollbar-thumb {
+    background: var(--editor-color-10);
+    border-radius: 999px;
+}
+
+.mu-format-picker .block-style-option {
+    display: flex;
+    align-items: center;
+    height: 42px;
+    padding: 0 10px;
+
+    color: var(--editor-color);
+    font-size: 16px;
+    line-height: 42px;
+
+    list-style: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.mu-format-picker .block-style-option:hover,
+.mu-format-picker .block-style-option.active {
+    background: var(--float-hover-color);
+}
+
+.mu-format-picker .block-style-option.active {
+    color: var(--theme-color);
+}
+
+.mu-format-picker .block-style-option-shortcut {
+    margin-left: auto;
+    padding-left: 16px;
+
+    color: var(--editor-color-50);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.mu-format-picker .block-style-option-icon {
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    margin-right: 14px;
+
+    color: var(--icon-color);
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+}
+
+.mu-format-picker .block-style-option-icon.text {
+    width: 32px;
+    margin-right: 8px;
+}
+
 .mu-format-picker li.item .icon-wrapper {
     display: flex;
-    width: 16px;
-    height: 16px;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
 }
 
 .mu-format-picker li.item .icon-wrapper i.icon {
@@ -75,15 +207,26 @@
 
 .mu-format-picker li.item .icon-wrapper i.icon > i[class^='icon-'] {
     position: relative;
-    left: -16px;
+    left: -20px;
 
     display: inline-block;
     width: 100%;
     height: 100%;
 
-    filter: drop-shadow(16px 0 currentcolor);
+    filter: drop-shadow(20px 0 currentcolor);
 }
 
 .mu-format-picker li.item.active .icon-wrapper i.icon {
+    color: var(--theme-color);
+}
+
+.mu-format-picker li.item .text-format-icon {
+    color: var(--icon-color);
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 20px;
+}
+
+.mu-format-picker li.item.active .text-format-icon {
     color: var(--theme-color);
 }

@@ -17,8 +17,6 @@ const formatMenuIds = [
   'superscriptMenuItem',
   'subscriptMenuItem',
   'highlightMenuItem',
-  'inlineCodeMenuItem',
-  'inlineMathMenuItem',
   'strikeMenuItem'
 ]
 

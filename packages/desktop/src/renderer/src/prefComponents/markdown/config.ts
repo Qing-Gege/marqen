@@ -83,14 +83,3 @@ export const getFrontmatterTypeOptions = (): PrefSelectOption<string>[] => [
     value: '{'
   }
 ]
-
-export const getSequenceThemeOptions = (): PrefSelectOption<string>[] => [
-  {
-    label: t('preferences.markdown.diagrams.sequenceTheme.handDrawn'),
-    value: 'hand'
-  },
-  {
-    label: t('preferences.markdown.diagrams.sequenceTheme.simple'),
-    value: 'simple'
-  }
-]

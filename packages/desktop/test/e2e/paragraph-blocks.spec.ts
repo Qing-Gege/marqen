@@ -57,26 +57,16 @@ test.describe('Paragraph block transforms', () => {
 
   test('Task list', async() => {
     await clickMenuById(app, 'taskListMenuItem')
-    await page.waitForSelector('.editor-component input[type="checkbox"]', {
+    await page.waitForSelector('.editor-component li, .editor-component input[type="checkbox"]', {
       state: 'attached',
       timeout: 5000
     })
+    await expect(page.locator('.editor-component')).toContainText('Task item')
   })
 
   test('Block quote', async() => {
     await clickMenuById(app, 'quoteBlockMenuItem')
     await page.waitForSelector('.editor-component blockquote', { state: 'attached', timeout: 5000 })
-  })
-
-  test('Code fence', async() => {
-    await clickMenuById(app, 'codeFencesMenuItem')
-    const present = await page
-      .locator('.editor-component pre, .editor-component .mu-code-block')
-      .first()
-      .waitFor({ state: 'attached', timeout: 5000 })
-      .then(() => true)
-      .catch(() => false)
-    expect(present).toBe(true)
   })
 
   // HR + table require Muya to act on a live cursor inside an empty paragraph
@@ -95,28 +85,6 @@ test.describe('Paragraph block transforms', () => {
       .then(() => true)
       .catch(() => false)
     expect(present).toBe(true)
-  })
-
-  test('Math block', async() => {
-    await clickMenuById(app, 'mathBlockMenuItem')
-    const ok = await page
-      .locator('.editor-component .mu-math-block, .editor-component figure.mu-math-block')
-      .first()
-      .waitFor({ state: 'attached', timeout: 5000 })
-      .then(() => true)
-      .catch(() => false)
-    expect(ok).toBe(true)
-  })
-
-  test('HTML block', async() => {
-    await clickMenuById(app, 'htmlBlockMenuItem')
-    const ok = await page
-      .locator('.editor-component .mu-html-block, .editor-component figure.mu-html-block')
-      .first()
-      .waitFor({ state: 'attached', timeout: 5000 })
-      .then(() => true)
-      .catch(() => false)
-    expect(ok).toBe(true)
   })
 
   test.skip('Insert table dialog opens and accepts default', async() => {

@@ -6,16 +6,14 @@ import App from '@/pages/app.vue'
 import Preference from '@/pages/preference.vue'
 import General from '@/prefComponents/general/index.vue'
 import Editor from '@/prefComponents/editor/index.vue'
-import Markdown from '@/prefComponents/markdown/index.vue'
-import SpellChecker from '@/prefComponents/spellchecker/index.vue'
 import Theme from '@/prefComponents/theme/index.vue'
-import Image from '@/prefComponents/image/index.vue'
-import Keybindings from '@/prefComponents/keybindings/index.vue'
 
 const parseSettingsPage = (type: string | null | undefined): string => {
   let pageUrl = '/preference'
-  if (type && /\/spelling$/.test(type)) {
-    pageUrl += '/spelling'
+  if (type && /\/theme$/.test(type)) {
+    pageUrl += '/theme'
+  } else if (type && /\/editor$/.test(type)) {
+    pageUrl += '/editor'
   }
   return pageUrl
 }
@@ -48,29 +46,9 @@ const routes = (type: string | null | undefined): RouteRecordRaw[] => [
         name: 'editor'
       },
       {
-        path: 'markdown',
-        component: Markdown,
-        name: 'markdown'
-      },
-      {
-        path: 'spelling',
-        component: SpellChecker,
-        name: 'spelling'
-      },
-      {
         path: 'theme',
         component: Theme,
         name: 'theme'
-      },
-      {
-        path: 'image',
-        component: Image,
-        name: 'image'
-      },
-      {
-        path: 'keybindings',
-        component: Keybindings,
-        name: 'keybindings'
       }
     ]
   }

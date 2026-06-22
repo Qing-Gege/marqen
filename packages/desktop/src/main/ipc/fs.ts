@@ -1,7 +1,11 @@
 import fs from 'fs-extra'
 import { statSync, constants, type Stats } from 'fs'
+import { execFile } from 'child_process'
+import { promisify } from 'util'
 import { ipcMain } from 'electron'
 import { isFile as commonIsFile, isDirectory as commonIsDirectory } from 'common/filesystem'
+
+const execFileAsync = promisify(execFile)
 
 interface SerializedStat {
   size: number
@@ -43,6 +47,10 @@ export const registerFsHandlers = (): void => {
   ipcMain.handle('mt::fs::empty-dir', (_e, p: string) => fs.emptyDir(p))
   ipcMain.handle('mt::fs::copy', (_e, src: string, dest: string) => fs.copy(src, dest))
   ipcMain.handle('mt::fs::ensure-dir', (_e, p: string) => fs.ensureDir(p))
+  ipcMain.handle('mt::fs::set-hidden', async(_e, p: string) => {
+    if (process.platform !== 'win32') return
+    await execFileAsync('attrib', ['+h', p])
+  })
 
   ipcMain.handle('mt::fs::output-file', (_e, p: string, data: unknown) =>
     fs.outputFile(p, toBuffer(data) as string | NodeJS.ArrayBufferView)

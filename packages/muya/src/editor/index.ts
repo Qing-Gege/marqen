@@ -373,8 +373,9 @@ export class Editor {
         // so query against a copy and leave the caller's selection untouched.
         const cursorBlock = this.scrollPage?.queryBlock([...anchorPath]);
 
-        const begin = Math.min(anchor.offset, focus.offset);
-        const end = Math.max(anchor.offset, focus.offset);
+        const textLength = cursorBlock?.isContent() ? cursorBlock.text.length : 0;
+        const begin = Math.min(textLength, Math.max(0, Math.min(anchor.offset, focus.offset)));
+        const end = Math.min(textLength, Math.max(0, Math.max(anchor.offset, focus.offset)));
 
         if (isSelectionInSameBlock && cursorBlock && cursorBlock.isContent()) {
             cursorBlock.setCursor(begin, end, true);

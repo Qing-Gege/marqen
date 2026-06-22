@@ -16,9 +16,6 @@ export interface IMuyaOptions {
     listIndentation: number;
     frontMatter: boolean;
     frontmatterType: string; // '-' | '+' | ';' | '{';
-    mermaidTheme: string;
-    vegaTheme: string;
-    sequenceTheme: 'hand' | 'simple';
     hideQuickInsertHint: boolean;
     hideLinkPopup: boolean;
     autoCheck: boolean;

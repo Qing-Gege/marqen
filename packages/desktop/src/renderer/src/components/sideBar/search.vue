@@ -89,15 +89,6 @@
       class="empty"
     >
       <div class="no-data">
-        <el-button
-          v-if="showNoFolderOpenedMessage"
-          text
-          bg
-          type="primary"
-          @click="openFolder"
-        >
-          {{ t('sideBar.search.openFolder') }}
-        </el-button>
       </div>
     </div>
   </div>
@@ -266,10 +257,6 @@ const handleFindInFolder = (executeSearch: boolean | unknown = true): void => {
       }
     }
   })
-}
-
-const openFolder = (): void => {
-  projectStore.ASK_FOR_OPEN_PROJECT()
 }
 
 const caseSensitiveClicked = (): void => {

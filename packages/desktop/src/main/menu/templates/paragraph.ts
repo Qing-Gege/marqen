@@ -1,5 +1,6 @@
 import { type BrowserWindow, type MenuItemConstructorOptions } from 'electron'
 import * as actions from '../actions/paragraph'
+import * as formatActions from '../actions/format'
 import { t } from '../../i18n'
 import type Keybindings from '../../keyboard/shortcutHandler'
 
@@ -36,33 +37,6 @@ export default function(keybindings: Keybindings): MenuItemConstructorOptions {
         }
       },
       {
-        id: 'heading4MenuItem',
-        label: t('menu.paragraph.heading4'),
-        type: 'checkbox',
-        accelerator: keybindings.getAccelerator('paragraph.heading-4') ?? undefined,
-        click(_menuItem, focusedWindow) {
-          actions.heading4(focusedWindow as BrowserWindow | undefined)
-        }
-      },
-      {
-        id: 'heading5MenuItem',
-        label: t('menu.paragraph.heading5'),
-        type: 'checkbox',
-        accelerator: keybindings.getAccelerator('paragraph.heading-5') ?? undefined,
-        click(_menuItem, focusedWindow) {
-          actions.heading5(focusedWindow as BrowserWindow | undefined)
-        }
-      },
-      {
-        id: 'heading6MenuItem',
-        label: t('menu.paragraph.heading6'),
-        type: 'checkbox',
-        accelerator: keybindings.getAccelerator('paragraph.heading-6') ?? undefined,
-        click(_menuItem, focusedWindow) {
-          actions.heading6(focusedWindow as BrowserWindow | undefined)
-        }
-      },
-      {
         type: 'separator'
       },
       {
@@ -85,21 +59,20 @@ export default function(keybindings: Keybindings): MenuItemConstructorOptions {
         type: 'separator'
       },
       {
+        id: 'imageMenuItem',
+        label: t('menu.paragraph.image'),
+        accelerator: keybindings.getAccelerator('format.image') ?? undefined,
+        click(_menuItem, focusedWindow) {
+          formatActions.image(focusedWindow as BrowserWindow | undefined)
+        }
+      },
+      {
         id: 'tableMenuItem',
         label: t('menu.paragraph.table'),
         type: 'checkbox',
         accelerator: keybindings.getAccelerator('paragraph.table') ?? undefined,
         click(_menuItem, focusedWindow) {
           actions.table(focusedWindow as BrowserWindow | undefined)
-        }
-      },
-      {
-        id: 'codeFencesMenuItem',
-        label: t('menu.paragraph.codeFences'),
-        type: 'checkbox',
-        accelerator: keybindings.getAccelerator('paragraph.code-fence') ?? undefined,
-        click(_menuItem, focusedWindow) {
-          actions.codeFence(focusedWindow as BrowserWindow | undefined)
         }
       },
       {
@@ -110,27 +83,6 @@ export default function(keybindings: Keybindings): MenuItemConstructorOptions {
         click(_menuItem, focusedWindow) {
           actions.quoteBlock(focusedWindow as BrowserWindow | undefined)
         }
-      },
-      {
-        id: 'mathBlockMenuItem',
-        label: t('menu.paragraph.mathBlock'),
-        type: 'checkbox',
-        accelerator: keybindings.getAccelerator('paragraph.math-formula') ?? undefined,
-        click(_menuItem, focusedWindow) {
-          actions.mathFormula(focusedWindow as BrowserWindow | undefined)
-        }
-      },
-      {
-        id: 'htmlBlockMenuItem',
-        label: t('menu.paragraph.htmlBlock'),
-        type: 'checkbox',
-        accelerator: keybindings.getAccelerator('paragraph.html-block') ?? undefined,
-        click(_menuItem, focusedWindow) {
-          actions.htmlBlock(focusedWindow as BrowserWindow | undefined)
-        }
-      },
-      {
-        type: 'separator'
       },
       {
         id: 'orderListMenuItem',
@@ -163,18 +115,6 @@ export default function(keybindings: Keybindings): MenuItemConstructorOptions {
         type: 'separator'
       },
       {
-        id: 'looseListItemMenuItem',
-        label: t('menu.paragraph.looseListItem'),
-        type: 'checkbox',
-        accelerator: keybindings.getAccelerator('paragraph.loose-list-item') ?? undefined,
-        click(_menuItem, focusedWindow) {
-          actions.looseListItem(focusedWindow as BrowserWindow | undefined)
-        }
-      },
-      {
-        type: 'separator'
-      },
-      {
         id: 'paragraphMenuItem',
         label: t('menu.paragraph.paragraph'),
         type: 'checkbox',
@@ -190,15 +130,6 @@ export default function(keybindings: Keybindings): MenuItemConstructorOptions {
         accelerator: keybindings.getAccelerator('paragraph.horizontal-line') ?? undefined,
         click(_menuItem, focusedWindow) {
           actions.horizontalLine(focusedWindow as BrowserWindow | undefined)
-        }
-      },
-      {
-        id: 'frontMatterMenuItem',
-        label: t('menu.paragraph.frontMatter'),
-        type: 'checkbox',
-        accelerator: keybindings.getAccelerator('paragraph.front-matter') ?? undefined,
-        click(_menuItem, focusedWindow) {
-          actions.frontMatter(focusedWindow as BrowserWindow | undefined)
         }
       }
     ]

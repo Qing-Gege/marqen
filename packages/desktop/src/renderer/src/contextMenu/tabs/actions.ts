@@ -19,11 +19,3 @@ export const closeAll = (): void => {
 export const rename = (tabId: string): void => {
   bus.emit('TABS::rename', tabId)
 }
-
-export const copyPath = (tabId: string): void => {
-  bus.emit('TABS::copy-path', tabId)
-}
-
-export const showInFolder = (tabId: string): void => {
-  bus.emit('TABS::show-in-folder', tabId)
-}

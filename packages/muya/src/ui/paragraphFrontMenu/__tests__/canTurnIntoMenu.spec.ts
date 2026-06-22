@@ -69,12 +69,8 @@ describe('canTurnIntoMenu — no nesting math/code/html/diagram inside themselve
         // Empty paragraph: all menu items except frontmatter; non-empty
         // paragraph: only paragraph/heading/quote/list. Both must be > 0.
         expect(items.length).toBeGreaterThan(0);
-        // Both an empty paragraph and a typed paragraph must keep
-        // math-block reachable via SOME paragraph path (the
-        // `paragraphIsEmpty` branch returns ALL except frontmatter,
-        // including math-block).
         const emptyItems = canTurnIntoMenu(fakeBlock('paragraph', ''));
-        expect(emptyItems.some((i: { label: string }) => i.label === 'math-block')).toBe(true);
+        expect(emptyItems.some((i: { label: string }) => i.label === 'math-block')).toBe(false);
     });
 
     it('non-empty paragraph offers no math-block turn-into (only inline/list types)', () => {

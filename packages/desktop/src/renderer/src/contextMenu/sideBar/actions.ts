@@ -32,7 +32,3 @@ export const rename = (_menuItem?: MenuItemArg, _browserWindow?: BrowserWindowAr
 export const remove = (_menuItem?: MenuItemArg, _browserWindow?: BrowserWindowArg): void => {
   bus.emit('SIDEBAR::remove')
 }
-
-export const showInFolder = (_menuItem?: MenuItemArg, _browserWindow?: BrowserWindowArg): void => {
-  bus.emit('SIDEBAR::show-in-folder')
-}

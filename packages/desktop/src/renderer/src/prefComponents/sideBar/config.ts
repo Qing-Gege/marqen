@@ -1,11 +1,7 @@
 import {
   Setting as GeneralIcon,
   Edit as EditorIcon,
-  Document as MarkdownIcon,
-  Brush as ThemeIcon,
-  Picture as ImageIcon,
-  Reading as SpellIcon,
-  Operation as KeyBindingIcon
+  Brush as ThemeIcon
 } from '@element-plus/icons-vue'
 
 import preferences from '../../../../main/preferences/schema.json'
@@ -64,6 +60,23 @@ interface CachedTranslator {
 }
 
 const preferencesSchema = preferences as unknown as Record<string, PreferenceSchemaEntry>
+const visiblePreferenceKeys = new Set([
+  'autoSave',
+  'autoSaveDelay',
+  'titleBarStyle',
+  'openFilesInNewWindow',
+  'zoom',
+  'hideScrollbar',
+  'wordWrapInToc',
+  'restoreLayoutState',
+  'language',
+  'editorFontFamily',
+  'fontSize',
+  'lineHeight',
+  'editorLineWidth',
+  'theme',
+  'customCss'
+])
 
 export const getCategory = (): PrefCategory[] => [
   {
@@ -79,34 +92,10 @@ export const getCategory = (): PrefCategory[] => [
     path: '/preference/editor'
   },
   {
-    name: t('preferences.categories.markdown'),
-    label: 'markdown',
-    icon: MarkdownIcon,
-    path: '/preference/markdown'
-  },
-  {
-    name: t('preferences.categories.spelling'),
-    label: 'spelling',
-    icon: SpellIcon,
-    path: '/preference/spelling'
-  },
-  {
     name: t('preferences.categories.theme'),
     label: 'theme',
     icon: ThemeIcon,
     path: '/preference/theme'
-  },
-  {
-    name: t('preferences.categories.image'),
-    label: 'image',
-    icon: ImageIcon,
-    path: '/preference/image'
-  },
-  {
-    name: t('preferences.categories.keybindings'),
-    label: 'keybindings',
-    icon: KeyBindingIcon,
-    path: '/preference/keybindings'
   }
 ]
 
@@ -129,6 +118,7 @@ export const getTranslatedSearchContent: CachedTranslator = (() => {
     // Generate keys by iterating through each language
     const result: TranslatedSearchEntry[] = []
     Object.keys(preferencesSchema).forEach((k) => {
+      if (!visiblePreferenceKeys.has(k)) return
       const entry = preferencesSchema[k]
       if (!entry) return
       const { description, enum: emums } = entry
@@ -148,7 +138,6 @@ export const getTranslatedSearchContent: CachedTranslator = (() => {
       else if (categoryName === 'View') mappedCategory = 'view'
       else if (categoryName === 'Searcher') mappedCategory = 'searcher'
       else if (categoryName === 'Watcher') mappedCategory = 'watcher'
-      else if (categoryName === 'Spelling') mappedCategory = 'spelling'
       else if (categoryName === 'Custom CSS') mappedCategory = 'custom css'
       else {
         // Handle special category names
@@ -160,11 +149,7 @@ export const getTranslatedSearchContent: CachedTranslator = (() => {
       const validRoutes = [
         'general',
         'editor',
-        'markdown',
-        'spelling',
-        'theme',
-        'image',
-        'keybindings'
+        'theme'
       ]
       if (!validRoutes.includes(routeCategory)) routeCategory = 'general'
 

@@ -31,7 +31,7 @@
       "closeTab": "關閉標籤頁",
       "closeWindow": "關閉視窗",
       "quit": "退出",
-      "preferences": "偏好設定"
+      "preferences": "設定"
     },
     "edit": {
       "edit": "編輯",
@@ -82,7 +82,8 @@
       "looseListItem": "鬆散清單項目",
       "paragraphItem": "段落項目",
       "horizontalRule": "水平線",
-      "frontMatter": "前置資料"
+      "frontMatter": "前置資料",
+      "image": "圖片"
     },
     "window": {
       "title": "視窗",
@@ -104,25 +105,12 @@
       "reportBug": "回報錯誤",
       "viewSource": "檢視原始碼",
       "followUs": "關注我們",
-      "support": "支持 MarkText",
+      "support": "支持 Marqen",
       "license": "授權條款",
       "checkForUpdates": "檢查更新",
-      "aboutMarkText": "關於 MarkText",
       "about": "關於",
-      "checkUpdates": "檢查更新"
-    },
-    "marktext": {
-      "title": "關於",
-      "marktext": "MarkText",
-      "about": "關於 MarkText",
-      "checkUpdates": "檢查更新…",
-      "preferences": "偏好設定",
-      "services": "服務",
-      "hide": "隱藏 MarkText",
-      "hideMarkText": "隱藏 MarkText",
-      "hideOthers": "隱藏其他",
-      "showAll": "顯示全部",
-      "quit": "退出 MarkText"
+      "checkUpdates": "檢查更新",
+      "aboutMarqen": "關於 Marqen"
     },
     "view": {
       "view": "檢視",
@@ -213,6 +201,19 @@
       "tokyoNightLight": "Tokyo Night 淺色",
       "tokyoNightStorm": "Tokyo Night Storm",
       "ulyssesLight": "Ulysses 淺色"
+    },
+    "marqen": {
+      "title": "關於",
+      "about": "關於 Marqen",
+      "checkUpdates": "檢查更新…",
+      "preferences": "設定",
+      "services": "服務",
+      "hide": "隱藏 Marqen",
+      "hideOthers": "隱藏其他",
+      "showAll": "顯示全部",
+      "quit": "退出 Marqen",
+      "marqen": "Marqen",
+      "hideMarqen": "隱藏 Marqen"
     }
   },
   "contextMenu": {
@@ -246,7 +247,9 @@
       "rename": "重新命名",
       "copyPath": "複製路徑",
       "showInFolder": "在資料夾中顯示"
-    }
+    },
+    "insertImage": "插入圖片",
+    "insertTable": "插入表格"
   },
   "search": {
     "searchPlaceholder": "搜尋",
@@ -389,7 +392,7 @@
   },
   "import": {
     "title": "匯入或開啟",
-    "description": "拖放到這裡將您的內容匯入 MarkText"
+    "description": "拖放到這裡將您的內容匯入 Marqen"
   },
   "preferences": {
     "title": "偏好設定",
@@ -419,10 +422,10 @@
         "hideScrollbar": "是否隱藏捲軸",
         "wordWrapInToc": "是否在目錄中啟用自動換行",
         "fileSortBy": "按建立時間、修改時間和標題對開啟資料夾中的檔案進行排序",
-        "startUpAction": "MarkText 啟動後的操作，開啟最後編輯的內容、開啟指定資料夾或空白頁面",
+        "startUpAction": "Marqen 啟動後的操作，開啟最後編輯的內容、開啟指定資料夾或空白頁面",
         "restoreLayoutState": "啟動時還原上次編輯器狀態",
         "defaultDirectoryToOpen": "當 startUp=folder 時啟動時應開啟的預設目錄",
-        "language": "MarkText 使用的語言",
+        "language": "Marqen 使用的語言",
         "editorFontFamily": "編輯器字型系列",
         "fontSize": "字型大小（像素）",
         "lineHeight": "行高",
@@ -446,7 +449,7 @@
         "preferLooseListItem": "首選清單類型",
         "bulletListMarker": "項目符號清單中使用的標記",
         "orderListDelimiter": "有序清單中使用的分隔符",
-        "preferHeadingStyle": "MarkText 中的首選標題樣式",
+        "preferHeadingStyle": "Marqen 中的首選標題樣式",
         "tabSize": "用 x 個空格替換製表符",
         "listIndentation": "選擇清單的縮排",
         "frontmatterType": "前言類型",
@@ -455,7 +458,7 @@
         "isHtmlEnabled": "啟用 HTML 轉譯",
         "isGitlabCompatibilityEnabled": "啟用 GitLab 相容模式",
         "sequenceTheme": "序列圖主題",
-        "theme": "選擇 MarkText 中使用的主題",
+        "theme": "選擇 Marqen 中使用的主題",
         "followSystemTheme": "跟隨系統主題",
         "lightModeTheme": "系統處於淺色模式時使用的主題",
         "darkModeTheme": "系統處於深色模式時使用的主題",
@@ -469,7 +472,6 @@
         "imageRelativeDirectoryName": "相對圖片資料夾名稱",
         "sideBarVisibility": "側邊欄是否可見",
         "tabBarVisibility": "是否顯示標籤頁",
-        "sourceCodeModeEnabled": "是否預設啟用原始碼模式",
         "searchExclusions": "要從搜尋中排除的 glob 模式清單",
         "searchMaxFileSize": "最大檔案大小（<maxFileSize><suffix>）。如果沒有後綴，允許使用 K、M 或 G 後綴，數字會被視為位元組",
         "searchIncludeHidden": "是否在隱藏檔案和目錄中搜尋",
@@ -713,7 +715,7 @@
         "neverDetected": "從未偵測",
         "neverSuccessful": "從未成功"
       },
-      "defaultBehavior": "貼上或拖曳圖片到 MarkText 後的預設行為"
+      "defaultBehavior": "貼上或拖曳圖片到 Marqen 後的預設行為"
     },
     "markdown": {
       "title": "PicGo 設定",
@@ -887,12 +889,12 @@
     }
   },
   "about": {
-    "copyright": "版權",
-    "copyrightContributors": "版權貢獻者"
+    "copyright": "版權所有 © Marqen {year}",
+    "copyrightContributors": "本產品參考 MarkText 構建"
   },
   "commands": {
     "mt": {
-      "hide": "隱藏 MarkText",
+      "hide": "隱藏 Marqen",
       "hideOthers": "隱藏其他"
     },
     "file": {
@@ -909,7 +911,7 @@
       "changeLineEnding": "變更行結束符",
       "trailingNewline": "結尾換行",
       "print": "列印",
-      "preferences": "偏好設定",
+      "preferences": "設定",
       "closeTab": "關閉標籤頁",
       "closeWindow": "關閉視窗",
       "quit": "退出",
@@ -1052,7 +1054,7 @@
     "fileExists": "檔案已存在",
     "files": "檔案",
     "importWarning": "匯入警告",
-    "installPandoc": "安裝 Pandoc",
+    "installPandoc": "文件匯入不可用，缺少必要的轉換元件。",
     "keepOpen": "保持開啟",
     "replace": "取代",
     "save": "儲存",
@@ -1063,7 +1065,7 @@
     "configSchemaViolation": "設定結構違規",
     "copyError": "複製錯誤",
     "initializationFailed": "初始化失敗",
-    "otherInstanceDetected": "偵測到另一個 MarkText 實例正在執行",
+    "otherInstanceDetected": "偵測到另一個 Marqen 實例正在執行",
     "report": "回報",
     "startupError": "啟動錯誤",
     "terminatedDueToError": "因錯誤而終止",
@@ -1108,7 +1110,8 @@
       "exportSuccessTitle": "匯出成功",
       "exportSuccessMessage": "已成功匯出「{name}」！",
       "fileRemovedOnDisk": "「{name}」已在磁碟上被刪除。",
-      "fileChangedOnDisk": "「{name}」已在磁碟上發生變更。是否重新載入？"
+      "fileChangedOnDisk": "「{name}」已在磁碟上發生變更。是否重新載入？",
+      "untitled": "未命名"
     }
   },
   "spellchecker": {

@@ -1,21 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import icons from '../config';
 
-// P3 defensive lock for marktext `ab97336e` (highlight `<mark>`) and
-// `ef9fe756` (underline `<u>`). These shortcuts already shipped in muya
-// alongside the other six inline format types, but nothing in the test
-// suite asserts that they stay wired into the toolbar config — quietly
-// dropping an entry would silently delete the user-visible button.
-//
-// The toolbar reads `config.ts` and renders one button per entry; the
-// `type` string is the same key the formatHandler dispatches on, so a
-// regression here would break both the UI surface and the keyboard
-// shortcut path. This file locks the seven inline-format types plus
-// their `icon` field so a regression has to be deliberate.
+// Defensive lock for the non-technical default toolbar surface. The toolbar
+// reads `config.ts` and renders one button per entry, so a regression here
+// would silently expose or remove user-visible controls.
 //
 // Kept narrow: we do not lock tooltip/shortcut text (which is i18n /
-// platform-dependent) or the `image`/`inline_math`/`clear` entries
-// (which are out of scope for the highlight + underline backports).
+// platform-dependent) or the `image`/`clear` entries (which are out of
+// scope for the highlight + underline backports).
 
 const REQUIRED_TYPES = [
     'strong',
@@ -23,7 +15,6 @@ const REQUIRED_TYPES = [
     'u',
     'del',
     'mark',
-    'inline_code',
     'link',
 ] as const;
 
@@ -44,5 +35,13 @@ describe('inlineFormatToolbar config — required inline format types', () => {
             const matches = icons.filter(i => i.type === type);
             expect(matches.length, `type=${type} appears ${matches.length} times`).toBe(1);
         }
+    });
+
+    it('does not expose formula as a default toolbar button', () => {
+        expect(icons.some(i => i.type === 'inline_math')).toBe(false);
+    });
+
+    it('does not expose code as a default toolbar button', () => {
+        expect(icons.some(i => i.type === 'inline_code')).toBe(false);
     });
 });

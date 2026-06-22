@@ -161,6 +161,7 @@ const fileUtilsAPI = {
   emptyDir: (p: string) => invoke('mt::fs::empty-dir', p),
   copy: (src: string, dest: string) => invoke('mt::fs::copy', src, dest),
   ensureDir: (p: string) => invoke('mt::fs::ensure-dir', p),
+  setHidden: (p: string) => invoke('mt::fs::set-hidden', p),
   outputFile: (p: string, data: string | Uint8Array) => invoke('mt::fs::output-file', p, data),
   move: (src: string, dest: string) => invoke('mt::fs::move', src, dest),
   stat: (p: string) => invoke('mt::fs::stat', p),
@@ -184,7 +185,8 @@ const commandAPI = {
 }
 
 const i18nAPI = {
-  loadTranslations: (language: string) => invoke('mt::i18n::load', language)
+  loadTranslations: (language: string) => invoke('mt::i18n::load', language),
+  initialLocale: bootInfo?.locale || 'en'
 }
 
 type RipgrepHandler = (payload: unknown) => void

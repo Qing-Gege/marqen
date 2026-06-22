@@ -68,6 +68,7 @@ export const moveImageToFolder = async(
   currentPathname: string | null = null
 ): Promise<string> => {
   await window.fileUtils.ensureDir(outputDir)
+  await window.fileUtils.setHidden(outputDir)
   const isPath = typeof image === 'string'
   if (isPath) {
     const dir = window.path.dirname(pathname)

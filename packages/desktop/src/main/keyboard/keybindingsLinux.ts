@@ -8,7 +8,7 @@
 //       can be produced with ^ or ` on any keyboard. --> ^, `, ", ~, ...
 
 const keybindings: Map<string, string> = new Map([
-  // MarkText menu on macOS only
+  // Marqen menu on macOS only
   ['mt.hide', ''],
   ['mt.hide-others', ''],
 
@@ -16,7 +16,6 @@ const keybindings: Map<string, string> = new Map([
   ['file.new-window', 'Ctrl+N'],
   ['file.new-tab', 'Ctrl+T'],
   ['file.open-file', 'Ctrl+O'],
-  ['file.open-folder', 'Ctrl+Shift+O'],
   ['file.save', 'Ctrl+S'],
   ['file.save-as', 'Ctrl+Shift+S'],
   ['file.move-file', ''],
@@ -32,59 +31,47 @@ const keybindings: Map<string, string> = new Map([
 
   // Edit menu
   ['edit.undo', 'Ctrl+Z'],
-  ['edit.redo', 'Ctrl+Shift+Z'],
+  ['edit.redo', 'Ctrl+Y'],
   ['edit.cut', 'Ctrl+X'],
   ['edit.copy', 'Ctrl+C'],
   ['edit.paste', 'Ctrl+V'],
   ['edit.copy-as-rich', 'Ctrl+Shift+C'],
-  ['edit.copy-as-html', ''],
   ['edit.paste-as-plaintext', 'Ctrl+Shift+V'],
   ['edit.select-all', 'Ctrl+A'],
   ['edit.duplicate', 'Ctrl+Shift+E'],
-  ['edit.create-paragraph', 'Ctrl+Shift+N'],
+  ['edit.create-paragraph', ''],
   ['edit.delete-paragraph', 'Ctrl+Shift+D'],
   ['edit.find', 'Ctrl+F'],
   ['edit.find-next', 'F3'],
   ['edit.find-previous', 'Shift+F3'],
   ['edit.replace', 'Ctrl+R'],
-  ['edit.find-in-folder', 'Ctrl+Shift+F'],
   ['edit.screenshot', ''], // macOS only
 
   // Paragraph menu
   ['paragraph.heading-1', 'Ctrl+Alt+1'],
   ['paragraph.heading-2', 'Ctrl+Alt+2'],
   ['paragraph.heading-3', 'Ctrl+Alt+3'],
-  ['paragraph.heading-4', 'Ctrl+Alt+4'],
-  ['paragraph.heading-5', 'Ctrl+Alt+5'],
-  ['paragraph.heading-6', 'Ctrl+Alt+6'],
   ['paragraph.upgrade-heading', 'Ctrl+Plus'],
   ['paragraph.degrade-heading', 'Ctrl+-'],
   ['paragraph.table', 'Ctrl+Shift+T'],
-  ['paragraph.code-fence', 'Ctrl+Shift+K'],
   ['paragraph.quote-block', 'Ctrl+Shift+Q'],
-  ['paragraph.math-formula', 'Ctrl+Alt+M'],
-  ['paragraph.html-block', 'Ctrl+Alt+H'],
-  ['paragraph.order-list', 'Ctrl+G'],
-  ['paragraph.bullet-list', 'Ctrl+H'],
+  ['paragraph.order-list', 'Ctrl+Shift+7'],
+  ['paragraph.bullet-list', 'Ctrl+Shift+L'],
   ['paragraph.task-list', 'Ctrl+Shift+X'],
-  ['paragraph.loose-list-item', 'Ctrl+Shift+L'],
-  ['paragraph.paragraph', 'Ctrl+Shift+0'],
+  ['paragraph.paragraph', 'Ctrl+Shift+N'],
   ['paragraph.horizontal-line', 'Ctrl+_'], // Ctrl+Shift+-
-  ['paragraph.front-matter', 'Ctrl+Shift+Y'],
 
   // Format menu
   ['format.strong', 'Ctrl+B'],
   ['format.emphasis', 'Ctrl+I'],
   ['format.underline', 'Ctrl+U'],
-  ['format.superscript', ''],
-  ['format.subscript', ''],
+  ['format.superscript', 'Ctrl+Shift+='],
+  ['format.subscript', 'Ctrl+='],
   ['format.highlight', 'Ctrl+Shift+H'],
-  ['format.inline-code', 'Ctrl+Y'],
-  ['format.inline-math', 'Ctrl+Shift+M'],
-  ['format.strike', 'Ctrl+D'],
-  ['format.hyperlink', 'Ctrl+L'],
+  ['format.strike', 'Ctrl+Shift+X'],
+  ['format.hyperlink', 'Ctrl+K'],
   ['format.image', 'Ctrl+Shift+I'],
-  ['format.clear-format', 'Ctrl+Shift+R'],
+  ['format.clear-format', 'Ctrl+Space'],
 
   // Window menu
   ['window.minimize', 'Ctrl+M'],
@@ -94,15 +81,11 @@ const keybindings: Map<string, string> = new Map([
   ['window.toggle-full-screen', 'F11'],
 
   // View menu
-  ['view.command-palette', 'Ctrl+Shift+P'],
-  ['view.source-code-mode', 'Ctrl+E'],
   ['view.typewriter-mode', 'Ctrl+Shift+G'],
   ['view.focus-mode', 'Ctrl+Shift+J'],
   ['view.toggle-sidebar', 'Ctrl+J'],
-  ['view.toggle-toc', 'Ctrl+K'],
+  ['view.toggle-toc', ''],
   ['view.toggle-tabbar', 'Ctrl+Shift+B'],
-  ['view.toggle-dev-tools', 'Ctrl+Alt+I'],
-  ['view.dev-reload', 'Ctrl+F5'],
   ['view.reload-images', 'F5'],
 
   // ======== Not included in application menu ========================
@@ -119,8 +102,7 @@ const keybindings: Map<string, string> = new Map([
   ['tabs.switchToSeventh', 'Ctrl+7'],
   ['tabs.switchToEighth', 'Ctrl+8'],
   ['tabs.switchToNinth', 'Ctrl+9'],
-  ['tabs.switchToTenth', 'Ctrl+0'],
-  ['file.quick-open', 'Ctrl+P']
+  ['tabs.switchToTenth', 'Ctrl+0']
 ])
 
 export default keybindings

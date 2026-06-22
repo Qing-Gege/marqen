@@ -1,6 +1,9 @@
 <template>
   <div class="editor-container">
-    <side-bar v-if="init" />
+    <side-bar
+      v-if="init"
+      :has-workspace="hasWorkspace"
+    />
 
     <div class="editor-middle">
       <title-bar
@@ -100,6 +103,7 @@ const muyaIndexCursor = computed<Record<string, unknown> | undefined>(
 const hasCurrentFile = computed<boolean>(() => {
   return currentFile.value?.markdown !== undefined
 })
+const hasWorkspace = computed<boolean>(() => !!projectTree.value?.name)
 
 // Watchers
 watch(theme, (value, oldValue) => {
@@ -234,7 +238,7 @@ onMounted(async () => {
   left: -10000px;
 }
 .editor-placeholder {
-  background: var(--editorBgColor);
+  background: var(--marqenCanvas);
 }
 .editor-middle {
   display: flex;
@@ -242,6 +246,7 @@ onMounted(async () => {
   flex: 1;
   min-height: 100vh;
   position: relative;
+  background: var(--marqenCanvas);
   & > .editor {
     flex: 1;
   }

@@ -2,9 +2,7 @@
 // Each entry is `any`-typed; refine as we discover the real shape.
 
 declare module 'dom-autoscroller'
-declare module 'flowchart.js'
 declare module 'joplin-turndown-plugin-gfm'
-declare module 'snapsvg-cjs'
 declare module '@hfelix/electron-localshortcut'
 declare module 'execall'
 declare module 'iso-639-1'
@@ -16,7 +14,6 @@ declare module 'underscore' {
     immediate?: boolean
   ): T & { cancel: () => void }
 }
-declare module 'ced'
 declare module 'font-list'
 declare module 'command-exists'
 declare module 'pako'

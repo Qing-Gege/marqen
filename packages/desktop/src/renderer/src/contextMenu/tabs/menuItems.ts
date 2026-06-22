@@ -54,27 +54,9 @@ export const getRENAME = () => ({
   }
 })
 
-export const getCopyPath = () => ({
-  label: t('contextMenu.tabs.copyPath'),
-  id: 'copyPath',
-  click(menuItem: TabMenuItem, _browserWindow?: unknown) {
-    contextMenu.copyPath(menuItem._tabId)
-  }
-})
-
-export const getShowInFolder = () => ({
-  label: t('contextMenu.tabs.showInFolder'),
-  id: 'showInFolder',
-  click(menuItem: TabMenuItem, _browserWindow?: unknown) {
-    contextMenu.showInFolder(menuItem._tabId)
-  }
-})
-
 // Retained for backward compatibility
 export const CLOSE_THIS = getCloseThis()
 export const CLOSE_OTHERS = getCloseOthers()
 export const CLOSE_SAVED = getCloseSaved()
 export const CLOSE_ALL = getCloseAll()
 export const RENAME = getRENAME()
-export const COPY_PATH = getCopyPath()
-export const SHOW_IN_FOLDER = getShowInFolder()

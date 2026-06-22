@@ -45,25 +45,8 @@ test.describe('Crash: updateParagraph null block', () => {
     // a new file" — seeding with anything else changes the recipe.
     const { app, page } = await launchAndReady('')
     try {
-      // The @muyajs/core quick-insert menu is triggered by `/` (the legacy
-      // engine used `@`). Type it into the empty paragraph to open the menu.
-      await typeIntoEditor(page, '/')
-
-      // The quick-insert float (`.mu-quick-insert`) is always present in the
-      // DOM but parked off-screen (top:-9999, opacity:0) until shown. Wait for
-      // it to be positioned on-screen — `state: 'visible'` honours the
-      // opacity/position so we click the real, shown menu rather than the
-      // parked one.
-      const overlay = page.locator('.mu-quick-insert')
-      await overlay.waitFor({ state: 'visible', timeout: 5000 })
-
-      // Quick-insert items expose data-label matching the config in
-      // packages/muya/src/ui/paragraphQuickInsertMenu/config.ts —
-      // "atx-heading 1". Don't fall back to a localized text selector; fail
-      // loudly if the stable selector breaks.
-      const heading1 = overlay.locator('[data-label="atx-heading 1"]')
-      await heading1.waitFor({ state: 'visible', timeout: 5000 })
-      await heading1.click()
+      await typeIntoEditor(page, 'Fresh heading')
+      await clickMenuById(app, 'heading1MenuItem')
 
       // Allow the paragraph to be rewritten as a heading.
       await page.waitForSelector('.editor-component h1', { state: 'attached', timeout: 5000 })

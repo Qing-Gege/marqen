@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs-extra'
 import { app, ipcMain } from 'electron'
-import { rgPath } from '@vscode/ripgrep'
+import log from 'electron-log'
 import { MARKDOWN_INCLUSIONS } from 'common/filesystem/paths'
 import type { BootInfo } from '@shared/types/ipc'
 
@@ -29,7 +29,16 @@ const resolveRipgrepBinary = (): string => {
   if (process.env.MARKTEXT_RIPGREP_PATH) {
     return process.env.MARKTEXT_RIPGREP_PATH
   }
-  return rgPath.replace(/\bapp\.asar\b/, 'app.asar.unpacked')
+  try {
+    // Optional platform packages may be absent in cross-built installers.
+    // Search can degrade gracefully; app startup must not depend on it.
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { rgPath } = require('@vscode/ripgrep') as { rgPath: string }
+    return rgPath.replace(/\bapp\.asar\b/, 'app.asar.unpacked')
+  } catch (err) {
+    log.warn('Ripgrep binary is unavailable:', err)
+    return ''
+  }
 }
 
 const computeIsUpdatable = (): boolean => {
@@ -54,6 +63,7 @@ const computeIsUpdatable = (): boolean => {
 const buildBootInfo = (): BootInfo => ({
   platform: process.platform,
   arch: process.arch,
+  locale: app.getLocale(),
   versions: {
     node: process.versions.node,
     chrome: process.versions.chrome,

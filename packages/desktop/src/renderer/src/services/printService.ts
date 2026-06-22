@@ -1,17 +1,15 @@
 // Resolve an <img>'s src for static (PDF) print (GH#678): a relative local
 // path is resolved to an absolute `file://` URL against the current document
 // directory; URLs, `data:` URIs, and already-absolute / `file://` srcs are
-// left untouched. Ported from the legacy muyajs `getImageInfo(src)` so the
-// desktop no longer depends on the muyajs engine (@muyajs/core's `getImageInfo`
-// takes a DOM element, and its `getImageSrc` would double-prefix `file://`).
+// left untouched. This keeps print/PDF image resolution local to desktop.
 const IMAGE_EXT_REG = /\.(?:jpeg|jpg|png|gif|svg|webp)(?=\?|$)/i
 
 function resolveImageSrcForStaticPrint(src: string): string {
   if (!src) return src
   // Already a URL or data: URI — leave as-is (avoids `file://file://…`).
   if (/^(?:https?:|file:|data:)/i.test(src)) return src
-  // Only rewrite recognised local image paths (mirrors muyajs's IMAGE_EXT_REG
-  // gate) — leave anything else untouched, e.g. an extensionless absolute
+  // Only rewrite recognised local image paths; leave anything else untouched,
+  // e.g. an extensionless absolute
   // server path `/api/image?id=…` must not become `file:///api/image…`.
   if (!IMAGE_EXT_REG.test(src)) return src
   // Absolute local image path (POSIX / UNC / Windows drive) → file://.

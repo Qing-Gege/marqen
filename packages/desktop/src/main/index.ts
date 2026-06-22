@@ -17,6 +17,7 @@ import { registerSandboxIpcHandlers } from './ipc'
 // Set version strings into global and process.versions
 process.env.MARKTEXT_VERSION = MARKTEXT_VERSION
 process.env.MARKTEXT_VERSION_STRING = MARKTEXT_VERSION_STRING
+app.setName('Marqen')
 
 // -----------------------------------------------
 // Exception handling and logging setup
@@ -53,7 +54,7 @@ initializeLogger(appEnvironment)
 // Handles native level crashes
 crashReporter.start({
   companyName: '',
-  productName: 'marktext',
+  productName: 'Marqen',
   uploadToServer: false, // collect locally
   compress: true
 })
@@ -83,7 +84,7 @@ if (!process.mas && process.env.NODE_ENV !== 'development') {
 registerSandboxIpcHandlers()
 
 // Windows-specific AppUserModelID
-electronApp.setAppUserModelId('com.electron.marktext')
+electronApp.setAppUserModelId('com.marqen.desktop')
 
 // Dev shortcuts and reload suppression
 app.on('browser-window-created', (_, window) => {

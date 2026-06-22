@@ -97,6 +97,27 @@ function isLanguageSupported(language: string): boolean {
   return (SUPPORTED_LANGUAGES as readonly string[]).includes(language)
 }
 
+function normalizeLanguage(language: string | null | undefined): string | null {
+  if (!language) return null
+
+  const normalized = language.replace('_', '-')
+  if (isLanguageSupported(normalized)) return normalized
+
+  const lower = normalized.toLowerCase()
+  if (lower === 'zh' || lower === 'zh-hans' || lower.startsWith('zh-cn')) return 'zh-CN'
+  if (
+    lower === 'zh-hant' ||
+    lower.startsWith('zh-tw') ||
+    lower.startsWith('zh-hk') ||
+    lower.startsWith('zh-mo')
+  ) {
+    return 'zh-TW'
+  }
+
+  const primaryLanguage = lower.split('-')[0]
+  return getSupportedLanguages().find((lang) => lang.toLowerCase().startsWith(primaryLanguage)) ?? null
+}
+
 function clearCache(): void {
   translationsCache = {}
 }
@@ -109,6 +130,7 @@ export {
   getTranslation,
   getSupportedLanguages,
   isLanguageSupported,
+  normalizeLanguage,
   clearCache,
   getAllTranslations,
   loadTranslations

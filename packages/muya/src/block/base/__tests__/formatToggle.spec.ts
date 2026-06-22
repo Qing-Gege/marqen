@@ -3,6 +3,7 @@
 import type Format from '../format';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Muya } from '../../../muya';
+import { isValidInlineMath } from '../format';
 
 // Coverage for the PUBLIC `Format.format()` toggle-OFF and `clear` paths over a
 // real engine boot. `formatCursor.spec.ts` pins the apply-side `_addFormat`
@@ -97,6 +98,16 @@ describe('format.format() toggle-off with the caret inside the formatted run', (
         const content = caretInFirstBlock(bootMuya('<mark>word</mark>\n'), 2);
         content.format('mark');
         expect(content.text).toBe('word');
+    });
+});
+
+describe('inline math validation', () => {
+    it('accepts text that KaTeX can parse', () => {
+        expect(isValidInlineMath('x^2 + y^2')).toBe(true);
+    });
+
+    it('rejects ordinary Chinese prose that KaTeX cannot parse', () => {
+        expect(isValidInlineMath('咚咚咚')).toBe(false);
     });
 });
 

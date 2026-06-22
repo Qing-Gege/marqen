@@ -8,30 +8,30 @@
     "file": {
       "file": "File",
       "new": "New",
-      "newTab": "New Tab",
+      "newTab": "New Document",
       "newWindow": "New Window",
       "open": "Open",
-      "openFile": "Open File...",
-      "openFolder": "Open Folder...",
-      "openRecent": "Open Recent",
+      "openFile": "Open Document...",
+      "openFolder": "Open Document Folder...",
+      "openRecent": "Recent Documents",
       "clearRecentlyUsed": "Clear Recently Used",
       "save": "Save",
       "saveAs": "Save As...",
       "autoSave": "Auto Save",
       "moveTo": "Move To",
       "rename": "Rename",
-      "export": "Export",
-      "exportHtml": "Export as HTML",
+      "export": "Share / Export",
+      "exportHtml": "Export as Web Page",
       "exportPdf": "Export as PDF",
       "import": "Import",
       "print": "Print",
-      "recent": "Recent Files",
+      "recent": "Recent Documents",
       "close": "Close",
       "closeAll": "Close All",
       "closeTab": "Close Tab",
       "closeWindow": "Close Window",
       "quit": "Quit",
-      "preferences": "Preferences"
+      "preferences": "Settings"
     },
     "edit": {
       "edit": "Edit",
@@ -41,7 +41,7 @@
       "copy": "Copy",
       "paste": "Paste",
       "copyAsRich": "Copy As Rich Text",
-      "copyAsHtml": "Copy As HTML",
+      "copyAsHtml": "Copy as Web Page HTML",
       "pasteAsPlainText": "Paste as Plain Text",
       "selectAll": "Select All",
       "duplicate": "Duplicate",
@@ -51,14 +51,14 @@
       "replace": "Replace",
       "findNext": "Find Next",
       "findPrevious": "Find Previous",
-      "findInFolder": "Find in Folder",
+      "findInFolder": "Find in Documents",
       "screenshot": "Screenshot",
       "lineEnding": "Line Ending",
       "lineEndingCrlf": "CRLF(Windows)",
       "lineEndingLf": "LF(Linux/Mac)"
     },
     "paragraph": {
-      "title": "Paragraph",
+      "title": "Insert",
       "paragraph": "Paragraph",
       "heading1": "Heading 1",
       "heading2": "Heading 2",
@@ -69,11 +69,11 @@
       "promoteHeading": "Promote Heading",
       "demoteHeading": "Demote Heading",
       "table": "Table",
-      "codeFences": "Code Fences",
+      "codeFences": "Code Block",
       "codeBlock": "Code Block",
       "quoteBlock": "Quote Block",
       "mathBlock": "Math Block",
-      "htmlBlock": "HTML Block",
+      "htmlBlock": "Advanced HTML",
       "quote": "Quote",
       "orderedList": "Ordered List",
       "bulletList": "Bullet List",
@@ -82,7 +82,8 @@
       "looseListItem": "Loose List Item",
       "paragraphItem": "Paragraph Item",
       "horizontalRule": "Horizontal Rule",
-      "frontMatter": "Front Matter"
+      "frontMatter": "Advanced Metadata",
+      "image": "Image"
     },
     "window": {
       "title": "Window",
@@ -98,39 +99,27 @@
     },
     "help": {
       "help": "Help",
-      "markdownReference": "Markdown Reference",
+      "markdownReference": "Writing Guide",
+      "writingGuide": "Writing Guide",
       "changelog": "Changelog",
       "askQuestion": "Ask Question",
       "reportBug": "Report Bug",
       "viewSource": "View Source",
       "followUs": "Follow Us",
-      "support": "Support MarkText",
+      "support": "Support Marqen",
       "license": "License",
       "checkForUpdates": "Check for Updates",
-      "aboutMarkText": "About MarkText",
       "about": "About",
-      "checkUpdates": "Check for Updates"
-    },
-    "marktext": {
-      "title": "MarkText",
-      "marktext": "MarkText",
-      "about": "About MarkText",
-      "checkUpdates": "Check for Updates...",
-      "preferences": "Preferences",
-      "services": "Services",
-      "hide": "Hide MarkText",
-      "hideMarkText": "Hide MarkText",
-      "hideOthers": "Hide Others",
-      "showAll": "Show All",
-      "quit": "Quit MarkText"
+      "checkUpdates": "Check for Updates",
+      "aboutMarqen": "About Marqen"
     },
     "view": {
       "view": "View",
       "toggleSidebar": "Toggle Sidebar",
       "toggleTabbar": "Toggle Tabbar",
       "commandPalette": "Command Palette",
-      "sourceCode": "Source Code Mode",
-      "sourceCodeMode": "Source Code Mode",
+      "sourceCode": "Advanced Plain Text Editor",
+      "sourceCodeMode": "Advanced Plain Text Editor",
       "typewriter": "Typewriter Mode",
       "typewriterMode": "Typewriter Mode",
       "focus": "Focus Mode",
@@ -156,7 +145,7 @@
       "taskList": "Task List",
       "table": "Table",
       "link": "Link",
-      "image": "Image",
+      "image": "Insert Image",
       "heading1": "Heading 1",
       "heading2": "Heading 2",
       "heading3": "Heading 3",
@@ -166,6 +155,11 @@
       "superscript": "Superscript",
       "subscript": "Subscript",
       "highlight": "Highlight",
+      "highlightColor": "Highlight Color",
+      "highlightYellow": "Yellow",
+      "highlightGreen": "Green",
+      "highlightBlue": "Blue",
+      "highlightPink": "Pink",
       "inlineCode": "Inline Code",
       "inlineMath": "Inline Math",
       "hyperlink": "Hyperlink",
@@ -213,6 +207,19 @@
       "tokyoNightLight": "Tokyo Night Light",
       "tokyoNightStorm": "Tokyo Night Storm",
       "ulyssesLight": "Ulysses Light"
+    },
+    "marqen": {
+      "title": "Marqen",
+      "about": "About Marqen",
+      "checkUpdates": "Check for Updates...",
+      "preferences": "Settings",
+      "services": "Services",
+      "hide": "Hide Marqen",
+      "hideOthers": "Hide Others",
+      "showAll": "Show All",
+      "quit": "Quit Marqen",
+      "marqen": "Marqen",
+      "hideMarqen": "Hide Marqen"
     }
   },
   "contextMenu": {
@@ -229,14 +236,14 @@
     "addToDictionary": "Add to Dictionary",
     "editDictionary": "Edit Dictionary...",
     "sideBar": {
-      "newFile": "New File",
-      "newDirectory": "New Directory",
+      "newFile": "New Document",
+      "newDirectory": "New Document Folder",
       "copy": "Copy",
       "cut": "Cut",
       "paste": "Paste",
       "rename": "Rename",
       "moveToTrash": "Move To Trash",
-      "showInFolder": "Show In Folder"
+      "showInFolder": "Show in Finder"
     },
     "tabs": {
       "close": "Close",
@@ -246,7 +253,9 @@
       "rename": "Rename",
       "copyPath": "Copy path",
       "showInFolder": "Show in folder"
-    }
+    },
+    "insertImage": "Insert Image",
+    "insertTable": "Insert Table"
   },
   "search": {
     "searchPlaceholder": "Search",
@@ -263,26 +272,26 @@
   },
   "sideBar": {
     "search": {
-      "searchInFolder": "Search in folder...",
-      "noFolderOpen": "No folder open",
+      "searchInFolder": "Search documents...",
+      "noFolderOpen": "No document folder open",
       "noResultsFound": "No results found.",
       "cancel": "Cancel",
-      "openFolder": "Open Folder",
+      "openFolder": "Open Document Folder",
       "showMoreMatches": "Show more matches"
     },
     "tree": {
-      "openedFiles": "Opened files",
+      "openedFiles": "Open documents",
       "saveAll": "Save All",
       "closeAll": "Close All",
-      "emptyProject": "Empty project",
-      "createFile": "Create File",
-      "openFolder": "Open Folder"
+      "emptyProject": "No documents here yet",
+      "createFile": "Create Document",
+      "openFolder": "Open Document Folder"
     },
     "toc": {
       "title": "Table Of Contents"
     },
     "icons": {
-      "files": "Files",
+      "files": "Documents",
       "search": "Search",
       "toc": "Table of Contents",
       "settings": "Settings"
@@ -383,12 +392,13 @@
     "deleteTable": "Delete Table"
   },
   "recent": {
-    "noTabsOpen": "You have no tabs open.",
-    "newFile": "New File"
+    "noTabsOpen": "Start with a blank document.",
+    "emptyHint": "A quiet space for notes, plans, guides, and polished documents.",
+    "newFile": "New Document"
   },
   "import": {
     "title": "Import or Open",
-    "description": "Drop here to get your stuff into MarkText"
+    "description": "Drop a document here to open it in Marqen"
   },
   "preferences": {
     "title": "Preferences",
@@ -398,7 +408,7 @@
       "categories": {
         "general": "General",
         "editor": "Editor",
-        "markdown": "Markdown",
+        "markdown": "Auto Layout",
         "theme": "Theme",
         "image": "Image",
         "view": "View",
@@ -417,10 +427,10 @@
         "hideScrollbar": "Whether to hide scrollbars",
         "wordWrapInToc": "Whether to enable word wrap in TOC",
         "fileSortBy": "Sort files in opened folder by created time, modified time and title",
-        "startUpAction": "The action after MarkText startup, open the last edited content, open the specified folder or blank page",
+        "startUpAction": "The action after Marqen startup: restore recent work, open a document folder, or show a blank page",
         "restoreLayoutState": "Restore previous editor state on startup",
         "defaultDirectoryToOpen": "The default directory that should be opened on startup when startUp=folder",
-        "language": "The language MarkText use",
+        "language": "The language Marqen uses",
         "editorFontFamily": "Editor font family",
         "fontSize": "Font size in pixels",
         "lineHeight": "Line Height",
@@ -431,7 +441,7 @@
         "codeBlockLineNumbers": "Whether to show the line numbers",
         "trimUnnecessaryCodeBlockEmptyLines": "Trim the beginning and ending empty lines in code block",
         "autoPairBracket": "Automatically brackets when editing",
-        "autoPairMarkdownSyntax": "Autocomplete markdown syntax",
+        "autoPairMarkdownSyntax": "Automatically continue document structure",
         "autoPairQuote": "Automatic completion of quotes",
         "endOfLine": "The newline character used at the end of each line. The default value is default, which selects your operating system's default newline character",
         "defaultEncoding": "The default file encoding",
@@ -441,19 +451,19 @@
         "hideQuickInsertHint": "Hide hint for quickly creating paragraphs",
         "hideLinkPopup": "Hide link popup when the cursor is hover on the link",
         "autoCheck": "Whether to automatically check related task",
-        "preferLooseListItem": "The preferred list type",
+        "preferLooseListItem": "Add breathing room between list items",
         "bulletListMarker": "The marker used in bullet list",
         "orderListDelimiter": "The dilimiter used in order list",
-        "preferHeadingStyle": "The preferred heading style in MarkText",
+        "preferHeadingStyle": "The preferred heading style in Marqen",
         "tabSize": "Replace the tab with x spaces",
-        "listIndentation": "Select the indent of list",
+        "listIndentation": "Choose list indentation",
         "frontmatterType": "The frontmatter type",
-        "superSubScript": "Enable pandoc's markdown extension superscript and subscript",
-        "footnote": "Enable pandoc's markdown extension footnote",
-        "isHtmlEnabled": "Enable HTML rendering",
-        "isGitlabCompatibilityEnabled": "Enable GitLab compatibility mode",
-        "sequenceTheme": "Sequence diagram theme",
-        "theme": "Select the theme used in MarkText",
+        "superSubScript": "Enable superscript and subscript",
+        "footnote": "Enable footnotes",
+        "isHtmlEnabled": "Enable advanced HTML rendering",
+        "isGitlabCompatibilityEnabled": "Enable platform compatibility mode",
+        "sequenceTheme": "Diagram style",
+        "theme": "Select the theme used in Marqen",
         "followSystemTheme": "Follow System Theme",
         "lightModeTheme": "Theme to use when system is in light mode",
         "darkModeTheme": "Theme to use when system is in dark mode",
@@ -467,7 +477,6 @@
         "imageRelativeDirectoryName": "The relative image folder name",
         "sideBarVisibility": "Whether the side bar is visible",
         "tabBarVisibility": "Whether the tabs are shown",
-        "sourceCodeModeEnabled": "Whether the source-code mode is enabled by default",
         "searchExclusions": "List of glob patterns to exclude from search",
         "searchMaxFileSize": "The maximal file size (<maxFileSize><suffix>). Suffixes of K, M or G are allowed if not suffix is given the number is treated as bytes",
         "searchIncludeHidden": "Whether to search in hidden files and directories",
@@ -479,10 +488,10 @@
     "categories": {
       "general": "General",
       "editor": "Editor",
-      "markdown": "Markdown",
+      "markdown": "Auto Layout",
       "spelling": "Spelling",
       "theme": "Theme",
-      "image": "Image",
+      "image": "Insert Image",
       "keybindings": "Keybindings"
     },
     "general": {
@@ -542,6 +551,7 @@
         "title": "Miscellaneous",
         "language": {
           "title": "Language",
+          "system": "Follow system",
           "english": "English",
           "chinese": "简体中文",
           "traditionalChinese": "繁體中文",
@@ -574,7 +584,7 @@
       "writingBehavior": {
         "title": "Writing Behavior",
         "autoCloseBrackets": "Auto close brackets",
-        "autoCompleteMarkdown": "Auto complete markdown",
+        "autoCompleteMarkdown": "Continue headings and lists automatically",
         "autoCloseQuotes": "Auto close quotes"
       },
       "fileRepresentation": {
@@ -710,10 +720,10 @@
         "pleaseInstall": "Please install",
         "scriptPath": "Script path"
       },
-      "defaultBehavior": "The default behavior after pasting or dragging the image to MarkText"
+      "defaultBehavior": "The default behavior after pasting or dragging an image into Marqen"
     },
     "markdown": {
-      "title": "Markdown",
+      "title": "Auto Layout",
       "listItem": {
         "title": "List Item",
         "preferLooseListItem": "Prefer loose list item",
@@ -734,22 +744,22 @@
         "preferHeadingStyle": "Prefer heading style"
       },
       "frontmatter": {
-        "title": "Front Matter",
-        "frontmatterType": "Front matter type"
+        "title": "Document Metadata",
+        "frontmatterType": "Metadata style"
       },
       "extensions": {
-        "title": "Extensions",
-        "superSubScript": "Super/Sub script",
+        "title": "Document Features",
+        "superSubScript": "Superscript and subscript",
         "footnote": "Footnote",
         "isHtmlEnabled": "HTML enabled",
         "isGitlabCompatibilityEnabled": "GitLab compatibility",
         "sequenceTheme": "Sequence theme",
         "superscript": "Superscript",
         "subscript": "Subscript",
-        "frontMatter": "Front matter",
+        "frontMatter": "Document metadata",
         "math": "Math",
         "diagram": "Diagram",
-        "footnoteNotes": "Footnote notes",
+        "footnoteNotes": "Show footnote tools while writing",
         "frontmatterType": {
           "frontmatterType": "Frontmatter Type",
           "jsonBrace": "JSON with Braces",
@@ -758,7 +768,7 @@
         }
       },
       "diagrams": {
-        "title": "Diagrams",
+        "title": "Visual Blocks",
         "plantuml": "PlantUML",
         "mermaid": "Mermaid",
         "vega": "Vega-Lite",
@@ -766,7 +776,7 @@
         "sequence": "Sequence",
         "gantt": "Gantt",
         "sequenceTheme": {
-          "title": "Sequence Theme",
+          "title": "Diagram Style",
           "handDrawn": "Hand Drawn",
           "simple": "Simple"
         }
@@ -801,7 +811,7 @@
           "twoSpaces": "Two Spaces"
         },
         "orderListDelimiter": "Ordered list delimiter",
-        "preferLooseListItem": "Prefer loose list items",
+        "preferLooseListItem": "Add breathing room between list items",
         "title": "Lists"
       }
     },
@@ -818,6 +828,7 @@
     "theme": {
       "title": "Theme",
       "theme": "Theme",
+      "preview": "Preview",
       "followSystemTheme": "Follow System Theme",
       "modeThemes": "Theme Selection",
       "lightModeTheme": "Light mode theme",
@@ -892,35 +903,35 @@
     "selectAll": "Select All"
   },
   "about": {
-    "copyright": "Copyright © Luo Ran 2017-{year}",
-    "copyrightContributors": "Made with <3 by Github Contributors"
+    "copyright": "Copyright © Marqen {year}",
+    "copyrightContributors": "Built with reference to MarkText"
   },
   "commands": {
     "mt": {
-      "hide": "Hide MarkText",
+      "hide": "Hide Marqen",
       "hideOthers": "Hide Others"
     },
     "file": {
       "newWindow": "New Window",
-      "newTab": "New Tab",
-      "openFile": "Open File",
-      "openFolder": "Open Folder",
+      "newTab": "New Document",
+      "openFile": "Open Document",
+      "openFolder": "Open Document Folder",
       "save": "Save",
       "saveAs": "Save As",
-      "moveFile": "Move File",
-      "renameFile": "Rename File",
-      "quickOpen": "Quick Open",
+      "moveFile": "Move Document",
+      "renameFile": "Rename Document",
+      "quickOpen": "Quick Open Document",
       "changeEncoding": "Change Encoding",
       "changeLineEnding": "Change Line Ending",
       "trailingNewline": "Trailing Newline",
       "print": "Print",
-      "preferences": "Preferences",
+      "preferences": "Settings",
       "closeTab": "Close Tab",
       "closeWindow": "Close Window",
       "quit": "Quit",
       "toggleAutoSave": "Toggle Auto Save",
-      "importFile": "Import File",
-      "exportFile": "Export File",
+      "importFile": "Import Document",
+      "exportFile": "Share / Export",
       "exportFilePdf": "Export as PDF",
       "zoom": "Zoom",
       "checkUpdate": "Check for Updates",
@@ -934,7 +945,7 @@
       "copy": "Copy",
       "paste": "Paste",
       "copyAsRich": "Copy As Rich Text",
-      "copyAsHtml": "Copy as HTML",
+      "copyAsHtml": "Copy as Web Page HTML",
       "pasteAsPlaintext": "Paste as Plain Text",
       "selectAll": "Select All",
       "duplicate": "Duplicate",
@@ -944,7 +955,7 @@
       "findNext": "Find Next",
       "findPrevious": "Find Previous",
       "replace": "Replace",
-      "findInFolder": "Find in Folder",
+      "findInFolder": "Find in Documents",
       "screenshot": "Screenshot",
       "mathBlock": "Math Block"
     },
@@ -958,17 +969,17 @@
       "upgradeHeading": "Upgrade Heading",
       "degradeHeading": "Degrade Heading",
       "table": "Table",
-      "codeFence": "Code Fence",
+      "codeFence": "Code Block",
       "quoteBlock": "Quote Block",
       "mathFormula": "Math Formula",
-      "htmlBlock": "HTML Block",
+      "htmlBlock": "Advanced HTML",
       "orderList": "Ordered List",
       "bulletList": "Bullet List",
       "taskList": "Task List",
       "looseListItem": "Loose List Item",
       "paragraph": "Paragraph",
       "horizontalLine": "Horizontal Line",
-      "frontMatter": "Front Matter",
+      "frontMatter": "Document Metadata",
       "resetParagraph": "Reset Paragraph",
       "mathBlock": "Math Block",
       "horizontalRule": "Horizontal Rule"
@@ -998,10 +1009,10 @@
     },
     "view": {
       "commandPalette": "Command Palette",
-      "sourceCodeMode": "Source Code Mode",
+      "sourceCodeMode": "Advanced Plain Text Editor",
       "typewriterMode": "Typewriter Mode",
       "focusMode": "Focus Mode",
-      "toggleSourceCodeMode": "Toggle Source Code Mode",
+      "toggleSourceCodeMode": "Toggle Advanced Plain Text Editor",
       "toggleTypewriterMode": "Toggle Typewriter Mode",
       "toggleFocusMode": "Toggle Focus Mode",
       "toggleSidebar": "Toggle Sidebar",
@@ -1034,7 +1045,7 @@
     },
     "docs": {
       "userGuide": "User Guide",
-      "markdownSyntax": "Markdown Syntax"
+      "markdownSyntax": "Writing Guide"
     },
     "utils": {
       "noUpdateResourceFile": "No update resource file",
@@ -1055,9 +1066,9 @@
     "dontSave": "Don't Save",
     "file": "File",
     "fileExists": "File exists {filename}",
-    "files": "Files",
+    "files": "Documents",
     "importWarning": "Import warning",
-    "installPandoc": "Install Pandoc",
+    "installPandoc": "Document import is unavailable because a required conversion component is missing.",
     "keepOpen": "Keep open",
     "replace": "Replace",
     "save": "Save",
@@ -1068,7 +1079,7 @@
     "configSchemaViolation": "Configuration schema violation",
     "copyError": "Copy error",
     "initializationFailed": "Initialization failed {hint}",
-    "otherInstanceDetected": "Another instance of MarkText is already running",
+    "otherInstanceDetected": "Another instance of Marqen is already running",
     "report": "Report",
     "startupError": "Startup error",
     "terminatedDueToError": "Terminated due to error",
@@ -1089,7 +1100,7 @@
       "highlightEnd": "[highlight end]",
       "typeAtToInsert": "Type / to insert",
       "inputFootnoteDefinition": "Input the footnote definition...",
-      "inputYamlFrontMatter": "Input YAML Front Matter",
+      "inputYamlFrontMatter": "Add document metadata",
       "inputLanguageIdentifier": "Input Language Identifier...",
       "inputMathematicalFormula": "Input Mathematical Formula...",
       "fence": "fence",
@@ -1113,7 +1124,8 @@
       "exportSuccessTitle": "Exported successfully",
       "exportSuccessMessage": "Exported \"{name}\" successfully!",
       "fileRemovedOnDisk": "\"{name}\" has been removed on disk.",
-      "fileChangedOnDisk": "\"{name}\" has been changed on disk. Do you want to reload it?"
+      "fileChangedOnDisk": "\"{name}\" has been changed on disk. Do you want to reload it?",
+      "untitled": "Untitled"
     }
   },
   "spellchecker": {
@@ -1121,34 +1133,34 @@
     "unexpectedError": "Unexpected spellchecker error"
   },
   "quickInsert": {
-    "basicBlock": "Basic Block",
+    "basicBlock": "Common",
     "header": "Header",
-    "advancedBlock": "Advanced Block",
-    "listBlock": "List Block",
+    "advancedBlock": "Content",
+    "listBlock": "Lists",
     "diagram": "Diagram",
     "paragraph": {
-      "title": "Paragraph",
-      "subtitle": "Input text content"
+      "title": "Normal text",
+      "subtitle": "Body text"
     },
     "horizontalLine": {
-      "title": "Horizontal Line",
-      "subtitle": "---"
+      "title": "Divider",
+      "subtitle": "Separate sections"
     },
     "frontMatter": {
-      "title": "Front Matter",
-      "subtitle": "--- YAML ---"
+      "title": "Document Metadata",
+      "subtitle": "Metadata"
     },
     "header1": {
-      "title": "Header 1",
-      "subtitle": "# Header"
+      "title": "Heading 1",
+      "subtitle": "Large section title"
     },
     "header2": {
-      "title": "Header 2",
-      "subtitle": "## Header"
+      "title": "Heading 2",
+      "subtitle": "Section title"
     },
     "header3": {
-      "title": "Header 3",
-      "subtitle": "### Header"
+      "title": "Heading 3",
+      "subtitle": "Small section title"
     },
     "header4": {
       "title": "Header 4",
@@ -1163,36 +1175,36 @@
       "subtitle": "###### Header"
     },
     "tableBlock": {
-      "title": "Table Block",
-      "subtitle": "｜ Header ｜ Header ｜"
+      "title": "Table",
+      "subtitle": "Rows and columns"
     },
     "mathFormula": {
       "title": "Math Formula",
-      "subtitle": "$$ Formula $$"
+      "subtitle": "Display a formula"
     },
     "htmlBlock": {
-      "title": "HTML Block",
-      "subtitle": "<div> HTML </div>"
+      "title": "Web Embed",
+      "subtitle": "Embedded HTML"
     },
     "codeBlock": {
-      "title": "Code Block",
-      "subtitle": "``` Code ```"
+      "title": "Code",
+      "subtitle": "Insert code content"
     },
     "quoteBlock": {
-      "title": "Quote Block",
-      "subtitle": "> Quote content"
+      "title": "Quote",
+      "subtitle": "Quoted text"
     },
     "orderedList": {
-      "title": "Ordered List",
-      "subtitle": "1. List item"
+      "title": "Numbered list",
+      "subtitle": "Steps in order"
     },
     "bulletList": {
-      "title": "Bullet List",
-      "subtitle": "- List item"
+      "title": "Bulleted list",
+      "subtitle": "Simple list"
     },
     "todoList": {
-      "title": "List",
-      "subtitle": "- [ ] Task item"
+      "title": "Checklist",
+      "subtitle": "Track tasks"
     },
     "vegaChart": {
       "title": "Vega-Lite Chart",
@@ -1265,10 +1277,10 @@
     "delete": "Delete",
     "paragraph": "Paragraph",
     "table": "Table",
-    "html": "HTML",
+    "html": "Web Embed",
     "mathblock": "Math Block",
     "pre": "Code Block",
-    "frontMatter": "Front Matter",
+    "frontMatter": "Document Metadata",
     "ulTask": "Task List",
     "ulBullet": "Bullet List",
     "olOrder": "Ordered List",
@@ -1315,7 +1327,7 @@
       }
     },
     "placeholders": {
-      "frontMatter": "Input YAML Front Matter",
+      "frontMatter": "Add document metadata",
       "languageIdentifier": "Input Language Identifier...",
       "mathFormula": "Input Mathematical Formula..."
     },
@@ -1372,14 +1384,14 @@
     "emptyMermaidBlock": "< Empty Mermaid Block >",
     "loading": "Loading...",
     "emptyDiagramBlock": "< Empty Diagram Block >",
-    "emptyHtmlBlock": "< Empty HTML Block >",
+    "emptyHtmlBlock": "< Empty Web Embed >",
     "onlyTopBlockCanRenderIcon": "Only top most block can render front icon button.",
     "unhandledFunctionType": "Unhandled functionType: {functionType}",
     "highlight-start": "[highlight end]",
     "highlight-end": "[highlight end]",
     "type-at-to-insert": "Type / to insert",
     "input-footnote-definition": "Input footnote definition",
-    "input-yaml-front-matter": "Input YAML front matter",
+    "input-yaml-front-matter": "Add document metadata",
     "input-language-identifier": "Input language identifier",
     "input-mathematical-formula": "Input mathematical formula",
     "fence": "fence",

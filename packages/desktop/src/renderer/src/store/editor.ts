@@ -9,12 +9,6 @@ import {
   defaultFileState
 } from './help'
 import notice from '../services/notification'
-import {
-  FileEncodingCommand,
-  LineEndingCommand,
-  QuickOpenCommand,
-  TrailingNewlineCommand
-} from '../commands'
 import { defineStore } from 'pinia'
 import { usePreferencesStore } from './preferences'
 import { useProjectStore } from './project'
@@ -106,7 +100,7 @@ interface ContentChangePayload {
 
 interface SelectionChange {
   start: { key: string; offset: number; block?: { text?: string; functionType?: string }; type?: string }
-  end: { key: string; offset: number; block?: { functionType?: string }; type?: string }
+  end: { key: string; offset: number; block?: { text?: string; functionType?: string }; type?: string }
   affiliation?: Array<{ type: string; functionType?: string; [key: string]: unknown }>
 }
 
@@ -819,25 +813,11 @@ export const useEditorStore = defineStore('editor', {
       const projectStore = useProjectStore()
       const mainStore = useMainStore()
 
-      // Delay load runtime commands and initialize commands.
+      // Delay command metadata loading so static commands can finish mounting.
       setTimeout(() => {
-        bus.emit('cmd::register-command', new FileEncodingCommand(this))
-        bus.emit(
-          'cmd::register-command',
-          new QuickOpenCommand({
-            editor: this,
-            preferences: preferencesStore,
-            project: projectStore
-          })
-        )
-        bus.emit('cmd::register-command', new LineEndingCommand(this))
-        bus.emit('cmd::register-command', new TrailingNewlineCommand(this))
-
-        setTimeout(() => {
-          window.electron.ipcRenderer.send('mt::request-keybindings')
-          bus.emit('cmd::sort-commands')
-        }, 100)
-      }, 400)
+        window.electron.ipcRenderer.send('mt::request-keybindings')
+        bus.emit('cmd::sort-commands')
+      }, 500)
 
       window.electron.ipcRenderer.on('mt::bootstrap-editor', (_, config) => {
         const {
@@ -845,8 +825,7 @@ export const useEditorStore = defineStore('editor', {
           markdownList,
           lineEnding,
           sideBarVisibility,
-          tabBarVisibility,
-          sourceCodeModeEnabled
+          tabBarVisibility
         } = config
 
         window.electron.ipcRenderer.send('mt::window-initialized')
@@ -858,10 +837,6 @@ export const useEditorStore = defineStore('editor', {
           showTabBar: !!tabBarVisibility
         })
         layoutStore.DISPATCH_LAYOUT_MENU_ITEMS()
-        preferencesStore.SET_MODE({
-          type: 'sourceCode',
-          checked: !!sourceCodeModeEnabled
-        })
 
         if (addBlankTab) {
           this.NEW_UNTITLED_TAB({ selected: true })
@@ -1468,7 +1443,10 @@ export const useEditorStore = defineStore('editor', {
       const index = this.tabIdToIndex[id]
       if (index == null) return
       const tab = this.tabs[index]
-      if (tab) tab.cursor = cursor
+      if (tab) {
+        tab.cursor = cursor
+        tab.muyaIndexCursor = cursor
+      }
     },
 
     SELECTION_FORMATS(formats: SelectionFormat[]): void {
@@ -1522,7 +1500,7 @@ export const useEditorStore = defineStore('editor', {
             showConfirm: true
           })
           .then(() => {
-            window.electron.shell.showItemInFolder(filePath)
+            window.electron.shell.openPath(filePath)
           })
       })
     },
@@ -1679,22 +1657,11 @@ export const useEditorStore = defineStore('editor', {
       window.electron.ipcRenderer.on('mt::cm-copy-as-rich', () => {
         bus.emit('copyAsRich', 'copyAsRich')
       })
-      window.electron.ipcRenderer.on('mt::cm-copy-as-html', () => {
-        bus.emit('copyAsHtml', 'copyAsHtml')
-      })
       window.electron.ipcRenderer.on('mt::cm-paste-as-plain-text', () => {
         bus.emit('pasteAsPlainText', 'pasteAsPlainText')
       })
       window.electron.ipcRenderer.on('mt::cm-insert-paragraph', (_, location) => {
         bus.emit('insertParagraph', location)
-      })
-
-      // Spelling
-      window.electron.ipcRenderer.on('mt::spelling-replace-misspelling', (_, info) => {
-        bus.emit('replace-misspelling', info)
-      })
-      window.electron.ipcRenderer.on('mt::spelling-show-switch-language', () => {
-        bus.emit('open-command-spellchecker-switch-language')
       })
     },
 

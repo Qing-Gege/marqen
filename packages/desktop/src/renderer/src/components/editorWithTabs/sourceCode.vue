@@ -11,8 +11,9 @@ import { useEditorStore } from '@/store/editor'
 import { usePreferencesStore } from '@/store/preferences'
 import { storeToRefs } from 'pinia'
 import codeMirror, { setCursorAtFirstLine, setTextDirection } from '../../codeMirror'
-import { wordCount as getWordCount } from '@muyajs/core'
 import { adjustCursor } from '../../util'
+import { makeDocumentHistory } from '../../util/documentHistory'
+import { wordCount as getWordCount } from '../../util/markdownStats'
 import bus from '../../bus'
 import { oneDarkThemes, railscastsThemes } from '@/config'
 
@@ -41,6 +42,7 @@ const editor = ref<CMInstance>(null)
 const commitTimer = ref<ReturnType<typeof setTimeout> | null>(null)
 const viewDestroyed = ref(false)
 const tabId = ref<string | null>(null)
+const initialMarkdown = ref('')
 
 const { theme, sourceCode } = storeToRefs(preferencesStore)
 const { currentFile: currentTab } = storeToRefs(editorStore)
@@ -104,7 +106,8 @@ const prepareTabSwitch = () => {
     editorStore.LISTEN_FOR_CONTENT_CHANGE({
       id: tabId.value,
       markdown: newMarkdown,
-      muyaIndexCursor: cursor
+      muyaIndexCursor: cursor,
+      history: makeDocumentHistory(newMarkdown)
     })
     tabId.value = null
   }
@@ -271,7 +274,8 @@ const saveContent = (cm: CMInstance) => {
         id: tabId.value,
         markdown: newMarkdown,
         wordCount,
-        muyaIndexCursor: cursor
+        muyaIndexCursor: cursor,
+        history: makeDocumentHistory(newMarkdown)
       })
     } else {
       // This may occur during tab switching but should not occur otherwise.
@@ -297,6 +301,7 @@ onMounted(() => {
   currentTab.value.cursor = undefined
 
   const { markdown, muyaIndexCursor, textDirection } = props
+  initialMarkdown.value = markdown ?? ''
   const container = sourceCodeContainer.value
   const codeMirrorConfig: Record<string, unknown> = {
     value: markdown,
@@ -357,6 +362,16 @@ onMounted(() => {
 onBeforeUnmount(() => {
   viewDestroyed.value = true
   if (commitTimer.value) clearTimeout(commitTimer.value)
+  if (tabId.value && editor.value) {
+    const { cursor, markdown: newMarkdown } = getMarkdownAndCursor(editor.value)
+    editorStore.LISTEN_FOR_CONTENT_CHANGE({
+      id: tabId.value,
+      markdown: newMarkdown,
+      wordCount: getWordCount(newMarkdown),
+      muyaIndexCursor: cursor,
+      history: makeDocumentHistory(newMarkdown)
+    })
+  }
 
   bus.off('file-loaded', handleFileChange)
   bus.off('invalidate-image-cache', handleInvalidateImageCache)
@@ -365,10 +380,18 @@ onBeforeUnmount(() => {
   bus.off('image-action', handleImageAction)
 
   const { cursor, markdown: newMarkdown } = getMarkdownAndCursor(editor.value)
+  if (newMarkdown !== initialMarkdown.value) {
+    ;(window as unknown as { __marqenSourceBulkChange?: { before: string; after: string } })
+      .__marqenSourceBulkChange = {
+        before: initialMarkdown.value,
+        after: newMarkdown
+      }
+  }
   bus.emit('file-changed', {
     id: tabId.value,
     markdown: newMarkdown,
     muyaIndexCursor: cursor,
+    history: makeDocumentHistory(newMarkdown),
     renderCursor: true
   })
 })

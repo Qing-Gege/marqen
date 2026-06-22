@@ -142,7 +142,7 @@ export class ParagraphQuickInsertMenu extends BaseScrollFloat {
                     h(
                         'div.big-title',
                         {
-                            attrs: { title: subTitle },
+                            attrs: { title: i18n.t(subTitle) },
                         },
                         i18n.t(title),
                     ),
@@ -190,7 +190,7 @@ export class ParagraphQuickInsertMenu extends BaseScrollFloat {
 
         if (!canInsertFrontMatter) {
             menuConfig
-                .find(menu => menu.name === 'basic blocks')
+                .find(menu => menu.name === 'common')
                 ?.children
                 .splice(2, 1);
         }

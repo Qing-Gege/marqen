@@ -32,14 +32,34 @@ interface ITag {
 }
 
 export const FORMAT_MARKER_MAP: Record<string, string> = {
-    em: '*',
-    inline_code: '`',
-    strong: '**',
-    del: '~~',
     inline_math: '$',
 };
 
 export const FORMAT_TAG_MAP: Record<string, ITag> = {
+    inline_code: {
+        open: '<code>',
+        close: '</code>',
+    },
+    code: {
+        open: '<code>',
+        close: '</code>',
+    },
+    strong: {
+        open: '<strong>',
+        close: '</strong>',
+    },
+    em: {
+        open: '<em>',
+        close: '</em>',
+    },
+    del: {
+        open: '<s>',
+        close: '</s>',
+    },
+    s: {
+        open: '<s>',
+        close: '</s>',
+    },
     u: {
         open: '<u>',
         close: '</u>',
@@ -304,7 +324,7 @@ export const BACK_HASH: Record<string, string> = {
 };
 
 export const MUYA_DEFAULT_OPTIONS = {
-    fontSize: 16,
+    fontSize: 17,
     lineHeight: 1.6,
     focusMode: false,
     markdown: '',
@@ -321,9 +341,6 @@ export const MUYA_DEFAULT_OPTIONS = {
     // bullet/list marker width + listIndentation, tab or Daring Fireball Markdown (4 spaces) --> list indentation
     listIndentation: 1,
     frontmatterType: '-',
-    mermaidTheme: 'default', // dark / forest / default
-    vegaTheme: 'latimes', // excel / ggplot2 / quartz / vox / fivethirtyeight / dark / latimes
-    sequenceTheme: 'hand' as 'hand' | 'simple', // hand / simple
     hideQuickInsertHint: false,
     hideLinkPopup: false,
     autoCheck: false,
@@ -340,8 +357,8 @@ export const MUYA_DEFAULT_OPTIONS = {
     isGitlabCompatibilityEnabled: true,
     // Move checked task list item to the end of task list.
     autoMoveCheckedToEnd: false,
-    // Whether HTML rendering is disabled or not.
-    disableHtml: false,
+    // Keep raw HTML readable without rendering embedded web content by default.
+    disableHtml: true,
     locale: en,
 };
 

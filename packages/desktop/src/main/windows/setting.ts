@@ -1,7 +1,6 @@
 import path from 'path'
 import { BrowserWindow, ipcMain } from 'electron'
 import type { BrowserWindowConstructorOptions } from 'electron'
-import { electronLocalshortcut } from '@hfelix/electron-localshortcut'
 import BaseWindow, { WindowLifecycle, WindowType } from './base'
 import { centerWindowOptions } from './utils'
 import { TITLE_BAR_HEIGHT, preferencesWinOptions, isLinux, isOsx } from '../config'
@@ -24,7 +23,7 @@ class SettingWindow extends BaseWindow {
   createWindow(category: string | null = null): BrowserWindow {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const accessor = this._accessor as any
-    const { menu: appMenu, env, keybindings, preferences } = accessor
+    const { menu: appMenu, env, preferences } = accessor
     const winOptions: BrowserWindowConstructorOptions = Object.assign({}, preferencesWinOptions)
     centerWindowOptions(
       winOptions as BrowserWindowConstructorOptions & {
@@ -104,12 +103,6 @@ class SettingWindow extends BaseWindow {
     win.loadURL(this._buildUrlString(this.id, env, preferences, category))
     win.setSheetOffset(TITLE_BAR_HEIGHT)
 
-    const devToolsAccelerator = keybindings.getAccelerator('view.toggle-dev-tools')
-    if (env.debug && devToolsAccelerator) {
-      electronLocalshortcut.register(win, devToolsAccelerator, () => {
-        win!.webContents.toggleDevTools()
-      })
-    }
     return win
   }
 

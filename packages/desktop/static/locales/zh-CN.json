@@ -8,30 +8,30 @@
     "file": {
       "file": "文件",
       "new": "新建",
-      "newTab": "新建标签页",
+      "newTab": "新建文档",
       "newWindow": "新建窗口",
       "open": "打开",
-      "openFile": "打开文件…",
-      "openFolder": "打开文件夹…",
-      "openRecent": "打开最近",
+      "openFile": "打开文档…",
+      "openFolder": "打开文档文件夹…",
+      "openRecent": "最近文档",
       "clearRecentlyUsed": "清除最近使用",
       "save": "保存",
       "saveAs": "另存为…",
       "autoSave": "自动保存",
       "moveTo": "移动到",
       "rename": "重命名",
-      "export": "导出",
-      "exportHtml": "导出为 HTML",
+      "export": "分享/导出",
+      "exportHtml": "导出为网页",
       "exportPdf": "导出为 PDF",
       "import": "导入",
       "print": "打印",
-      "recent": "最近文件",
+      "recent": "最近文档",
       "close": "关闭",
       "closeAll": "关闭全部",
       "closeTab": "关闭标签页",
       "closeWindow": "关闭窗口",
       "quit": "退出",
-      "preferences": "偏好设置"
+      "preferences": "设置"
     },
     "edit": {
       "edit": "编辑",
@@ -41,7 +41,7 @@
       "copy": "复制",
       "paste": "粘贴",
       "copyAsRich": "复制为富文本",
-      "copyAsHtml": "复制为 HTML",
+      "copyAsHtml": "复制为网页 HTML",
       "pasteAsPlainText": "粘贴为纯文本",
       "selectAll": "全选",
       "duplicate": "创建副本",
@@ -51,14 +51,14 @@
       "replace": "替换",
       "findNext": "查找下一个",
       "findPrevious": "查找上一个",
-      "findInFolder": "在文件夹中查找",
+      "findInFolder": "在文档中查找",
       "screenshot": "截图",
       "lineEnding": "行结束符",
       "lineEndingCrlf": "CRLF (Windows)",
       "lineEndingLf": "LF (Unix/macOS)"
     },
     "paragraph": {
-      "title": "段落",
+      "title": "插入",
       "paragraph": "段落",
       "heading1": "标题 1",
       "heading2": "标题 2",
@@ -69,11 +69,11 @@
       "promoteHeading": "提升标题级别",
       "demoteHeading": "降低标题级别",
       "table": "表格",
-      "codeFences": "代码围栏",
+      "codeFences": "代码块",
       "codeBlock": "代码块",
       "quoteBlock": "引用块",
       "mathBlock": "数学块",
-      "htmlBlock": "HTML 块",
+      "htmlBlock": "高级 HTML",
       "quote": "引用",
       "orderedList": "有序列表",
       "bulletList": "无序列表",
@@ -82,7 +82,8 @@
       "looseListItem": "宽松列表项",
       "paragraphItem": "段落项",
       "horizontalRule": "水平分割线",
-      "frontMatter": "前置元数据"
+      "frontMatter": "文档元信息",
+      "image": "图片"
     },
     "window": {
       "title": "窗口",
@@ -98,39 +99,27 @@
     },
     "help": {
       "help": "帮助",
-      "markdownReference": "Markdown 参考",
+      "markdownReference": "写作指南",
+      "writingGuide": "写作指南",
       "changelog": "更新日志",
       "askQuestion": "提问",
       "reportBug": "报告错误",
-      "viewSource": "查看源码",
+      "viewSource": "项目主页",
       "followUs": "关注我们",
-      "support": "支持 MarkText",
+      "support": "支持 Marqen",
       "license": "许可证",
       "checkForUpdates": "检查更新",
-      "aboutMarkText": "关于 MarkText",
       "about": "关于",
-      "checkUpdates": "检查更新"
-    },
-    "marktext": {
-      "title": "MarkText",
-      "marktext": "MarkText",
-      "about": "关于 MarkText",
-      "checkUpdates": "检查更新…",
-      "preferences": "偏好设置",
-      "services": "服务",
-      "hide": "隐藏 MarkText",
-      "hideMarkText": "隐藏 MarkText",
-      "hideOthers": "隐藏其他",
-      "showAll": "显示全部",
-      "quit": "退出 MarkText"
+      "checkUpdates": "检查更新",
+      "aboutMarqen": "关于 Marqen"
     },
     "view": {
       "view": "视图",
       "toggleSidebar": "切换侧边栏",
       "toggleTabbar": "切换标签栏",
       "commandPalette": "命令面板",
-      "sourceCode": "源码模式",
-      "sourceCodeMode": "源码模式",
+      "sourceCode": "高级纯文本编辑器",
+      "sourceCodeMode": "高级纯文本编辑器",
       "typewriter": "打字机模式",
       "typewriterMode": "打字机模式",
       "focus": "专注模式",
@@ -156,7 +145,7 @@
       "taskList": "任务列表",
       "table": "表格",
       "link": "链接",
-      "image": "图片",
+      "image": "插入图片",
       "heading1": "标题 1",
       "heading2": "标题 2",
       "heading3": "标题 3",
@@ -166,6 +155,11 @@
       "superscript": "上标",
       "subscript": "下标",
       "highlight": "高亮",
+      "highlightColor": "高亮颜色",
+      "highlightYellow": "黄色",
+      "highlightGreen": "绿色",
+      "highlightBlue": "蓝色",
+      "highlightPink": "粉色",
       "inlineCode": "行内代码",
       "inlineMath": "行内数学",
       "hyperlink": "超链接",
@@ -213,6 +207,19 @@
       "tokyoNightLight": "Tokyo Night 浅色",
       "tokyoNightStorm": "Tokyo Night Storm",
       "ulyssesLight": "Ulysses 浅色"
+    },
+    "marqen": {
+      "title": "Marqen",
+      "about": "关于 Marqen",
+      "checkUpdates": "检查更新…",
+      "preferences": "设置",
+      "services": "服务",
+      "hide": "隐藏 Marqen",
+      "hideOthers": "隐藏其他",
+      "showAll": "显示全部",
+      "quit": "退出 Marqen",
+      "marqen": "Marqen",
+      "hideMarqen": "隐藏 Marqen"
     }
   },
   "contextMenu": {
@@ -220,7 +227,7 @@
     "copy": "复制",
     "paste": "粘贴",
     "copyAsRich": "复制为富文本",
-    "copyAsHtml": "复制为 HTML",
+    "copyAsHtml": "复制为网页 HTML",
     "pasteAsPlainText": "粘贴为纯文本",
     "insertParagraphBefore": "在前面插入段落",
     "insertParagraphAfter": "在后面插入段落",
@@ -229,14 +236,14 @@
     "addToDictionary": "添加到词典",
     "editDictionary": "编辑词典…",
     "sideBar": {
-      "newFile": "新建文件",
-      "newDirectory": "新建目录",
+      "newFile": "新建文档",
+      "newDirectory": "新建文档文件夹",
       "copy": "复制",
       "cut": "剪切",
       "paste": "粘贴",
       "rename": "重命名",
       "moveToTrash": "移动到废纸篓",
-      "showInFolder": "在文件夹中显示"
+      "showInFolder": "在访达中显示"
     },
     "tabs": {
       "close": "关闭",
@@ -245,8 +252,10 @@
       "closeAllTabs": "关闭所有标签页",
       "rename": "重命名",
       "copyPath": "复制路径",
-      "showInFolder": "在文件夹中显示"
-    }
+      "showInFolder": "在访达中显示"
+    },
+    "insertImage": "插入图片",
+    "insertTable": "插入表格"
   },
   "search": {
     "searchPlaceholder": "搜索",
@@ -264,26 +273,26 @@
   },
   "sideBar": {
     "search": {
-      "searchInFolder": "在文件夹中搜索…",
-      "noFolderOpen": "没有打开的文件夹",
+      "searchInFolder": "搜索文档…",
+      "noFolderOpen": "没有打开的文档文件夹",
       "noResultsFound": "未找到结果。",
       "cancel": "取消",
-      "openFolder": "打开文件夹",
+      "openFolder": "打开文档文件夹",
       "showMoreMatches": "显示更多匹配"
     },
     "tree": {
-      "openedFiles": "已打开的文件",
+      "openedFiles": "已打开的文档",
       "saveAll": "保存全部",
       "closeAll": "关闭全部",
-      "emptyProject": "空项目",
-      "createFile": "创建文件",
-      "openFolder": "打开文件夹"
+      "emptyProject": "这里还没有文档",
+      "createFile": "创建文档",
+      "openFolder": "打开文档文件夹"
     },
     "toc": {
       "title": "目录"
     },
     "icons": {
-      "files": "文件",
+      "files": "文档",
       "search": "搜索",
       "toc": "目录",
       "settings": "设置"
@@ -347,7 +356,7 @@
       "includeTopHeadingDetail": "包含顶级标题详情"
     },
     "autoNumberingHeadings": "自动编号标题",
-    "showFrontMatter": "显示前置元数据",
+    "showFrontMatter": "显示文档元信息",
     "export": "导出…",
     "options": {
       "pageSizes": {
@@ -384,12 +393,13 @@
     "deleteTable": "删除表格"
   },
   "recent": {
-    "noTabsOpen": "您没有打开的标签页。",
-    "newFile": "新建文件"
+    "noTabsOpen": "从一份空白文档开始。",
+    "emptyHint": "适合记录笔记、方案、教程和交付给他人的漂亮文档。",
+    "newFile": "新建文档"
   },
   "import": {
     "title": "导入或打开",
-    "description": "拖放到这里将您的内容导入 MarkText"
+    "description": "把文档拖到这里即可在 Marqen 中打开"
   },
   "preferences": {
     "title": "偏好设置",
@@ -399,7 +409,7 @@
       "categories": {
         "general": "通用",
         "editor": "编辑器",
-        "markdown": "Markdown",
+        "markdown": "自动排版",
         "theme": "主题",
         "image": "图片",
         "view": "视图",
@@ -419,10 +429,10 @@
         "hideScrollbar": "是否隐藏滚动条",
         "wordWrapInToc": "是否在目录中启用自动换行",
         "fileSortBy": "按创建时间、修改时间和标题对打开文件夹中的文件进行排序",
-        "startUpAction": "MarkText 启动后的操作，打开最后编辑的内容、打开指定文件夹或空白页",
+        "startUpAction": "Marqen 启动后的操作：恢复最近工作、打开文档文件夹或显示空白页",
         "restoreLayoutState": "启动时恢复上次编辑器状态",
         "defaultDirectoryToOpen": "当 startUp=folder 时启动时应打开的默认目录",
-        "language": "MarkText 使用的语言",
+        "language": "Marqen 使用的语言",
         "editorFontFamily": "编辑器字体系列",
         "fontSize": "字体大小（像素）",
         "lineHeight": "行高",
@@ -433,7 +443,7 @@
         "codeBlockLineNumbers": "是否显示行号",
         "trimUnnecessaryCodeBlockEmptyLines": "修剪代码块开头和结尾的空行",
         "autoPairBracket": "编辑时自动配对括号",
-        "autoPairMarkdownSyntax": "自动完成 Markdown 语法",
+        "autoPairMarkdownSyntax": "自动延续文档结构",
         "autoPairQuote": "自动完成引号",
         "endOfLine": "每行末尾使用的换行符。默认值为 default，会选择您操作系统的默认换行符",
         "defaultEncoding": "默认文件编码",
@@ -443,19 +453,19 @@
         "hideQuickInsertHint": "隐藏快速创建段落的提示",
         "hideLinkPopup": "当光标悬停在链接上时隐藏链接弹出窗口",
         "autoCheck": "是否自动检查相关任务",
-        "preferLooseListItem": "首选列表类型",
+        "preferLooseListItem": "列表项之间留出更多空白",
         "bulletListMarker": "项目符号列表中使用的标记",
         "orderListDelimiter": "有序列表中使用的分隔符",
-        "preferHeadingStyle": "MarkText 中的首选标题样式",
+        "preferHeadingStyle": "Marqen 中的首选标题样式",
         "tabSize": "用 x 个空格替换制表符",
-        "listIndentation": "选择列表的缩进",
+        "listIndentation": "选择列表缩进",
         "frontmatterType": "前言类型",
-        "superSubScript": "启用 Pandoc 的 Markdown 扩展上标和下标",
-        "footnote": "启用 Pandoc 的 Markdown 扩展脚注",
-        "isHtmlEnabled": "启用 HTML 渲染",
-        "isGitlabCompatibilityEnabled": "启用 GitLab 兼容模式",
-        "sequenceTheme": "序列图主题",
-        "theme": "选择 MarkText 中使用的主题",
+        "superSubScript": "启用上标和下标",
+        "footnote": "启用脚注",
+        "isHtmlEnabled": "启用高级 HTML 渲染",
+        "isGitlabCompatibilityEnabled": "启用平台兼容模式",
+        "sequenceTheme": "图表样式",
+        "theme": "选择 Marqen 使用的主题",
         "followSystemTheme": "跟随系统主题",
         "lightModeTheme": "系统处于浅色模式时使用的主题",
         "darkModeTheme": "系统处于深色模式时使用的主题",
@@ -469,7 +479,6 @@
         "imageRelativeDirectoryName": "相对图片文件夹名称",
         "sideBarVisibility": "侧边栏是否可见",
         "tabBarVisibility": "是否显示标签页",
-        "sourceCodeModeEnabled": "是否默认启用源代码模式",
         "searchExclusions": "要从搜索中排除的 glob 模式列表",
         "searchMaxFileSize": "最大文件大小（<maxFileSize><suffix>）。如果没有后缀，允许使用 K、M 或 G 后缀，数字会被视为字节",
         "searchIncludeHidden": "是否在隐藏文件和目录中搜索",
@@ -481,10 +490,10 @@
     "categories": {
       "general": "通用",
       "editor": "编辑器",
-      "markdown": "Markdown",
+      "markdown": "自动排版",
       "spelling": "拼写",
       "theme": "主题",
-      "image": "图片",
+      "image": "插入图片",
       "keybindings": "快捷键"
     },
     "general": {
@@ -544,6 +553,7 @@
         "title": "杂项",
         "language": {
           "title": "语言",
+          "system": "跟随系统",
           "english": "English",
           "chinese": "简体中文",
           "traditionalChinese": "繁體中文",
@@ -576,7 +586,7 @@
       "writingBehavior": {
         "title": "写作行为",
         "autoCloseBrackets": "自动关闭括号",
-        "autoCompleteMarkdown": "自动完成 Markdown",
+        "autoCompleteMarkdown": "自动延续标题和列表",
         "autoCloseQuotes": "自动关闭引号"
       },
       "fileRepresentation": {
@@ -623,7 +633,7 @@
         "title": "文件夹设置",
         "globalFolder": "全局图片文件夹",
         "open": "打开",
-        "showInFolder": "在文件夹中显示",
+        "showInFolder": "在访达中显示",
         "preferRelative": "首选相对目录",
         "relativeCopyLocation": "图片相对复制到",
         "copyRelativeToFile": "相对于文件",
@@ -712,10 +722,10 @@
         "pleaseInstall": "请安装",
         "scriptPath": "脚本路径"
       },
-      "defaultBehavior": "粘贴或拖拽图片到 MarkText 后的默认行为"
+      "defaultBehavior": "粘贴或拖拽图片到 Marqen 后的默认行为"
     },
     "markdown": {
-      "title": "Markdown",
+      "title": "自动排版",
       "listItem": {
         "title": "列表项",
         "preferLooseListItem": "首选宽松列表项",
@@ -736,31 +746,31 @@
         "preferHeadingStyle": "首选标题样式"
       },
       "frontmatter": {
-        "title": "前置元数据",
-        "frontmatterType": "前置元数据类型"
+        "title": "文档元信息",
+        "frontmatterType": "元信息格式"
       },
       "extensions": {
-        "title": "扩展",
-        "superSubScript": "上标/下标",
+        "title": "文档功能",
+        "superSubScript": "上标和下标",
         "footnote": "脚注",
         "isHtmlEnabled": "启用 HTML",
         "isGitlabCompatibilityEnabled": "GitLab 兼容性",
         "sequenceTheme": "序列主题",
         "superscript": "上标",
         "subscript": "下标",
-        "frontMatter": "前置元数据",
+        "frontMatter": "文档元信息",
         "math": "数学",
         "diagram": "图表",
-        "footnoteNotes": "脚注注释",
+        "footnoteNotes": "写作时显示脚注工具",
         "frontmatterType": {
-          "frontmatterType": "前置元数据类型",
+          "frontmatterType": "元信息格式",
           "jsonBrace": "带大括号的 JSON",
           "jsonSemicolon": "带分号的 JSON",
-          "title": "前置元数据类型"
+          "title": "元信息格式"
         }
       },
       "diagrams": {
-        "title": "图表",
+        "title": "可视化内容",
         "plantuml": "PlantUML",
         "mermaid": "Mermaid",
         "vega": "Vega",
@@ -768,7 +778,7 @@
         "sequence": "序列图",
         "gantt": "甘特图",
         "sequenceTheme": {
-          "title": "序列图主题",
+          "title": "图表样式",
           "handDrawn": "手绘",
           "simple": "简单"
         }
@@ -803,7 +813,7 @@
           "title": "列表缩进"
         },
         "orderListDelimiter": "有序列表分隔符",
-        "preferLooseListItem": "首选宽松列表项",
+        "preferLooseListItem": "列表项之间留出更多空白",
         "title": "列表"
       }
     },
@@ -820,6 +830,7 @@
     "theme": {
       "title": "主题",
       "theme": "主题",
+      "preview": "预览",
       "followSystemTheme": "跟随系统主题",
       "modeThemes": "主题选择",
       "lightModeTheme": "浅色模式主题",
@@ -894,36 +905,36 @@
     "selectAll": "全选"
   },
   "about": {
-    "copyright": "版权",
-    "copyrightContributors": "版权贡献者"
+    "copyright": "版权所有 © Marqen {year}",
+    "copyrightContributors": "本产品参考 MarkText 构建"
   },
   "commands": {
     "mt": {
-      "hide": "隐藏 MarkText",
+      "hide": "隐藏 Marqen",
       "hideOthers": "隐藏其他"
     },
     "file": {
       "newWindow": "新建窗口",
-      "newTab": "新建标签页",
-      "openFile": "打开文件",
-      "openFolder": "打开文件夹",
+      "newTab": "新建文档",
+      "openFile": "打开文档",
+      "openFolder": "打开文档文件夹",
       "save": "保存",
       "saveAs": "另存为",
-      "moveFile": "移动文件",
-      "renameFile": "重命名文件",
-      "quickOpen": "快速打开",
+      "moveFile": "移动文档",
+      "renameFile": "重命名文档",
+      "quickOpen": "快速打开文档",
       "changeEncoding": "更改编码",
       "lineEnding": "行结束符",
       "trailingNewline": "尾随换行",
       "print": "打印",
-      "preferences": "偏好设置",
+      "preferences": "设置",
       "close": "关闭",
       "closeTab": "关闭标签页",
       "closeWindow": "关闭窗口",
       "quit": "退出",
       "toggleAutoSave": "切换自动保存",
-      "importFile": "导入文件",
-      "exportFile": "导出文件",
+      "importFile": "导入文档",
+      "exportFile": "分享/导出",
       "exportFilePdf": "导出为 PDF",
       "zoom": "缩放",
       "checkUpdate": "检查更新",
@@ -936,7 +947,7 @@
       "copy": "复制",
       "paste": "粘贴",
       "copyAsRich": "复制为富文本",
-      "copyAsHtml": "复制为 HTML",
+      "copyAsHtml": "复制为网页 HTML",
       "pasteAsPlaintext": "粘贴为纯文本",
       "selectAll": "全选",
       "duplicate": "创建副本",
@@ -946,7 +957,7 @@
       "findNext": "查找下一个",
       "findPrevious": "查找上一个",
       "replace": "替换",
-      "findInFolder": "在文件夹中查找",
+      "findInFolder": "在文档中查找",
       "mathBlock": "数学块",
       "screenshot": "截图"
     },
@@ -960,11 +971,11 @@
       "upgradeHeading": "提升标题级别",
       "degradeHeading": "降低标题级别",
       "table": "表格",
-      "codeFence": "代码围栏",
+      "codeFence": "代码块",
       "quoteBlock": "引用块",
       "mathBlock": "数学块",
       "mathFormula": "数学公式",
-      "htmlBlock": "HTML 块",
+      "htmlBlock": "高级 HTML",
       "orderList": "有序列表",
       "bulletList": "无序列表",
       "taskList": "任务列表",
@@ -972,7 +983,7 @@
       "paragraph": "段落",
       "horizontalRule": "水平分割线",
       "horizontalLine": "水平分割线",
-      "frontMatter": "前置元数据",
+      "frontMatter": "文档元信息",
       "resetParagraph": "重置段落"
     },
     "format": {
@@ -1000,10 +1011,10 @@
     },
     "view": {
       "commandPalette": "命令面板",
-      "sourceCodeMode": "源码模式",
+      "sourceCodeMode": "高级纯文本编辑器",
       "typewriterMode": "打字机模式",
       "focusMode": "专注模式",
-      "toggleSourceCodeMode": "切换源码模式",
+      "toggleSourceCodeMode": "切换高级纯文本编辑器",
       "toggleTypewriterMode": "切换打字机模式",
       "toggleFocusMode": "切换专注模式",
       "toggleSidebar": "切换侧边栏",
@@ -1036,7 +1047,7 @@
     },
     "docs": {
       "userGuide": "用户指南",
-      "markdownSyntax": "Markdown 语法"
+      "markdownSyntax": "写作指南"
     },
     "utils": {
       "noUpdateResourceFile": "没有更新资源文件",
@@ -1057,9 +1068,9 @@
     "dontSave": "放弃保存",
     "file": "文件",
     "fileExists": "文件已存在",
-    "files": "文件",
+    "files": "文档",
     "importWarning": "导入警告",
-    "installPandoc": "安装 Pandoc",
+    "installPandoc": "文档导入不可用，缺少必要的转换组件。",
     "keepOpen": "保持打开",
     "replace": "替换",
     "save": "保存",
@@ -1070,7 +1081,7 @@
     "configSchemaViolation": "配置架构违规",
     "copyError": "复制错误",
     "initializationFailed": "初始化失败",
-    "otherInstanceDetected": "检测到 MarkText 的另一个实例正在运行",
+    "otherInstanceDetected": "检测到 Marqen 的另一个实例正在运行",
     "report": "报告",
     "startupError": "启动错误",
     "terminatedDueToError": "由于错误而终止",
@@ -1091,7 +1102,7 @@
       "highlightEnd": "[高亮结束]",
       "typeAtToInsert": "输入 / 来插入",
       "inputFootnoteDefinition": "输入脚注定义…",
-      "inputYamlFrontMatter": "输入 YAML 前置元数据",
+      "inputYamlFrontMatter": "添加文档元信息",
       "inputLanguageIdentifier": "输入语言标识符…",
       "inputMathematicalFormula": "输入数学公式…",
       "fence": "围栏",
@@ -1115,7 +1126,8 @@
       "exportSuccessTitle": "导出成功",
       "exportSuccessMessage": "已成功导出“{name}”！",
       "fileRemovedOnDisk": "“{name}” 已在磁盘上被删除。",
-      "fileChangedOnDisk": "“{name}” 已在磁盘上发生变更。是否重新加载？"
+      "fileChangedOnDisk": "“{name}” 已在磁盘上发生变更。是否重新加载？",
+      "untitled": "未命名"
     }
   },
   "spellchecker": {
@@ -1123,34 +1135,34 @@
     "unexpectedError": "意外的拼写检查器错误"
   },
   "quickInsert": {
-    "basicBlock": "基础块",
+    "basicBlock": "常用",
     "header": "标题",
-    "advancedBlock": "高级块",
-    "listBlock": "列表块",
+    "advancedBlock": "内容",
+    "listBlock": "列表",
     "diagram": "图表",
     "paragraph": {
-      "title": "段落",
-      "subtitle": "输入文本内容"
+      "title": "正文",
+      "subtitle": "普通正文"
     },
     "horizontalLine": {
-      "title": "水平分割线",
-      "subtitle": "---"
+      "title": "分割线",
+      "subtitle": "分隔内容"
     },
     "frontMatter": {
-      "title": "前置元数据",
-      "subtitle": "--- YAML ---"
+      "title": "文档元信息",
+      "subtitle": "元信息"
     },
     "header1": {
-      "title": "标题 1",
-      "subtitle": "# 标题"
+      "title": "大标题",
+      "subtitle": "文档主标题"
     },
     "header2": {
-      "title": "标题 2",
-      "subtitle": "## 标题"
+      "title": "小标题",
+      "subtitle": "章节标题"
     },
     "header3": {
-      "title": "标题 3",
-      "subtitle": "### 标题"
+      "title": "三级标题",
+      "subtitle": "小节标题"
     },
     "header4": {
       "title": "标题 4",
@@ -1165,36 +1177,36 @@
       "subtitle": "###### 标题"
     },
     "tableBlock": {
-      "title": "表格块",
-      "subtitle": "｜ 标题 ｜ 标题 ｜"
+      "title": "表格",
+      "subtitle": "按行列整理内容"
     },
     "mathFormula": {
       "title": "数学公式",
-      "subtitle": "$$ 公式 $$"
+      "subtitle": "显示一条公式"
     },
     "htmlBlock": {
-      "title": "HTML 块",
-      "subtitle": "<div> HTML </div>"
+      "title": "网页嵌入",
+      "subtitle": "嵌入 HTML"
     },
     "codeBlock": {
-      "title": "代码块",
-      "subtitle": "``` 代码 ```"
+      "title": "代码",
+      "subtitle": "插入代码内容"
     },
     "quoteBlock": {
-      "title": "引用块",
-      "subtitle": "> 引用内容"
+      "title": "引用",
+      "subtitle": "引用一段文字"
     },
     "orderedList": {
-      "title": "有序列表",
-      "subtitle": "1. 列表项"
+      "title": "编号列表",
+      "subtitle": "适合步骤和顺序"
     },
     "bulletList": {
-      "title": "无序列表",
-      "subtitle": "- 列表项"
+      "title": "项目列表",
+      "subtitle": "适合并列要点"
     },
     "todoList": {
-      "title": "任务列表",
-      "subtitle": "- [ ] 任务项"
+      "title": "待办清单",
+      "subtitle": "记录待完成事项"
     },
     "vegaChart": {
       "title": "Vega-Lite图表",
@@ -1267,10 +1279,10 @@
     "delete": "删除",
     "paragraph": "段落",
     "table": "表格",
-    "html": "HTML",
+    "html": "网页嵌入",
     "mathblock": "数学公式块",
     "pre": "代码块",
-    "frontMatter": "前置信息",
+    "frontMatter": "文档元信息",
     "ulTask": "任务列表",
     "ulBullet": "无序列表",
     "olOrder": "有序列表",
@@ -1316,7 +1328,7 @@
       }
     },
     "placeholders": {
-      "frontMatter": "输入 YAML 前置信息",
+      "frontMatter": "添加文档元信息",
       "languageIdentifier": "输入语言标识符…",
       "mathFormula": "输入数学公式…"
     },
@@ -1373,14 +1385,14 @@
     "emptyMermaidBlock": "< 空 Mermaid 块 >",
     "loading": "加载中…",
     "emptyDiagramBlock": "< 空图表块 >",
-    "emptyHtmlBlock": "< 空 HTML 块 >",
+    "emptyHtmlBlock": "< 空网页嵌入 >",
     "onlyTopBlockCanRenderIcon": "只有顶级块可以渲染前置图标按钮。",
     "unhandledFunctionType": "未处理的功能类型: {functionType}",
     "highlight-start": "[高亮开始]",
     "highlight-end": "[高亮结束]",
     "type-at-to-insert": "输入 / 来插入",
     "input-footnote-definition": "输入脚注定义",
-    "input-yaml-front-matter": "输入 YAML 前置内容",
+    "input-yaml-front-matter": "添加文档元信息",
     "input-language-identifier": "输入语言标识符",
     "input-mathematical-formula": "输入数学公式",
     "fence": "围栏",

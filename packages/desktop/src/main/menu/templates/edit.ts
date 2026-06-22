@@ -58,13 +58,6 @@ export default function(keybindings: Keybindings): MenuItemConstructorOptions {
         }
       },
       {
-        label: t('menu.edit.copyAsHtml'),
-        accelerator: keybindings.getAccelerator(COMMANDS.EDIT_COPY_AS_HTML) ?? undefined,
-        click(_menuItem, browserWindow) {
-          actions.editorCopyAsHtml(browserWindow as BrowserWindow | undefined)
-        }
-      },
-      {
         label: t('menu.edit.pasteAsPlainText'),
         accelerator: keybindings.getAccelerator(COMMANDS.EDIT_PASTE_AS_PLAINTEXT) ?? undefined,
         click(_menuItem, browserWindow) {
@@ -79,30 +72,6 @@ export default function(keybindings: Keybindings): MenuItemConstructorOptions {
         accelerator: keybindings.getAccelerator(COMMANDS.EDIT_SELECT_ALL) ?? undefined,
         click(_menuItem, browserWindow) {
           actions.editorSelectAll(browserWindow as BrowserWindow | undefined)
-        }
-      },
-      {
-        type: 'separator'
-      },
-      {
-        label: t('menu.edit.duplicate'),
-        accelerator: keybindings.getAccelerator(COMMANDS.EDIT_DUPLICATE) ?? undefined,
-        click(_menuItem, browserWindow) {
-          actions.editorDuplicate(browserWindow as BrowserWindow | undefined)
-        }
-      },
-      {
-        label: t('menu.edit.createParagraph'),
-        accelerator: keybindings.getAccelerator(COMMANDS.EDIT_CREATE_PARAGRAPH) ?? undefined,
-        click(_menuItem, browserWindow) {
-          actions.editorCreateParagraph(browserWindow as BrowserWindow | undefined)
-        }
-      },
-      {
-        label: t('menu.edit.deleteParagraph'),
-        accelerator: keybindings.getAccelerator(COMMANDS.EDIT_DELETE_PARAGRAPH) ?? undefined,
-        click(_menuItem, browserWindow) {
-          actions.editorDeleteParagraph(browserWindow as BrowserWindow | undefined)
         }
       },
       {
@@ -140,16 +109,6 @@ export default function(keybindings: Keybindings): MenuItemConstructorOptions {
         type: 'separator'
       },
       {
-        label: t('menu.edit.findInFolder'),
-        accelerator: keybindings.getAccelerator(COMMANDS.EDIT_FIND_IN_FOLDER) ?? undefined,
-        click(_menuItem, browserWindow) {
-          actions.findInFolder(browserWindow as BrowserWindow | undefined)
-        }
-      },
-      {
-        type: 'separator'
-      },
-      {
         label: t('menu.edit.screenshot'),
         id: 'screenshot',
         visible: isOsx,
@@ -157,31 +116,6 @@ export default function(keybindings: Keybindings): MenuItemConstructorOptions {
         click(_menuItem, browserWindow) {
           actions.screenshot(browserWindow as BrowserWindow | undefined)
         }
-      },
-      {
-        type: 'separator'
-      },
-      {
-        // TODO: Remove this menu entry and add it to the command palette (#1408).
-        label: t('menu.edit.lineEnding'),
-        submenu: [
-          {
-            id: 'crlfLineEndingMenuEntry',
-            label: t('menu.edit.lineEndingCrlf'),
-            type: 'radio',
-            click(_menuItem, browserWindow) {
-              actions.lineEnding(browserWindow as BrowserWindow | undefined, 'crlf')
-            }
-          },
-          {
-            id: 'lfLineEndingMenuEntry',
-            label: t('menu.edit.lineEndingLf'),
-            type: 'radio',
-            click(_menuItem, browserWindow) {
-              actions.lineEnding(browserWindow as BrowserWindow | undefined, 'lf')
-            }
-          }
-        ]
       }
     ]
   }

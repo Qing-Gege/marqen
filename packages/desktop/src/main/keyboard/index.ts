@@ -2,15 +2,16 @@ import { shell, ipcMain } from 'electron'
 import log from 'electron-log'
 import EventEmitter from 'events'
 import fsPromises from 'fs/promises'
-import {
-  getCurrentKeyboardLayout,
-  getKeyMap,
-  onDidChangeKeyboardLayout,
-  type IKeyboardLayoutInfo,
-  type IKeyboardMapping
-} from 'native-keymap'
 import os from 'os'
 import path from 'path'
+
+export interface IKeyboardLayoutInfo {
+  id: string
+  lang: string
+  localizedName: string
+}
+
+export type IKeyboardMapping = Record<string, unknown>
 
 export interface KeyboardInfo {
   layout: IKeyboardLayoutInfo
@@ -22,8 +23,12 @@ type KeyboardInfoListener = (info: KeyboardInfo) => void
 let currentKeyboardInfo: KeyboardInfo | null = null
 const loadKeyboardInfo = (): KeyboardInfo => {
   currentKeyboardInfo = {
-    layout: getCurrentKeyboardLayout(),
-    keymap: getKeyMap()
+    layout: {
+      id: 'default',
+      lang: 'en-US',
+      localizedName: 'Default'
+    },
+    keymap: {}
   }
   return currentKeyboardInfo
 }
@@ -69,16 +74,6 @@ class KeyboardLayoutMonitor extends EventEmitter {
   _ensureNativeListener(): void {
     if (!this._isSubscribed) {
       this._isSubscribed = true
-      onDidChangeKeyboardLayout(() => {
-        // The keyboard layout change event may be emitted multiple times.
-        if (this._emitTimer) {
-          clearTimeout(this._emitTimer)
-        }
-        this._emitTimer = setTimeout(() => {
-          this.emit(KEYBOARD_LAYOUT_MONITOR_CHANNEL_ID, loadKeyboardInfo())
-          this._emitTimer = null
-        }, 150)
-      })
     }
   }
 }
@@ -91,7 +86,7 @@ export const registerKeyboardListeners = (): void => {
     return getKeyboardInfo()
   })
   ipcMain.on('mt::keybinding-debug-dump-keyboard-info', async() => {
-    const dumpPath = path.join(os.tmpdir(), 'marktext_keyboard_info.json')
+    const dumpPath = path.join(os.tmpdir(), 'marqen_keyboard_info.json')
     const content = JSON.stringify(getKeyboardInfo(), null, 2)
     fsPromises
       .writeFile(dumpPath, content, 'utf8')

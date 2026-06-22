@@ -11,13 +11,13 @@ const writeLine = (s: string): boolean => write(s + '\n')
 const cli = (): ParsedArgs => {
   let argv = process.argv.slice(1)
   if (process.env.NODE_ENV === 'development') {
-    // Don't pass electron development arguments to MarkText and change user data path.
-    argv = ['--user-data-dir', path.join(getPath('appData'), 'marktext-dev')]
+    // Don't pass electron development arguments to Marqen and change user data path.
+    argv = ['--user-data-dir', path.join(getPath('appData'), 'marqen-dev')]
   }
 
   const args = parseArgs(argv, true)
   if (args['--help']) {
-    write(`Usage: marktext [commands] [path ...]
+    write(`Usage: marqen [commands] [path ...]
 
   Available commands:
 
@@ -26,7 +26,6 @@ const cli = (): ParsedArgs => {
     -n, --new-window              Open a new window on second-instance
         --user-data-dir           Change the user data directory
         --disable-gpu             Disable GPU hardware acceleration
-        --disable-spellcheck      Disable built-in spellchecker
     -v, --verbose                 Be verbose
         --version                 Print version information
     -h, --help                    Print this help message
@@ -35,7 +34,7 @@ const cli = (): ParsedArgs => {
   }
 
   if (args['--version']) {
-    writeLine(`MarkText: ${MARKTEXT_VERSION_STRING}`)
+    writeLine(`Marqen: ${MARKTEXT_VERSION_STRING}`)
     writeLine(`Node.js: ${process.versions.node}`)
     writeLine(`Electron: ${process.versions.electron}`)
     writeLine(`Chromium: ${process.versions.chrome}`)
@@ -46,7 +45,7 @@ const cli = (): ParsedArgs => {
   // Check for portable mode and ensure the user data path is absolute. We assume
   // that the path is writable if not this lead to an application crash.
   if (!args['--user-data-dir']) {
-    const portablePath = path.join(app.getAppPath(), '..', '..', 'marktext-user-data')
+    const portablePath = path.join(app.getAppPath(), '..', '..', 'marqen-user-data')
     if (isDirectory(portablePath)) {
       args['--user-data-dir'] = portablePath
     }

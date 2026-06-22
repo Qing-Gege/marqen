@@ -1,6 +1,5 @@
 import { app, type BrowserWindow, type MenuItemConstructorOptions } from 'electron'
 import * as actions from '../actions/file'
-import { userSetting } from '../actions/marktext'
 import { isOsx } from '../../config'
 import { t } from '../../i18n'
 import type Keybindings from '../../keyboard/shortcutHandler'
@@ -35,13 +34,6 @@ export default function(
       accelerator: keybindings.getAccelerator('file.open-file') ?? undefined,
       click(_menuItem, browserWindow) {
         actions.openFile((browserWindow as BrowserWindow | undefined) ?? null)
-      }
-    },
-    {
-      label: t('menu.file.openFolder'),
-      accelerator: keybindings.getAccelerator('file.open-folder') ?? undefined,
-      click(_menuItem, browserWindow) {
-        actions.openFolder((browserWindow as BrowserWindow | undefined) ?? null)
       }
     }
   ]
@@ -155,12 +147,6 @@ export default function(
       label: t('menu.file.export'),
       submenu: [
         {
-          label: t('menu.file.exportHtml'),
-          click(_menuItem, browserWindow) {
-            actions.exportFile(browserWindow as BrowserWindow | undefined, 'styledHtml')
-          }
-        },
-        {
           label: t('menu.file.exportPdf'),
           accelerator: keybindings.getAccelerator('file.export-file.pdf') ?? undefined,
           click(_menuItem, browserWindow) {
@@ -174,18 +160,6 @@ export default function(
       accelerator: keybindings.getAccelerator('file.print') ?? undefined,
       click(_menuItem, browserWindow) {
         actions.printDocument(browserWindow as BrowserWindow | undefined)
-      }
-    },
-    {
-      type: 'separator',
-      visible: !isOsx
-    },
-    {
-      label: t('menu.file.preferences'),
-      accelerator: keybindings.getAccelerator('file.preferences') ?? undefined,
-      visible: !isOsx,
-      click() {
-        userSetting()
       }
     },
     {

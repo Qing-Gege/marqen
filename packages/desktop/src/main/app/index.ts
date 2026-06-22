@@ -6,20 +6,19 @@ import log from 'electron-log'
 import { app, BrowserWindow, clipboard, dialog, nativeTheme, shell, ipcMain } from 'electron'
 import type { BrowserWindowConstructorOptions } from 'electron'
 import { isChildOfDirectory } from 'common/filesystem/paths'
+import { normalizeLanguage } from 'common/i18n'
 import { isLinux, isOsx, isWindows } from '../config'
 import parseArgs from '../cli/parser'
 import { normalizeAndResolvePath } from '../filesystem'
 import { normalizeMarkdownPath } from '../filesystem/markdown'
 import { registerKeyboardListeners } from '../keyboard'
-import { selectTheme } from '../menu/actions/theme'
 import { dockMenu } from '../menu/templates'
-import registerSpellcheckerListeners from '../spellchecker'
 import { watchers } from '../utils/imagePathAutoComplement'
 import { WindowType } from '../windows/base'
 import EditorWindow from '../windows/editor'
 import SettingWindow from '../windows/setting'
 import { setLanguage } from '../i18n'
-import { getNativeThemeSource, isDarkApplicationTheme } from './nativeTheme'
+import { getNativeThemeSource } from './nativeTheme'
 import type Accessor from './accessor'
 
 interface CliArgs {
@@ -39,7 +38,6 @@ class App {
   private _openFilesTimer: ReturnType<typeof setTimeout> | null
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private _windowManager: any
-  private _themeListenerRegistered: boolean
 
   /**
    * @param accessor The application accessor for application instances.
@@ -57,8 +55,6 @@ class App {
     // Initialize main process language
     this._initializeLanguage()
     this._listenForIpcMain()
-    // Initialize theme listener
-    this._themeListenerRegistered = false
   }
 
   /**
@@ -146,71 +142,21 @@ class App {
    */
   private async _initializeLanguage(): Promise<void> {
     try {
-      let currentLanguage = this._accessor.preferences.getItem('language')
-
-      // If no language is set, auto-detect based on the system language
-      if (!currentLanguage) {
-        const systemLanguage = app.getLocale()
-        log.info(`System language detected: ${systemLanguage}`)
-
-        // Supported language list (based on languages actually supported by the project)
-        const supportedLanguages = [
-          'en',
-          'zh-CN',
-          'zh-TW',
-          'ja',
-          'ko',
-          'fr',
-          'de',
-          'es',
-          'pt',
-          'ru'
-        ]
-
-        // Language mapping: system language code -> application language code
-        const languageMap: Record<string, string> = {
-          'zh-CN': 'zh-CN',
-          'zh-TW': 'zh-TW',
-          'zh-HK': 'zh-TW',
-          zh: 'zh-CN',
-          en: 'en',
-          'en-US': 'en',
-          'en-GB': 'en',
-          ja: 'ja',
-          'ja-JP': 'ja',
-          ko: 'ko',
-          'ko-KR': 'ko',
-          fr: 'fr',
-          'fr-FR': 'fr',
-          de: 'de',
-          'de-DE': 'de',
-          es: 'es',
-          'es-ES': 'es',
-          pt: 'pt',
-          'pt-BR': 'pt',
-          ru: 'ru',
-          'ru-RU': 'ru'
-        }
-
-        currentLanguage = languageMap[systemLanguage] || 'en'
-
-        // If the detected language is not in the supported list, use English
-        if (!supportedLanguages.includes(currentLanguage)) {
-          currentLanguage = 'en'
-        }
-
-        // Save the detected language setting
-        this._accessor.preferences.setItem('language', currentLanguage)
-        log.info(`Auto-detected and set language to: ${currentLanguage}`)
-      }
+      const currentLanguage = this._resolveLanguage(this._accessor.preferences.getItem('language'))
 
       setLanguage(currentLanguage)
       log.info(`Main process language initialized to: ${currentLanguage}`)
     } catch (error) {
       log.error('Failed to initialize main process language:', error)
-      // If an error occurs, use English as the default language
       setLanguage('en')
     }
+  }
+
+  private _resolveLanguage(language: string | null | undefined): string {
+    if (!language || language === 'system') {
+      return normalizeLanguage(app.getLocale()) ?? 'en'
+    }
+    return normalizeLanguage(language) ?? 'en'
   }
 
   async getScreenshotFileName(): Promise<string> {
@@ -227,17 +173,13 @@ class App {
     const {
       startUpAction,
       defaultDirectoryToOpen,
-      followSystemTheme,
       lastOpenedFolder,
-      lightModeTheme,
-      darkModeTheme,
+      followSystemTheme,
       theme,
       language
     } = preferences.getAll()
 
-    if (language) {
-      setLanguage(language)
-    }
+    setLanguage(this._resolveLanguage(language))
 
     if (args._.length) {
       for (const pathname of args._) {
@@ -272,88 +214,18 @@ class App {
       }
     }
 
-    nativeTheme.themeSource = getNativeThemeSource({ followSystemTheme, theme })
-
-    // Apply theme at startup if "Follow system theme" is enabled
-    const isDarkTheme = isDarkApplicationTheme(theme)
-    const systemIsDark = nativeTheme.shouldUseDarkColors
-
-    if (followSystemTheme && isDarkTheme !== systemIsDark) {
-      const newTheme = systemIsDark ? darkModeTheme : lightModeTheme
-      log.info(
-        `Following system theme at startup: ${newTheme} (system ${systemIsDark ? 'dark' : 'light'})`
-      )
-      selectTheme(newTheme)
-    }
+    nativeTheme.themeSource = getNativeThemeSource({
+      followSystemTheme,
+      theme
+    })
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ipcMain.on('broadcast-preferences-changed', (change: any) => {
-      const nextPreferences = {
-        ...preferences.getAll(),
-        ...change
-      }
-      nativeTheme.themeSource = getNativeThemeSource(nextPreferences)
-
-      // When followSystemTheme is enabled, immediately switch to match system
-      if (change.followSystemTheme === true) {
-        const systemIsDark = nativeTheme.shouldUseDarkColors
-        const { lightModeTheme, darkModeTheme } = preferences.getAll()
-        const newTheme = systemIsDark ? darkModeTheme : lightModeTheme
-
-        log.info(
-          `followSystemTheme enabled, switching to: ${newTheme} (system ${systemIsDark ? 'dark' : 'light'})`
-        )
-        selectTheme(newTheme)
-        preferences.setItem('theme', newTheme)
-      }
-      // When light/dark mode theme preferences change, apply immediately if following system
-      if (
-        preferences.getItem('followSystemTheme') &&
-        (change.lightModeTheme || change.darkModeTheme)
-      ) {
-        const systemIsDark = nativeTheme.shouldUseDarkColors
-
-        // Get current values, but prefer the NEW values from the change event
-        let { lightModeTheme, darkModeTheme } = preferences.getAll()
-
-        // If these preferences were just changed, use the new values from the change object
-        if (change.lightModeTheme !== undefined) {
-          lightModeTheme = change.lightModeTheme
-        }
-        if (change.darkModeTheme !== undefined) {
-          darkModeTheme = change.darkModeTheme
-        }
-
-        const newTheme = systemIsDark ? darkModeTheme : lightModeTheme
-
-        log.info(`Theme preference changed, applying: ${newTheme}`)
-        selectTheme(newTheme)
-        preferences.setItem('theme', newTheme)
-      }
-    })
-
-    // Listen for system theme changes and auto-switch if enabled
-    if (!this._themeListenerRegistered) {
-      nativeTheme.on('updated', () => {
-        const { followSystemTheme, lightModeTheme, darkModeTheme } = preferences.getAll()
-
-        if (followSystemTheme) {
-          const systemIsDark = nativeTheme.shouldUseDarkColors
-          const newTheme = systemIsDark ? darkModeTheme : lightModeTheme
-          const currentTheme = preferences.getItem('theme')
-
-          // Only switch if the theme actually needs to change
-          if (newTheme !== currentTheme) {
-            log.info(
-              `System theme changed, switching to: ${newTheme} (system ${systemIsDark ? 'dark' : 'light'})`
-            )
-            selectTheme(newTheme)
-            preferences.setItem('theme', newTheme)
-          }
-        }
+      nativeTheme.themeSource = getNativeThemeSource({
+        followSystemTheme: change.followSystemTheme ?? preferences.getItem('followSystemTheme'),
+        theme: change.theme ?? preferences.getItem('theme')
       })
-      this._themeListenerRegistered = true
-    }
+    })
 
     if (isOsx) {
       app.dock?.setMenu(dockMenu)
@@ -655,12 +527,11 @@ class App {
 
   private _listenForIpcMain(): void {
     registerKeyboardListeners()
-    registerSpellcheckerListeners()
 
     // Handle language setting requests
     ipcMain.on('mt::get-current-language', (event) => {
       const { language } = this._accessor.preferences.getAll()
-      event.reply('mt::current-language', language || 'en')
+      event.reply('mt::current-language', this._resolveLanguage(language))
     })
 
     ipcMain.on('app-create-editor-window', () => {

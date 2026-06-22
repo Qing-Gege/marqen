@@ -3,8 +3,10 @@ import { _electron, type ElectronApplication, type Page } from 'playwright'
 import * as fs from 'node:fs'
 import * as os from 'node:os'
 import * as path from 'node:path'
+import { createRequire } from 'node:module'
 
 const projectRoot = path.resolve(__dirname, '../..')
+const requireFromProject = createRequire(path.join(projectRoot, 'package.json'))
 
 const getDateAsFilename = (): string => {
   const date = new Date()
@@ -22,12 +24,11 @@ const getTempPath = (suffix = ''): string => {
 }
 
 export const getElectronPath = (): string => {
-  if (process.platform === 'win32') {
-    return path.resolve(path.join('node_modules', '.bin', 'electron.cmd'))
-  }
-  const pathTxt = path.join(projectRoot, 'node_modules/electron/path.txt')
+  const electronEntry = requireFromProject.resolve('electron')
+  const electronPackageDir = path.dirname(electronEntry)
+  const pathTxt = path.join(electronPackageDir, 'path.txt')
   const relPath = fs.readFileSync(pathTxt, 'utf-8').trim()
-  return path.join(projectRoot, 'node_modules/electron/dist', relPath)
+  return path.join(electronPackageDir, 'dist', relPath)
 }
 
 // Track every temp directory we create so we can sweep them on process exit
@@ -211,7 +212,7 @@ export const waitForEditor = async(page: Page, timeout = 15000): Promise<void> =
 export const enterSourceMode = async(page: Page, app: ElectronApplication): Promise<void> => {
   const already = await page.evaluate(() => !!document.querySelector('.source-code .CodeMirror'))
   if (already) return
-  await clickMenuById(app, 'sourceCodeModeMenuItem')
+  await sendIpcToRenderer(app, 'mt::toggle-view-mode-entry', 'sourceCode')
   await page.waitForSelector('.source-code .CodeMirror', { state: 'attached', timeout: 10000 })
   await page.waitForFunction(
     () => {
@@ -228,7 +229,7 @@ export const enterSourceMode = async(page: Page, app: ElectronApplication): Prom
 export const exitSourceMode = async(page: Page, app: ElectronApplication): Promise<void> => {
   const inSource = await page.evaluate(() => !!document.querySelector('.source-code .CodeMirror'))
   if (!inSource) return
-  await clickMenuById(app, 'sourceCodeModeMenuItem')
+  await sendIpcToRenderer(app, 'mt::toggle-view-mode-entry', 'sourceCode')
   await page.waitForFunction(() => !document.querySelector('.source-code'), null, {
     timeout: 10000
   })
@@ -253,23 +254,22 @@ export const getMarkdownContent = async(
 }
 
 export const typeIntoEditor = async(page: Page, text: string): Promise<void> => {
-  await page.click('.editor-component', { timeout: 5000 })
+  const editable = page.locator('.editor-component .ProseMirror, .editor-component [contenteditable="true"]').first()
+  await editable.click({ timeout: 5000 })
   await page.keyboard.type(text, { delay: 0 })
 }
 
-// The @muyajs/core engine wraps editable paragraph text in
-// `span.mu-paragraph-content` (inside `p.mu-paragraph`). Selecting the inner
-// content span is what the engine's selection logic expects, so we target it.
-// Place a selection inside the first non-empty paragraph content span and let
-// the engine commit it to its model. The @muyajs/core engine derives its
-// `activeContentBlock` from `click`/`input`/`keydown`/`keyup` events on the
-// editor root (see editor/index.ts), so a bare `selectionchange` is not enough
-// — we dispatch a synthetic `keyup` on the editor so the active block updates.
+// Place a DOM selection inside the editor. Prefer Milkdown/ProseMirror content,
+// while keeping the legacy Muya selector as a fallback for old fixtures.
 const commitSelection = (collapse: boolean) => {
-  const root = document.querySelector('.editor-component') as HTMLElement | null
+  const root = document.querySelector(
+    '.editor-component .ProseMirror, .editor-component [contenteditable="true"], .editor-component'
+  ) as HTMLElement | null
   if (!root) return false
   root.focus()
-  const spans = root.querySelectorAll('span.mu-paragraph-content')
+  const spans = root.querySelectorAll(
+    'p, h1, h2, h3, h4, h5, h6, li, blockquote, span.mu-paragraph-content'
+  )
   let target: Element | null = null
   for (const span of spans) {
     if (span.textContent && span.textContent.trim().length > 0) {

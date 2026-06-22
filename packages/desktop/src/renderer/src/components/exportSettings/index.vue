@@ -148,11 +148,6 @@
             :bool="autoNumberingHeadings"
             :on-change="(value: unknown) => onSelectChange('autoNumberingHeadings', value)"
           />
-          <bool
-            :description="t('exportSettings.showFrontMatter')"
-            :bool="showFrontMatter"
-            :on-change="(value: unknown) => onSelectChange('showFrontMatter', value)"
-          />
         </el-tab-pane>
         <el-tab-pane
           :label="t('exportSettings.theme.label')"
@@ -163,7 +158,6 @@
           </div>
           <cur-select
             :description="t('exportSettings.theme.theme')"
-            more="https://github.com/marktext/marktext/blob/develop/docs/EXPORT_THEMES.md"
             :value="theme"
             :options="themeList"
             :on-change="(value: unknown) => onSelectChange('theme', value)"
@@ -319,7 +313,6 @@ const fontFamily = ref('Default')
 const fontSize = ref(14)
 const lineHeight = ref(1.5)
 const autoNumberingHeadings = ref(false)
-const showFrontMatter = ref(false)
 const theme = ref('default')
 const themeList = ref(getExportThemeList())
 const pageSizeList = ref(getPageSizeList())
@@ -383,7 +376,7 @@ const handleClicked = () => {
     pageMarginBottom: pageMarginBottom.value,
     pageMarginLeft: pageMarginLeft.value,
     autoNumberingHeadings: autoNumberingHeadings.value,
-    showFrontMatter: showFrontMatter.value,
+    showFrontMatter: false,
     theme: theme.value === 'default' ? null : theme.value,
     tocTitle: tocTitle.value,
     tocIncludeTopHeading: tocIncludeTopHeading.value
@@ -444,7 +437,6 @@ const onSelectChange = (key: string, value: unknown) => {
     fontSize,
     lineHeight,
     autoNumberingHeadings,
-    showFrontMatter,
     theme,
     headerType,
     headerTextLeft,

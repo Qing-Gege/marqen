@@ -237,12 +237,8 @@ describe('replaceBlockByLabel — paragraph→list keeps text verbatim (marktext
 });
 
 // Front matter is prepended at the document start rather than replacing the
-// cursor block in place (`block.replaceWith`), so the `/` quick-insert trigger
-// text the user typed survives in the original paragraph unless we clear it
-// explicitly. Every other label drops the trigger implicitly via
-// `block.replaceWith(newBlock)`; front matter must clear the trigger paragraph
-// itself. Regression target: "通过 quick insert 菜单插入 Front matter 时候 `/`
-// 没有自动删除".
+// Front matter is still readable for old files, but it is no longer a visible
+// creation path in the simplified document UI.
 function makeFrontMatterMuya(): Muya {
     return {
         options: {
@@ -260,8 +256,8 @@ function makeFrontMatterMuya(): Muya {
     } as unknown as Muya;
 }
 
-describe('replaceBlockByLabel — frontmatter clears the `/` trigger text', () => {
-    it('empties the trigger paragraph content and refreshes its DOM', () => {
+describe('replaceBlockByLabel — removed frontmatter creation path', () => {
+    it('ignores the legacy label without replacing the current block', () => {
         const { restore } = setupCreateSpy();
         try {
             const update = vi.fn();
@@ -278,11 +274,8 @@ describe('replaceBlockByLabel — frontmatter clears the `/` trigger text', () =
                 label: 'frontmatter',
             });
 
-            // The `/` typed to open the menu must be gone...
-            expect(content.text).toBe('');
-            // ...and the DOM re-rendered so it does not keep showing `/front`.
-            expect(update).toHaveBeenCalled();
-            // Front matter is prepended, never an in-place replace of the cursor block.
+            expect(content.text).toBe('/front');
+            expect(update).not.toHaveBeenCalled();
             expect(replaceWith).not.toHaveBeenCalled();
         }
         finally {

@@ -183,6 +183,19 @@
 }
 
 /* code block */
+.mu-content {
+    display: block;
+
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+
+    outline: none;
+}
+
+.mu-content:empty::after {
+    content: '\200B';
+}
+
 .mu-code-block,
 .mu-frontmatter,
 .mu-html-container,
@@ -195,7 +208,7 @@
 
     color: var(--editor-color-50);
     font-size: 90%;
-    font-family: 'DejaVu Sans Mono', 'Source Code Pro', 'Droid Sans Mono', Consolas, monospace;
+    font-family: 'LXGW Bright GB', 'LXGW Bright Code GB', 'LXGW Bright Code', 'JetBrains Mono', SFMono-Regular, 'Cascadia Code', 'Fira Code', 'DejaVu Sans Mono', Consolas, monospace;
     line-height: 1.6;
 
     background: var(--code-block-bg-color);
@@ -210,8 +223,8 @@
 
 .mu-code-block .mu-code::-webkit-scrollbar {
     display: block;
-    height: 6px;
     width: 3px;
+    height: 6px;
 }
 
 .mu-code-block .mu-content {
@@ -854,20 +867,6 @@ pre.mu-active.mu-fenced-code::after {
     font-family: monospace;
     font-style: italic;
     text-align: center;
-}
-
-/* content */
-.mu-content {
-    display: block;
-
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-
-    outline: none;
-}
-
-.mu-content:empty::after {
-    content: '\200B';
 }
 
 .mu-show-quick-insert-hint .mu-paragraph.mu-active > .mu-paragraph-content:first-of-type::after {

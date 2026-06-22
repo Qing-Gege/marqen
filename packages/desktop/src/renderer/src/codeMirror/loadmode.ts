@@ -3,9 +3,20 @@
 
 type ModeLoader = () => Promise<unknown>
 
-const codeMirrorMode = import.meta.glob(
-  '../../../../node_modules/codemirror/mode/**/*.js'
-) as Record<string, ModeLoader>
+const codeMirrorMode: Record<string, ModeLoader> = {
+  '../../../../node_modules/codemirror/mode/clike/clike.js': () => import('codemirror/mode/clike/clike.js'),
+  '../../../../node_modules/codemirror/mode/css/css.js': () => import('codemirror/mode/css/css.js'),
+  '../../../../node_modules/codemirror/mode/gfm/gfm.js': () => import('codemirror/mode/gfm/gfm.js'),
+  '../../../../node_modules/codemirror/mode/htmlmixed/htmlmixed.js': () => import('codemirror/mode/htmlmixed/htmlmixed.js'),
+  '../../../../node_modules/codemirror/mode/javascript/javascript.js': () => import('codemirror/mode/javascript/javascript.js'),
+  '../../../../node_modules/codemirror/mode/jsx/jsx.js': () => import('codemirror/mode/jsx/jsx.js'),
+  '../../../../node_modules/codemirror/mode/markdown/markdown.js': () => import('codemirror/mode/markdown/markdown.js'),
+  '../../../../node_modules/codemirror/mode/python/python.js': () => import('codemirror/mode/python/python.js'),
+  '../../../../node_modules/codemirror/mode/shell/shell.js': () => import('codemirror/mode/shell/shell.js'),
+  '../../../../node_modules/codemirror/mode/stex/stex.js': () => import('codemirror/mode/stex/stex.js'),
+  '../../../../node_modules/codemirror/mode/xml/xml.js': () => import('codemirror/mode/xml/xml.js'),
+  '../../../../node_modules/codemirror/mode/yaml/yaml.js': () => import('codemirror/mode/yaml/yaml.js')
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type CodeMirrorLike = any

@@ -159,35 +159,18 @@ export class MarkdownToState {
                         value = value.replace(/\n+$/, '').replace(/^\n+/, '');
                     }
 
-                    const diagramMatch = /^(mermaid|vega-lite|plantuml|flowchart|sequence)$/.exec(lang);
-                    if (diagramMatch) {
-                        const diagramType = diagramMatch[1] as 'mermaid' | 'vega-lite' | 'plantuml' | 'flowchart' | 'sequence';
-                        state = {
-                            name: 'diagram' as const,
-                            text: value,
-                            meta: {
-                                type: diagramType,
-                                lang: diagramType === 'vega-lite' ? 'json' : 'yaml',
-                            },
-                        };
-                    }
-                    else {
-                        // walkTokens (utils/marked/walkTokens.ts) writes
-                        // codeBlockStyle = 'fenced' for fenced blocks and
-                        // leaves 'indented' for indented blocks. marked's
-                        // type widens the field to `'indented' | undefined`,
-                        // but `'fenced'` reaches us at runtime via the
-                        // walkTokens assignment — hence the cast.
-                        const isFenced = (codeBlockStyle as 'indented' | 'fenced' | undefined) === 'fenced';
-                        state = {
-                            name: 'code-block' as const,
-                            meta: {
-                                type: isFenced ? 'fenced' : 'indented',
-                                lang,
-                            },
-                            text: value,
-                        };
-                    }
+                    // Keep technical diagram fences as editable code blocks.
+                    // Marqen's default product shape is a document editor, not
+                    // a diagram-language workbench.
+                    const isFenced = (codeBlockStyle as 'indented' | 'fenced' | undefined) === 'fenced';
+                    state = {
+                        name: 'code-block' as const,
+                        meta: {
+                            type: isFenced ? 'fenced' : 'indented',
+                            lang,
+                        },
+                        text: value,
+                    };
                     parentList[0].push(state);
                     break;
                 }

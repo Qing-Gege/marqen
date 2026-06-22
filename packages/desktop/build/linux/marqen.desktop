@@ -1,0 +1,17 @@
+[Desktop Entry]
+Name=Marqen
+Comment=Clean local document editor
+Exec=marqen %F
+Terminal=false
+Type=Application
+Icon=marqen
+Categories=Office;TextEditor;Utility;
+MimeType=text/markdown;
+Keywords=marqen;document;editor;
+StartupWMClass=marqen
+Actions=NewWindow;
+
+[Desktop Action NewWindow]
+Name=New Window
+Exec=marqen --new-window %F
+Icon=marqen

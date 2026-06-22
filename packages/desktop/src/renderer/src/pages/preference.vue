@@ -69,7 +69,7 @@ onMounted(() => {
   top: 0;
   left: 0;
   display: flex;
-  background: var(--editorBgColor);
+  background: var(--marqenCanvas);
 
   & h1,
   & h2,
@@ -118,11 +118,14 @@ onMounted(() => {
       -webkit-app-region: drag;
     }
     & .pref-setting {
-      padding: 50px 40px;
+      padding: 54px 48px;
       padding-top: var(--titleBarHeight);
       flex: 1;
       height: calc(100vh - var(--titleBarHeight));
       overflow: auto;
+      background:
+        linear-gradient(180deg, rgba(255, 253, 248, 0.76), rgba(255, 253, 248, 0)) 0 0 / 100% 180px no-repeat,
+        var(--marqenCanvas);
     }
     & span,
     & div,

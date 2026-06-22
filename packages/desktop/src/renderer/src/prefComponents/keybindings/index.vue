@@ -4,15 +4,6 @@
     <section class="keybindings">
       <div class="text">
         {{ t('preferences.keybindings.description') }}
-        <a
-          class="link"
-          :title="t('preferences.keybindings.online')"
-          :aria-label="t('preferences.keybindings.online')"
-          @click="openKeybindingWiki"
-        ><LinkIcon
-          :size="14"
-          class="link-icon"
-        /></a>.
       </div>
       <el-table
         :data="keybindingList"
@@ -117,7 +108,6 @@ import KeybindingConfigurator from './KeybindingConfigurator'
 import type { UiKeybinding } from './KeybindingConfigurator'
 import notice from '@/services/notification'
 import { Edit, RefreshRight, Delete } from '@element-plus/icons-vue'
-import LinkIcon from '@/components/icons/LinkIcon.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t, locale } = useI18n()
@@ -166,12 +156,6 @@ onUnmounted(() => {
   keybindingList.value = []
   keybindingConfigurator.value = null
 })
-
-const openKeybindingWiki = (): void => {
-  window.electron.shell.openExternal(
-    'https://github.com/marktext/marktext/blob/develop/docs/end-user/KEYBINDINGS.md'
-  )
-}
 
 const saveKeybindings = (): void => {
   if (keybindingConfigurator.value && keybindingList.value.length > 0) {

@@ -104,7 +104,7 @@ export class ParagraphFrontMenu extends BaseFloat {
                 iconWrapperSelector,
                 {
                     props: {
-                        title: `${i18n.t(title)}\n${subTitle}`,
+                        title: `${i18n.t(title)}\n${i18n.t(subTitle)}`,
                     },
                 },
                 renderIcon(menuItem),

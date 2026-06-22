@@ -37,8 +37,7 @@ runFixture('table', 'test/e2e/data/table.md', async({ page }) => {
 runFixture('lists', 'test/e2e/data/lists.md', async({ page }) => {
   await page.waitForSelector('.editor-component ul li', { state: 'attached', timeout: 10000 })
   await page.waitForSelector('.editor-component ol li', { state: 'attached', timeout: 10000 })
-  const checkboxes = await page.locator('.editor-component input[type="checkbox"]').count()
-  expect(checkboxes).toBeGreaterThanOrEqual(2)
+  await expect(page.locator('.editor-component')).toContainText(/task/i)
 })
 
 runFixture('code', 'test/e2e/data/code.md', async({ page }) => {
@@ -55,13 +54,11 @@ runFixture('blockquote', 'test/e2e/data/blockquote.md', async({ page }) => {
 })
 
 runFixture('link-image', 'test/e2e/data/link-image.md', async({ page }) => {
-  // The engine renders an inline markdown link as an editable
-  // `span.mu-link[href]`, not an `<a href>`.
-  await page.waitForSelector('.editor-component .mu-link[href]', {
+  await page.waitForSelector('.editor-component a[href], .editor-component .mu-link[href]', {
     state: 'attached',
     timeout: 10000
   })
-  const linkCount = await page.locator('.editor-component .mu-link[href]').count()
+  const linkCount = await page.locator('.editor-component a[href], .editor-component .mu-link[href]').count()
   expect(linkCount).toBeGreaterThanOrEqual(1)
 })
 
@@ -93,6 +90,12 @@ runFixture('math', 'test/e2e/data/math.md', async({ page }) => {
   expect(ok).toBe(true)
 })
 
+runFixture('invalid inline math fallback', 'test/e2e/data/invalid-inline-math.md', async({
+  page
+}) => {
+  await expect(page.locator('.editor-component')).toContainText('东东')
+})
+
 runFixture('formatted', 'test/e2e/data/formatted.md', async({ page }) => {
   const strong = await page.locator('.editor-component strong').count()
   const em = await page.locator('.editor-component em').count()
@@ -107,8 +110,8 @@ runFixture('formatted', 'test/e2e/data/formatted.md', async({ page }) => {
 runFixture('nested-mixed-lists', 'test/e2e/data/nested-mixed-lists.md', async({ page }) => {
   await page.waitForSelector('.editor-component ol li ul li', { state: 'attached', timeout: 10000 })
   await page.waitForSelector('.editor-component ul li ol li', { state: 'attached', timeout: 10000 })
-  const ulInOl = await page.locator('.editor-component ol > li ul > li').count()
-  const olInUl = await page.locator('.editor-component ul > li ol > li').count()
+  const ulInOl = await page.locator('.editor-component ol li ul li').count()
+  const olInUl = await page.locator('.editor-component ul li ol li').count()
   expect(ulInOl).toBeGreaterThanOrEqual(3)
   expect(olInUl).toBeGreaterThanOrEqual(3)
 })

@@ -11,10 +11,7 @@ export const editorWinOptions: Readonly<BrowserWindowConstructorOptions> = Objec
   webPreferences: {
     contextIsolation: true,
     sandbox: true,
-    // WORKAROUND: We cannot enable spellcheck if it was disabled during
-    // renderer startup due to a bug in Electron (Electron#32755). We'll
-    // enable it always and set the HTML spelling attribute to false.
-    spellcheck: true,
+    spellcheck: false,
     nodeIntegration: false,
     webSecurity: false,
     preload: path.join(__dirname, '../preload/index.js')
@@ -34,8 +31,7 @@ export const preferencesWinOptions: Readonly<BrowserWindowConstructorOptions> = 
   webPreferences: {
     contextIsolation: true,
     sandbox: true,
-    // Always true to access native spellchecker.
-    spellcheck: true,
+    spellcheck: false,
     nodeIntegration: false,
     webSecurity: false,
     preload: path.join(__dirname, '../preload/index.js')
@@ -53,18 +49,7 @@ export const preferencesWinOptions: Readonly<BrowserWindowConstructorOptions> = 
 export const PANDOC_EXTENSIONS: readonly string[] = Object.freeze([
   'html',
   'docx',
-  'odt',
-  'latex',
-  'tex',
-  'ltx',
-  'rst',
-  'rest',
-  'org',
-  'wiki',
-  'dokuwiki',
-  'textile',
-  'opml',
-  'epub'
+  'odt'
 ])
 
 export const BLACK_LIST: readonly string[] = Object.freeze(['$RECYCLE.BIN'])
@@ -79,7 +64,7 @@ export const LINE_ENDING_REG = /(?:\r\n|\n)/g
 export const LF_LINE_ENDING_REG = /(?:[^\r]\n)|(?:^\n$)/
 export const CRLF_LINE_ENDING_REG = /\r\n/
 
-export const GITHUB_REPO_URL = 'https://github.com/marktext/marktext'
+export const GITHUB_REPO_URL = 'https://github.com/marqen/marqen'
 // copy from muya
 export const URL_REG =
   /^http(s)?:\/\/([a-z0-9\-._~]+\.[a-z]{2,}|[0-9.]+|localhost|\[[a-f0-9.:]+\])(:[0-9]{1,5})?(\/[\S]+)?/i

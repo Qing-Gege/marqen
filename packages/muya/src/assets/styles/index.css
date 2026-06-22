@@ -1,3 +1,6 @@
+@import url('./fonts/lxgw-bright-gb/400-normal.css');
+@import url('./fonts/lxgw-bright-gb/500-normal.css');
+
 :root {
     /* editor */
     --theme-color: rgb(33 181 111 / 100%);
@@ -204,7 +207,7 @@
 html,
 body {
     font-size: 16px;
-    font-family: 'Open Sans', 'Clear Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
 }

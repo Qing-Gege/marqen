@@ -102,6 +102,7 @@ declare global {
     emptyDir(p: string): Promise<void>
     copy(src: string, dest: string): Promise<void>
     ensureDir(p: string): Promise<void>
+    setHidden(p: string): Promise<void>
     outputFile(p: string, data: string | Uint8Array): Promise<void>
     move(src: string, dest: string): Promise<void>
     stat(p: string): Promise<SerializedStat>
@@ -145,6 +146,7 @@ declare global {
 
   interface I18nUtilsAPI {
     loadTranslations(language: string): Promise<Record<string, unknown>>
+    initialLocale: string
   }
 
   interface RipgrepAPI {

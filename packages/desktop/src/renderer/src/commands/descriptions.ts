@@ -14,8 +14,6 @@ const COMMAND_KEY_MAP: Record<string, string> = {
   'file.new-window': 'commands.file.newWindow',
   'file.new-tab': 'commands.file.newTab',
   'file.open-file': 'commands.file.openFile',
-  'file.open-folder': 'commands.file.openFolder',
-  'file.quick-open': 'commands.file.quickOpen',
   'file.import-file': 'commands.file.importFile',
 
   // File save and export
@@ -29,10 +27,6 @@ const COMMAND_KEY_MAP: Record<string, string> = {
   'file.rename-file': 'commands.file.renameFile',
   'file.toggle-auto-save': 'commands.file.toggleAutoSave',
 
-  // File settings
-  'file.change-encoding': 'commands.file.changeEncoding',
-  'file.line-ending': 'commands.file.changeLineEnding',
-  'file.trailing-newline': 'commands.file.trailingNewline',
   'file.preferences': 'commands.file.preferences',
 
   // File operations
@@ -58,7 +52,6 @@ const COMMAND_KEY_MAP: Record<string, string> = {
   'edit.copy': 'commands.edit.copy',
   'edit.paste': 'commands.edit.paste',
   'edit.copy-as-rich': 'commands.edit.copyAsRich',
-  'edit.copy-as-html': 'commands.edit.copyAsHtml',
   'edit.paste-as-plaintext': 'commands.edit.pasteAsPlaintext',
 
   // Select and copy
@@ -74,7 +67,6 @@ const COMMAND_KEY_MAP: Record<string, string> = {
   'edit.find-next': 'commands.edit.findNext',
   'edit.find-previous': 'commands.edit.findPrevious',
   'edit.replace': 'commands.edit.replace',
-  'edit.find-in-folder': 'commands.edit.findInFolder',
 
   // Other editing features
   'edit.screenshot': 'commands.edit.screenshot',
@@ -86,24 +78,17 @@ const COMMAND_KEY_MAP: Record<string, string> = {
   'paragraph.heading-1': 'commands.paragraph.heading1',
   'paragraph.heading-2': 'commands.paragraph.heading2',
   'paragraph.heading-3': 'commands.paragraph.heading3',
-  'paragraph.heading-4': 'commands.paragraph.heading4',
-  'paragraph.heading-5': 'commands.paragraph.heading5',
-  'paragraph.heading-6': 'commands.paragraph.heading6',
   'paragraph.upgrade-heading': 'commands.paragraph.upgradeHeading',
   'paragraph.degrade-heading': 'commands.paragraph.degradeHeading',
 
   // Block-level elements
   'paragraph.table': 'commands.paragraph.table',
-  'paragraph.code-fence': 'commands.paragraph.codeFence',
   'paragraph.quote-block': 'commands.paragraph.quoteBlock',
-  'paragraph.math-block': 'commands.paragraph.mathBlock',
-  'paragraph.html-block': 'commands.paragraph.htmlBlock',
 
   // List types
   'paragraph.order-list': 'commands.paragraph.orderList',
   'paragraph.bullet-list': 'commands.paragraph.bulletList',
   'paragraph.task-list': 'commands.paragraph.taskList',
-  'paragraph.loose-list-item': 'commands.paragraph.looseListItem',
 
   // Paragraph types
   'paragraph.paragraph': 'commands.paragraph.paragraph',
@@ -112,8 +97,6 @@ const COMMAND_KEY_MAP: Record<string, string> = {
   // Separators and special elements
   'paragraph.horizontal-rule': 'commands.paragraph.horizontalRule',
   'paragraph.horizontal-line': 'commands.paragraph.horizontalLine',
-  'paragraph.math-formula': 'commands.paragraph.mathFormula',
-  'paragraph.front-matter': 'commands.paragraph.frontMatter',
 
   // ============================================
   // # Text Formatting
@@ -130,8 +113,6 @@ const COMMAND_KEY_MAP: Record<string, string> = {
   'format.subscript': 'commands.format.subscript',
 
   // Inline elements
-  'format.inline-code': 'commands.format.inlineCode',
-  'format.inline-math': 'commands.format.inlineMath',
 
   // Links and media
   'format.hyperlink': 'commands.format.hyperlink',
@@ -165,22 +146,14 @@ const COMMAND_KEY_MAP: Record<string, string> = {
   'view.toggle-toc': 'commands.view.toggleToc',
 
   // Edit modes
-  'view.toggle-source-code-mode': 'commands.view.toggleSourceCodeMode',
-  'view.source-code-mode': 'commands.view.sourceCodeMode',
   'view.toggle-typewriter-mode': 'commands.view.toggleTypewriterMode',
   'view.typewriter-mode': 'commands.view.typewriterMode',
   'view.toggle-focus-mode': 'commands.view.toggleFocusMode',
   'view.focus-mode': 'commands.view.focusMode',
 
   // View features
-  'view.command-palette': 'commands.view.commandPalette',
   'view.actual-size': 'commands.view.actualSize',
   'view.text-direction': 'commands.view.textDirection',
-
-  // Developer tools
-  'view.dev-reload': 'commands.view.devReload',
-  'view.dev-toggle-developer-tools': 'commands.view.devToggleDeveloperTools',
-  'view.toggle-dev-tools': 'commands.view.toggleDevTools',
 
   // Menu items
   'view.reload-images': 'commands.view.reloadImages',
@@ -209,13 +182,6 @@ const COMMAND_KEY_MAP: Record<string, string> = {
   // ============================================
   // # Documentation & Help
   // ============================================
-  'docs.user-guide': 'commands.docs.userGuide',
-  'docs.markdown-syntax': 'commands.docs.markdownSyntax',
-
-  // ============================================
-  // # Spell Checker
-  // ============================================
-  'spellchecker.switch-language': 'commands.spellchecker.switchLanguage'
 }
 
 /**

@@ -1,27 +1,14 @@
 import type Parent from '../../block/base/parent';
 import type { Muya } from '../../index';
-import type { IFrontmatterMeta } from '../../state/types';
 import bulletListIcon from '../../assets/icons/bullet_list/2.png';
-import vegaIcon from '../../assets/icons/chart/2.png';
-import codeIcon from '../../assets/icons/code/2.png';
-import flowchartIcon from '../../assets/icons/flowchart/2.png';
-import frontMatterIcon from '../../assets/icons/front_matter/2.png';
 import header1Icon from '../../assets/icons/heading_1/2.png';
 import header2Icon from '../../assets/icons/heading_2/2.png';
 import header3Icon from '../../assets/icons/heading_3/2.png';
-import header4Icon from '../../assets/icons/heading_4/2.png';
-import header5Icon from '../../assets/icons/heading_5/2.png';
-import header6Icon from '../../assets/icons/heading_6/2.png';
 import hrIcon from '../../assets/icons/horizontal_line/2.png';
-import htmlIcon from '../../assets/icons/html/2.png';
-import mathBlockIcon from '../../assets/icons/math/2.png';
-import mermaidIcon from '../../assets/icons/mermaid/2.png';
 import newTableIcon from '../../assets/icons/new_table/2.png';
 import orderListIcon from '../../assets/icons/order_list/2.png';
 import paragraphIcon from '../../assets/icons/paragraph/2.png';
-import plantumlIcon from '../../assets/icons/plantuml/2.png';
 import quoteIcon from '../../assets/icons/quote_block/2.png';
-import sequenceIcon from '../../assets/icons/sequence/2.png';
 
 import todoListIcon from '../../assets/icons/todolist/2.png';
 import { ScrollPage } from '../../block/scrollPage';
@@ -34,54 +21,6 @@ import { deepClone, isKeyboardEvent } from '../../utils';
 import logger from '../../utils/logger';
 
 const debug = logger('quickInsert:');
-
-/**
- * Derive the frontmatter `lang`/`style` from the user's `frontmatterType`
- * preference: `-` -> yaml `---`, `+` -> toml `+++`,
- * `;`/`{` -> json (`;;;`/`{}`). The serializer (`serializeFrontMatter`)
- * switches on `lang`, so getting `lang` right is what makes YAML/TOML emit
- * their fences instead of falling through to JSON braces.
- */
-export function frontmatterMeta(frontmatterType: string): IFrontmatterMeta {
-    switch (frontmatterType) {
-        case '+':
-            return { lang: 'toml', style: '+' };
-        case ';':
-            return { lang: 'json', style: ';' };
-        case '{':
-            return { lang: 'json', style: '{' };
-        case '-':
-        default:
-            return { lang: 'yaml', style: '-' };
-    }
-}
-
-/**
- * Prepend a front matter block at the very start of the document. Front matter
- * is only valid as the first
- * block, so this never replaces the block at the cursor. Idempotent: a no-op
- * when the document already starts with front matter, so it never duplicates
- * the block. Shared by `Muya.updateParagraph('front-matter')` and the
- * quick-insert menu's `frontmatter` entry so both follow identical semantics.
- */
-export function insertFrontMatterAtStart(muya: Muya): boolean {
-    const { scrollPage } = muya.editor;
-    if (!scrollPage)
-        return false;
-
-    const firstBlock = scrollPage.firstChild as Parent | null;
-    if (firstBlock?.blockName === 'frontmatter')
-        return false;
-
-    const fmState = deepClone(emptyStates.frontmatter);
-    Object.assign(fmState.meta, frontmatterMeta(muya.options.frontmatterType));
-
-    const frontmatter = ScrollPage.loadBlock('frontmatter').create(muya, fmState);
-    scrollPage.insertBefore(frontmatter, firstBlock);
-    frontmatter.firstContentInDescendant()?.setCursor(0, 0, true);
-
-    return true;
-}
 
 const COMMAND_KEY = isOsx ? '⌘' : 'Ctrl';
 const OPTION_KEY = isOsx ? '⌥' : 'Alt';
@@ -115,11 +54,11 @@ export interface IQuickInsertMenuItem {
 
 export const MENU_CONFIG: IQuickInsertMenuItem[] = [
     {
-        name: 'basic blocks',
+        name: 'common',
         children: [
             {
-                title: 'Paragraph',
-                subTitle: 'Lorem Ipsum text',
+                title: 'Normal text',
+                subTitle: 'Body text',
                 label: 'paragraph',
                 shortCut: `${COMMAND_KEY}+0`,
                 shortKeyMap: {
@@ -131,8 +70,8 @@ export const MENU_CONFIG: IQuickInsertMenuItem[] = [
                 icon: paragraphIcon,
             },
             {
-                title: 'Horizontal Line',
-                subTitle: '---',
+                title: 'Divider',
+                subTitle: 'Separate sections',
                 label: 'thematic-break',
                 shortCut: `${OPTION_KEY}+${COMMAND_KEY}+-`,
                 shortKeyMap: {
@@ -143,27 +82,14 @@ export const MENU_CONFIG: IQuickInsertMenuItem[] = [
                 },
                 icon: hrIcon,
             },
-            {
-                title: 'Front Matter',
-                subTitle: '--- Lorem Ipsum ---',
-                label: 'frontmatter',
-                shortCut: `${OPTION_KEY}+${COMMAND_KEY}+Y`,
-                shortKeyMap: {
-                    altKey: true,
-                    shiftKey: false,
-                    metaKey: true,
-                    code: 'KeyY',
-                },
-                icon: frontMatterIcon,
-            },
         ],
     },
     {
-        name: 'headers',
+        name: 'headings',
         children: [
             {
-                title: 'Header 1',
-                subTitle: '# Lorem Ipsum...',
+                title: 'Heading 1',
+                subTitle: 'Large section title',
                 label: 'atx-heading 1',
                 shortCut: `${COMMAND_KEY}+1`,
                 shortKeyMap: {
@@ -175,8 +101,8 @@ export const MENU_CONFIG: IQuickInsertMenuItem[] = [
                 icon: header1Icon,
             },
             {
-                title: 'Header 2',
-                subTitle: '## Lorem Ipsum...',
+                title: 'Heading 2',
+                subTitle: 'Section title',
                 label: 'atx-heading 2',
                 shortCut: `${COMMAND_KEY}+2`,
                 shortKeyMap: {
@@ -188,8 +114,8 @@ export const MENU_CONFIG: IQuickInsertMenuItem[] = [
                 icon: header2Icon,
             },
             {
-                title: 'Header 3',
-                subTitle: '### Lorem Ipsum...',
+                title: 'Heading 3',
+                subTitle: 'Small section title',
                 label: 'atx-heading 3',
                 shortCut: `${COMMAND_KEY}+3`,
                 shortKeyMap: {
@@ -200,53 +126,14 @@ export const MENU_CONFIG: IQuickInsertMenuItem[] = [
                 },
                 icon: header3Icon,
             },
-            {
-                title: 'Header 4',
-                subTitle: '#### Lorem Ipsum...',
-                label: 'atx-heading 4',
-                shortCut: `${COMMAND_KEY}+4`,
-                shortKeyMap: {
-                    altKey: false,
-                    shiftKey: false,
-                    metaKey: true,
-                    code: 'Digit4',
-                },
-                icon: header4Icon,
-            },
-            {
-                title: 'Header 5',
-                subTitle: '##### Lorem Ipsum...',
-                label: 'atx-heading 5',
-                shortCut: `${COMMAND_KEY}+5`,
-                shortKeyMap: {
-                    altKey: false,
-                    shiftKey: false,
-                    metaKey: true,
-                    code: 'Digit5',
-                },
-                icon: header5Icon,
-            },
-            {
-                title: 'Header 6',
-                subTitle: '###### Lorem Ipsum...',
-                label: 'atx-heading 6',
-                shortCut: `${COMMAND_KEY}+6`,
-                shortKeyMap: {
-                    altKey: false,
-                    shiftKey: false,
-                    metaKey: true,
-                    code: 'Digit6',
-                },
-                icon: header6Icon,
-            },
         ],
     },
     {
-        name: 'advanced blocks',
+        name: 'content',
         children: [
             {
-                title: 'Table Block',
-                subTitle: '|Lorem | Ipsum |',
+                title: 'Table',
+                subTitle: 'Rows and columns',
                 label: 'table',
                 // no
                 shortCut: `${SHIFT_KEY}+${COMMAND_KEY}+T`,
@@ -259,47 +146,8 @@ export const MENU_CONFIG: IQuickInsertMenuItem[] = [
                 icon: newTableIcon,
             },
             {
-                title: 'Display Math',
-                subTitle: '$$ Lorem Ipsum $$',
-                label: 'math-block',
-                shortCut: `${OPTION_KEY}+${COMMAND_KEY}+M`,
-                shortKeyMap: {
-                    altKey: true,
-                    shiftKey: false,
-                    metaKey: true,
-                    code: 'KeyM',
-                },
-                icon: mathBlockIcon,
-            },
-            {
-                title: 'HTML Block',
-                subTitle: '<div> Lorem Ipsum </div>',
-                label: 'html-block',
-                shortCut: `${OPTION_KEY}+${COMMAND_KEY}+J`,
-                shortKeyMap: {
-                    altKey: true,
-                    shiftKey: false,
-                    metaKey: true,
-                    code: 'KeyJ',
-                },
-                icon: htmlIcon,
-            },
-            {
-                title: 'Code Block',
-                subTitle: '```java Lorem Ipsum ```',
-                label: 'code-block',
-                shortCut: `${OPTION_KEY}+${COMMAND_KEY}+C`,
-                shortKeyMap: {
-                    altKey: true,
-                    shiftKey: false,
-                    metaKey: true,
-                    code: 'KeyC',
-                },
-                icon: codeIcon,
-            },
-            {
-                title: 'Quote Block',
-                subTitle: '>Lorem Ipsum ...',
+                title: 'Quote',
+                subTitle: 'Quoted text',
                 label: 'block-quote',
                 // no
                 shortCut: `${OPTION_KEY}+${COMMAND_KEY}+Q`,
@@ -314,11 +162,11 @@ export const MENU_CONFIG: IQuickInsertMenuItem[] = [
         ],
     },
     {
-        name: 'list blocks',
+        name: 'lists',
         children: [
             {
-                title: 'Order List',
-                subTitle: '1. Lorem Ipsum ...',
+                title: 'Numbered list',
+                subTitle: 'Steps in order',
                 label: 'order-list',
                 shortCut: `${OPTION_KEY}+${COMMAND_KEY}+O`,
                 shortKeyMap: {
@@ -330,8 +178,8 @@ export const MENU_CONFIG: IQuickInsertMenuItem[] = [
                 icon: orderListIcon,
             },
             {
-                title: 'Bullet List',
-                subTitle: '- Lorem Ipsum ...',
+                title: 'Bulleted list',
+                subTitle: 'Simple list',
                 label: 'bullet-list',
                 shortCut: `${OPTION_KEY}+${COMMAND_KEY}+U`,
                 shortKeyMap: {
@@ -343,8 +191,8 @@ export const MENU_CONFIG: IQuickInsertMenuItem[] = [
                 icon: bulletListIcon,
             },
             {
-                title: 'To-do List',
-                subTitle: '- [x] Lorem Ipsum ...',
+                title: 'Checklist',
+                subTitle: 'Track tasks',
                 label: 'task-list',
                 shortCut: `${OPTION_KEY}+${COMMAND_KEY}+X`,
                 shortKeyMap: {
@@ -354,41 +202,6 @@ export const MENU_CONFIG: IQuickInsertMenuItem[] = [
                     code: 'KeyX',
                 },
                 icon: todoListIcon,
-            },
-        ],
-    },
-    {
-        name: 'diagrams',
-        children: [
-            {
-                title: 'Vega Chart',
-                subTitle: 'By vega-lite.js',
-                label: 'diagram vega-lite',
-                icon: vegaIcon,
-            },
-            {
-                title: 'Mermaid',
-                subTitle: 'By mermaid',
-                label: 'diagram mermaid',
-                icon: mermaidIcon,
-            },
-            {
-                title: 'Plantuml',
-                subTitle: 'By plantuml',
-                label: 'diagram plantuml',
-                icon: plantumlIcon,
-            },
-            {
-                title: 'Flowchart',
-                subTitle: 'By flowchart.js',
-                label: 'diagram flowchart',
-                icon: flowchartIcon,
-            },
-            {
-                title: 'Sequence',
-                subTitle: 'By js-sequence-diagrams',
-                label: 'diagram sequence',
-                icon: sequenceIcon,
             },
         ],
     },
@@ -458,29 +271,6 @@ export function replaceBlockByLabel({ block, muya, label, text = '' }: {
     let state = null;
     let cursorBlock = null;
 
-    // Front matter is only valid as the document's first block, so the
-    // quick-insert "Front Matter" entry must NOT replace the cursor block in
-    // place (which destroyed its content and produced invalid mid-document
-    // front matter). Prepend at document start and bail before the in-place
-    // `block.replaceWith` below — sharing the idempotent doc-start logic with
-    // `Muya.updateParagraph('front-matter')`.
-    if (label === 'frontmatter') {
-        // Every other label drops the `/` quick-insert trigger text implicitly
-        // via `block.replaceWith(newBlock)`. Front matter is prepended at the
-        // document start instead (the trigger paragraph survives), so clear its
-        // `/…` text and refresh the DOM. Only do so when a block was actually
-        // inserted — when the document already starts with front matter the
-        // insert is a no-op and the trigger paragraph must be left untouched.
-        if (insertFrontMatterAtStart(muya)) {
-            const triggerContent = block.firstContentInDescendant();
-            if (triggerContent) {
-                triggerContent.text = '';
-                triggerContent.update();
-            }
-        }
-        return;
-    }
-
     // The in-editor "table" insert shows a hover-grid dimension picker
     // instead of dropping a fixed-size
     // table. The picker's callback creates the table at the chosen size, so
@@ -496,10 +286,6 @@ export function replaceBlockByLabel({ block, muya, label, text = '' }: {
         case 'thematic-break':
             // fall through
         case 'math-block':
-            // fall through
-        case 'html-block':
-            // fall through
-        case 'code-block':
             // fall through
         case 'block-quote': {
             const cloned = deepClone(emptyStates[label]);
@@ -520,13 +306,7 @@ export function replaceBlockByLabel({ block, muya, label, text = '' }: {
             // fall through
         case 'atx-heading 2':
             // fall through
-        case 'atx-heading 3':
-            // fall through
-        case 'atx-heading 4':
-            // fall through
-        case 'atx-heading 5':
-            // fall through
-        case 'atx-heading 6': {
+        case 'atx-heading 3': {
             const headingState = deepClone(emptyStates['atx-heading']);
 
             const [blockName, level] = label.split(' ');
@@ -565,36 +345,9 @@ export function replaceBlockByLabel({ block, muya, label, text = '' }: {
             break;
         }
 
-        case 'diagram vega-lite':
-            // fall through
-        case 'diagram mermaid':
-            // fall through
-        case 'diagram plantuml':
-            // fall through
-        case 'diagram flowchart':
-            // fall through
-        case 'diagram sequence': {
-            const diagramState = deepClone(emptyStates.diagram);
-
-            const [name, type] = label.split(' ');
-            if (
-                type === 'mermaid'
-                || type === 'plantuml'
-                || type === 'vega-lite'
-                || type === 'flowchart'
-                || type === 'sequence'
-            ) {
-                diagramState.meta.type = type;
-                diagramState.meta.lang = type === 'vega-lite' ? 'json' : 'yaml';
-            }
-            state = diagramState;
-            newBlock = ScrollPage.loadBlock(name).create(muya, state);
-            break;
-        }
-
         default:
             debug.log('Unknown label in quick insert');
-            break;
+            return;
     }
 
     block.replaceWith(newBlock);
@@ -609,8 +362,6 @@ export function replaceBlockByLabel({ block, muya, label, text = '' }: {
     }
     else {
         cursorBlock = newBlock.firstContentInDescendant();
-        // Set the cursor between <div>\n\n</div> when create html-block
-        const offset = label === 'html-block' ? 6 : cursorBlock.text.length;
-        cursorBlock.setCursor(offset, offset, true);
+        cursorBlock.setCursor(cursorBlock.text.length, cursorBlock.text.length, true);
     }
 }

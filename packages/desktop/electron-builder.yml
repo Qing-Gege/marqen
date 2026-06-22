@@ -1,5 +1,5 @@
-appId: com.github.marktext.marktext
-productName: marktext
+appId: com.marqen.desktop
+productName: Marqen
 directories:
   buildResources: build
   output: ../../dist
@@ -10,6 +10,10 @@ files:
   - '!electron.vite.config.{js,ts,mjs,cjs}'
   - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+  - '!{tsconfig.json,tsconfig.base.json,vitest.config.ts}'
+  - '!test/**'
+  - '!test-results/**'
+  - '!patches/**'
   # ================================
   # Do not bundle these files
   # ================================
@@ -18,10 +22,21 @@ files:
   - '!node_modules/**/*.cjs.map'
   - '!node_modules/**/*.mjs.map'
   - '!node_modules/**/*.ts.map'
+  - '!node_modules/**/*.d.ts.map'
+  - '!node_modules/**/{test,tests,__tests__,demo,demos,example,examples,docs,benchmark,benchmarks}/**'
+  - '!node_modules/**/{CHANGELOG,Changelog,changelog,HISTORY,History,README,readme,CONTRIBUTING,SECURITY,CODE_OF_CONDUCT}.{md,markdown,txt}'
+  - '!node_modules/**/{tsconfig,vitest.config,jest.config,rollup.config,webpack.config,vite.config}.{json,js,ts,mjs,cjs}'
+  - '!node_modules/**/.{eslintignore,eslintrc,prettierignore,prettierrc,npmignore,nvmrc}'
+  - '!node_modules/**/*.{ts,tsx,flow}'
   - '!node_modules/@vscode/ripgrep/{jsconfig.json,*.md,LICENSE}'
   - '!node_modules/@vscode/ripgrep/lib/download.js'
   - '!node_modules/@vscode/ripgrep/lib/postinstall.js'
+  - '!node_modules/font-list/libs/darwin/**'
+  - '!node_modules/font-list/libs/linux/**'
   - '!node_modules/ced/vendor'
+  - '!node_modules/ced/**'
+  - '!node_modules/keytar/**'
+  - '!node_modules/native-keymap/**'
   # Large source files
   - '!node_modules/mermaid/dist/mermaid.js'
   - '!node_modules/mermaid/dist/mermaid.min.js'
@@ -29,7 +44,6 @@ files:
   - '!node_modules/katex/dist/katex.min.js'
   - '!node_modules/katex/dist/katex.mjs'
   # Don't bundle Linux build files
-  - '!node_modules/ced/build/Release/compact_enc_det.a'
   - '!node_modules/**/{*.vcxproj,*.vcxproj.filters}'
   - '!node_modules/**/build/Release/{*.lib,*.exp,*.ilk,*.pdb,*.iobj,*.ipdb}'
   - '!node_modules/**/build/Release/obj'
@@ -55,50 +69,50 @@ asarUnpack:
   - resources/**
 fileAssociations:
   - ext: md
-    name: Markdown
-    description: Markdown document
+    name: Document
+    description: Marqen document
     mimeType: text/markdown
     role: Editor
     icon: icons/md.ico
   - ext: markdown
-    name: Markdown
-    description: Markdown document
+    name: Document
+    description: Marqen document
     mimeType: text/markdown
     role: Editor
     icon: icons/md.ico
   - ext: mmd
-    name: Markdown
-    description: Markdown document
+    name: Document
+    description: Marqen document
     mimeType: text/markdown
     role: Editor
     icon: icons/md.ico
   - ext: mdown
-    name: Markdown
-    description: Markdown document
+    name: Document
+    description: Marqen document
     mimeType: text/markdown
     role: Editor
     icon: icons/md.ico
   - ext: mdtxt
-    name: Markdown
-    description: Markdown document
+    name: Document
+    description: Marqen document
     mimeType: text/markdown
     role: Editor
     icon: icons/md.ico
   - ext: mdtext
-    name: Markdown
-    description: Markdown document
+    name: Document
+    description: Marqen document
     mimeType: text/markdown
     role: Editor
     icon: icons/md.ico
 win:
-  executableName: marktext
-  artifactName: 'marktext-win-${arch}-${version}.${ext}'
+  executableName: marqen
+  artifactName: 'marqen-win-${arch}-${version}.${ext}'
   target:
     - target: 'nsis'
     - target: 'zip'
   icon: static/icon.ico
 nsis:
-  artifactName: 'marktext-win-${arch}-${version}-setup.${ext}'
+  artifactName: 'marqen-win-${arch}-${version}-setup.${ext}'
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: true
@@ -106,9 +120,8 @@ nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
   perMachine: false
-  include: windows/installer.nsh
 mac:
-  artifactName: 'marktext-mac-${arch}-${version}.${ext}'
+  artifactName: 'marqen-mac-${arch}-${version}.${ext}'
   entitlementsInherit: build/mac/entitlements.mac.plist
   extendInfo:
     - NSCameraUsageDescription: Application requests access to the device's camera.
@@ -120,7 +133,7 @@ mac:
     - dmg
     - zip
 dmg:
-  artifactName: 'marktext-mac-${arch}-${version}.${ext}'
+  artifactName: 'marqen-mac-${arch}-${version}.${ext}'
   contents:
     - x: 410
       y: 240
@@ -130,18 +143,18 @@ dmg:
       y: 240
       type: 'file'
 linux:
-  artifactName: 'marktext-linux-${version}.${ext}'
-  executableName: 'marktext'
-  description: 'A simple and elegant open-source markdown editor that focused on speed and usability.'
-  maintainer: 'MarkText Contributors'
+  artifactName: 'marqen-linux-${version}.${ext}'
+  executableName: 'marqen'
+  description: 'A clean local document editor with automatic formatting.'
+  maintainer: 'Marqen Contributors'
   category: 'Office;TextEditor;Utility'
   mimeTypes:
     - 'text/markdown'
   icon: 'static/icon.png'
   desktop:
     entry:
-      StartupWMClass: 'marktext'
-      Keywords: 'marktext;'
+      StartupWMClass: 'marqen'
+      Keywords: 'marqen;document;editor;'
   target:
     - AppImage
     - snap
@@ -150,20 +163,20 @@ linux:
     - tar.gz
   fileAssociations:
     - ext: 'md'
-      name: 'Markdown'
-      description: 'Markdown document'
+      name: 'Document'
+      description: 'Marqen document'
     - ext: 'markdown'
-      name: 'Markdown'
-      description: 'Markdown document'
+      name: 'Document'
+      description: 'Marqen document'
     - ext: 'mmd'
-      name: 'Markdown'
-      description: 'Markdown document'
+      name: 'Document'
+      description: 'Marqen document'
     - ext: 'mdown'
-      name: 'Markdown'
-      description: 'Markdown document'
+      name: 'Document'
+      description: 'Marqen document'
     - ext: 'mdtxt'
-      name: 'Markdown'
-      description: 'Markdown document'
+      name: 'Document'
+      description: 'Marqen document'
     - ext: 'mdtext'
-      name: 'Markdown'
-      description: 'Markdown document'
+      name: 'Document'
+      description: 'Marqen document'

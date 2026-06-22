@@ -134,20 +134,6 @@ const rename = (tabId: unknown) => {
   }
 }
 
-const copyPath = (tabId: unknown) => {
-  const tab = tabs.value.find((f) => f.id === tabId)
-  if (tab && tab.pathname) {
-    window.electron.clipboard.writeText(tab.pathname)
-  }
-}
-
-const showInFolder = (tabId: unknown) => {
-  const tab = tabs.value.find((f) => f.id === tabId)
-  if (tab && tab.pathname) {
-    window.electron.shell.showItemInFolder(tab.pathname)
-  }
-}
-
 const handleContextMenu = (event: MouseEvent, tab: IFileState) => {
   if (tab.id) {
     showContextMenu(event, tab)
@@ -160,8 +146,6 @@ onMounted(() => {
   bus.on('TABS::close-saved', closeSaved)
   bus.on('TABS::close-all', closeAll)
   bus.on('TABS::rename', rename)
-  bus.on('TABS::copy-path', copyPath)
-  bus.on('TABS::show-in-folder', showInFolder)
   bus.on('EDITOR_TABS::change-max-width', changeMaxWidth)
 
   const tabsEl = tabContainer.value
@@ -225,8 +209,6 @@ onBeforeUnmount(() => {
   bus.off('TABS::close-saved', closeSaved)
   bus.off('TABS::close-all', closeAll)
   bus.off('TABS::rename', rename)
-  bus.off('TABS::copy-path', copyPath)
-  bus.off('TABS::show-in-folder', showInFolder)
   bus.off('EDITOR_TABS::change-max-width', changeMaxWidth)
 })
 </script>

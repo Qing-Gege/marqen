@@ -1,15 +1,39 @@
-// `escapeHTML`/`unescapeHTML` are migrated to @muyajs/core (identical impl).
 // The TOC anchors produced here (`#${slug}`) must match the heading `id`
-// attributes in the exported document. Now that editor.vue exports via
-// @muyajs/core (#4406) and the engine injects github-compatible heading ids
-// (#4412), this module derives its slugs from the SAME `generateGithubSlug`
-// algorithm, with the SAME `-N` document-order dedup the engine uses, so the
-// in-document TOC links resolve.
-import { escapeHTML, unescapeHTML, generateGithubSlug } from '@muyajs/core'
+// attributes in the exported document, so this module uses github-compatible
+// base slugs plus document-order `-N` deduplication.
 import academicTheme from '@/assets/themes/export/academic.theme.css?inline'
 import liberTheme from '@/assets/themes/export/liber.theme.css?inline'
 import { deepClone } from '../util'
 import { sanitize, EXPORT_DOMPURIFY_CONFIG } from '../util/dompurify'
+
+const HTML_ESCAPE_MAP: Record<string, string> = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+}
+
+const HTML_UNESCAPE_MAP: Record<string, string> = {
+  '&amp;': '&',
+  '&lt;': '<',
+  '&gt;': '>',
+  '&quot;': '"',
+  '&#39;': "'"
+}
+
+const escapeHTML = (value: string): string => value.replace(/[&<>"']/g, (char) => HTML_ESCAPE_MAP[char])
+
+const unescapeHTML = (value: string): string =>
+  value.replace(/&(amp|lt|gt|quot|#39);/g, (entity) => HTML_UNESCAPE_MAP[entity] ?? entity)
+
+const generateGithubSlug = (value: string): string =>
+  value
+    .trim()
+    .toLowerCase()
+    .replace(/<[^>]+>/g, '')
+    .replace(/[^\p{L}\p{N}\s-]/gu, '')
+    .replace(/\s+/g, '-')
 
 export interface PdfCssOptions {
   type?: string
@@ -125,13 +149,9 @@ export interface HtmlTocOptions {
   [key: string]: unknown
 }
 
-// Replicate @muyajs/core's `MarkdownToHtml#_injectHeadingIds` slugging so the
-// TOC `href="#slug"` anchors target the exact ids the engine writes onto the
-// exported `<h1>..<h6>`: github-compatible base slug (falling back to
-// `heading` when the text slugs to empty), deduplicated in document order with
-// an incrementing `-N` suffix. Computed over the FULL heading list in order
-// (before the render-time filtering below) to keep the dedup sequence aligned
-// with the engine's whole-document pass.
+// Keep TOC `href="#slug"` anchors github-compatible and deterministic:
+// fallback to `heading` when text slugs to empty, then deduplicate in document
+// order with an incrementing `-N` suffix.
 const assignHeadingSlugs = (tocList: TocEntry[]): void => {
   const seen = new Set<string>()
   for (const entry of tocList) {

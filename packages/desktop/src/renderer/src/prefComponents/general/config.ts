@@ -97,6 +97,10 @@ export const getFileSortOrderOptions = (sortBy: string = 'title'): PrefSelectOpt
 
 export const getLanguageOptions = (): PrefSelectOption<string>[] => [
   {
+    label: t('preferences.general.misc.language.system'),
+    value: 'system'
+  },
+  {
     label: t('preferences.general.misc.language.english'),
     value: 'en'
   },

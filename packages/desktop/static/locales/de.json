@@ -82,7 +82,8 @@
       "looseListItem": "Lockeres Listenelement",
       "paragraphItem": "Absatzelement",
       "horizontalRule": "Horizontale Linie",
-      "frontMatter": "Front Matter"
+      "frontMatter": "Front Matter",
+      "image": "Bild"
     },
     "window": {
       "title": "Fenster",
@@ -104,25 +105,12 @@
       "reportBug": "Fehler melden",
       "viewSource": "Quellcode anzeigen",
       "followUs": "Folgen Sie uns",
-      "support": "MarkText unterstützen",
+      "support": "Marqen unterstützen",
       "license": "Lizenz",
       "checkForUpdates": "Nach Updates suchen",
-      "aboutMarkText": "Über MarkText",
       "about": "Über",
-      "checkUpdates": "Updates prüfen"
-    },
-    "marktext": {
-      "title": "MarkText",
-      "marktext": "MarkText",
-      "about": "Über MarkText",
-      "checkUpdates": "Nach Updates suchen...",
-      "preferences": "Einstellungen",
-      "services": "Dienste",
-      "hide": "MarkText ausblenden",
-      "hideMarkText": "MarkText ausblenden",
-      "hideOthers": "Andere ausblenden",
-      "showAll": "Alle anzeigen",
-      "quit": "MarkText beenden"
+      "checkUpdates": "Updates prüfen",
+      "aboutMarqen": "Über Marqen"
     },
     "view": {
       "view": "Ansicht",
@@ -213,6 +201,19 @@
       "tokyoNightLight": "Tokyo Night Hell",
       "tokyoNightStorm": "Tokyo Night Storm",
       "ulyssesLight": "Ulysses Hell"
+    },
+    "marqen": {
+      "title": "Marqen",
+      "about": "Über Marqen",
+      "checkUpdates": "Nach Updates suchen...",
+      "preferences": "Einstellungen",
+      "services": "Dienste",
+      "hide": "Marqen ausblenden",
+      "hideOthers": "Andere ausblenden",
+      "showAll": "Alle anzeigen",
+      "quit": "Marqen beenden",
+      "marqen": "Marqen",
+      "hideMarqen": "Marqen ausblenden"
     }
   },
   "contextMenu": {
@@ -246,7 +247,9 @@
       "rename": "Umbenennen",
       "copyPath": "Pfad kopieren",
       "showInFolder": "Im Ordner anzeigen"
-    }
+    },
+    "insertImage": "Bild einfügen",
+    "insertTable": "Tabelle einfügen"
   },
   "search": {
     "searchPlaceholder": "Suchen",
@@ -388,7 +391,7 @@
   },
   "import": {
     "title": "Importieren oder öffnen",
-    "description": "Hier hineinziehen, um Ihren Inhalt in MarkText zu importieren"
+    "description": "Hier hineinziehen, um Ihren Inhalt in Marqen zu importieren"
   },
   "preferences": {
     "title": "Einstellungen",
@@ -418,10 +421,10 @@
         "hideScrollbar": "Ob Scrollbalken ausgeblendet werden sollen",
         "wordWrapInToc": "Ob Zeilenumbruch im Inhaltsverzeichnis aktiviert werden soll",
         "fileSortBy": "Dateien im geöffneten Ordner nach Erstellungszeit, Änderungszeit und Titel sortieren",
-        "startUpAction": "Die Aktion nach MarkText-Start, letzten bearbeiteten Inhalt öffnen, angegebenen Ordner öffnen oder leere Seite",
+        "startUpAction": "Die Aktion nach Marqen-Start, letzten bearbeiteten Inhalt öffnen, angegebenen Ordner öffnen oder leere Seite",
         "restoreLayoutState": "Vorherigen Editorzustand beim Start wiederherstellen",
         "defaultDirectoryToOpen": "Das Standard-Verzeichnis, das beim Start geöffnet werden soll, wenn startUp=folder",
-        "language": "Die Sprache, die MarkText verwendet",
+        "language": "Die Sprache, die Marqen verwendet",
         "editorFontFamily": "Editor-Schriftfamilie",
         "fontSize": "Schriftgröße in Pixeln",
         "lineHeight": "Zeilenhöhe",
@@ -445,7 +448,7 @@
         "preferLooseListItem": "Der bevorzugte Listentyp",
         "bulletListMarker": "Die Markierung in Aufzählungslisten",
         "orderListDelimiter": "Das Trennzeichen in geordneten Listen",
-        "preferHeadingStyle": "Der bevorzugte Überschriften-Stil in MarkText",
+        "preferHeadingStyle": "Der bevorzugte Überschriften-Stil in Marqen",
         "tabSize": "Tab durch x Leerzeichen ersetzen",
         "listIndentation": "Einrückung der Liste auswählen",
         "frontmatterType": "Der Frontmatter-Typ",
@@ -454,7 +457,7 @@
         "isHtmlEnabled": "HTML-Rendering aktivieren",
         "isGitlabCompatibilityEnabled": "GitLab-Kompatibilitätsmodus aktivieren",
         "sequenceTheme": "Sequenzdiagramm-Theme",
-        "theme": "Das in MarkText verwendete Theme auswählen",
+        "theme": "Das in Marqen verwendete Theme auswählen",
         "followSystemTheme": "Systemdesign folgen",
         "lightModeTheme": "Design, das verwendet werden soll, wenn sich das System im hellen Modus befindet",
         "darkModeTheme": "Design, das verwendet werden soll, wenn sich das System im dunklen Modus befindet",
@@ -468,7 +471,6 @@
         "imageRelativeDirectoryName": "Der relative Bildordner-Name",
         "sideBarVisibility": "Ob die Seitenleiste sichtbar ist",
         "tabBarVisibility": "Ob die Tabs angezeigt werden",
-        "sourceCodeModeEnabled": "Ob der Quellcode-Modus standardmäßig aktiviert ist",
         "searchExclusions": "Liste der Glob-Muster, die von der Suche ausgeschlossen werden sollen",
         "searchMaxFileSize": "Die maximale Dateigröße (<maxFileSize><suffix>). Suffixe von K, M oder G sind erlaubt, wenn kein Suffix angegeben ist, wird die Zahl als Bytes behandelt",
         "searchIncludeHidden": "Ob in versteckten Dateien und Verzeichnissen gesucht werden soll",
@@ -711,7 +713,7 @@
         "neverDetected": "Nie erkannt",
         "neverSuccessful": "Nie erfolgreich"
       },
-      "defaultBehavior": "Standardverhalten nach dem Einfügen oder Ziehen eines Bildes in MarkText"
+      "defaultBehavior": "Standardverhalten nach dem Einfügen oder Ziehen eines Bildes in Marqen"
     },
     "markdown": {
       "title": "Markdown",
@@ -885,12 +887,12 @@
     }
   },
   "about": {
-    "copyright": "Copyright © Luo Ran 2017-{year}",
-    "copyrightContributors": "Urheberrecht Mitwirkende"
+    "copyright": "Copyright © Marqen {year}",
+    "copyrightContributors": "Built with reference to MarkText"
   },
   "commands": {
     "mt": {
-      "hide": "MarkText ausblenden",
+      "hide": "Marqen ausblenden",
       "hideOthers": "Andere ausblenden"
     },
     "file": {
@@ -1050,7 +1052,7 @@
     "fileExists": "Datei existiert bereits: {filename}",
     "files": "Dateien",
     "importWarning": "Import-Warnung",
-    "installPandoc": "Pandoc installieren",
+    "installPandoc": "Document import is unavailable because a required conversion component is missing.",
     "keepOpen": "Offen halten",
     "replace": "Ersetzen",
     "save": "Speichern",
@@ -1061,7 +1063,7 @@
     "configSchemaViolation": "Konfigurationsschema-Verletzung",
     "copyError": "Kopierfehler",
     "initializationFailed": "Initialisierung fehlgeschlagen {hint}",
-    "otherInstanceDetected": "Eine andere Instanz von MarkText läuft bereits",
+    "otherInstanceDetected": "Eine andere Instanz von Marqen läuft bereits",
     "report": "Melden",
     "startupError": "Startfehler",
     "terminatedDueToError": "Aufgrund eines Fehlers beendet",
@@ -1106,7 +1108,8 @@
       "exportSuccessTitle": "Erfolgreich exportiert",
       "exportSuccessMessage": "„{name}“ wurde erfolgreich exportiert!",
       "fileRemovedOnDisk": "„{name}“ wurde auf dem Datenträger gelöscht.",
-      "fileChangedOnDisk": "„{name}“ wurde auf dem Datenträger geändert. Möchten Sie neu laden?"
+      "fileChangedOnDisk": "„{name}“ wurde auf dem Datenträger geändert. Möchten Sie neu laden?",
+      "untitled": "Unbenannt"
     }
   },
   "spellchecker": {

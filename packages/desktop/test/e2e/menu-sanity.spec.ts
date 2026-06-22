@@ -29,23 +29,18 @@ test.describe('Application menu wiring', () => {
       'heading2MenuItem',
       'heading3MenuItem',
       'quoteBlockMenuItem',
-      'codeFencesMenuItem',
       'bulletListMenuItem',
       'orderListMenuItem',
       'taskListMenuItem',
       'horizontalLineMenuItem',
-      'mathBlockMenuItem',
       'paragraphMenuItem',
       'strongMenuItem',
       'emphasisMenuItem',
-      'inlineCodeMenuItem',
       'strikeMenuItem',
       'highlightMenuItem',
       'underlineMenuItem',
       'superscriptMenuItem',
       'subscriptMenuItem',
-      'inlineMathMenuItem',
-      'sourceCodeModeMenuItem',
       'typewriterModeMenuItem',
       'focusModeMenuItem',
       'sideBarMenuItem',
@@ -64,6 +59,23 @@ test.describe('Application menu wiring', () => {
     }, expected)
     expected.forEach((id, idx) => {
       expect(present[idx], `menu id "${id}" should exist`).toBe(true)
+    })
+  })
+
+  test('Technical menu IDs are not registered by default', async() => {
+    const hidden = [
+      'codeFencesMenuItem',
+      'mathBlockMenuItem',
+      'inlineCodeMenuItem',
+      'inlineMathMenuItem'
+    ]
+    const present = await app.evaluate(({ Menu }, ids) => {
+      const menu = Menu.getApplicationMenu()
+      if (!menu) return ids.map(() => false)
+      return ids.map((id) => !!menu.getMenuItemById(id))
+    }, hidden)
+    hidden.forEach((id, idx) => {
+      expect(present[idx], `menu id "${id}" should stay hidden`).toBe(false)
     })
   })
 })

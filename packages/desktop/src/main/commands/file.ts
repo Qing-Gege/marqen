@@ -1,12 +1,6 @@
-import type { BrowserWindow } from 'electron'
-import { COMMANDS, type CommandManager, type CommandCallback } from './index'
+import type { CommandManager } from './index'
 
-const openQuickOpenDialog = (win: BrowserWindow | null | undefined): void => {
-  if (win && win.webContents) {
-    win.webContents.send('mt::execute-command-by-id', 'file.quick-open')
-  }
-}
-
-export const loadFileCommands = (commandManager: CommandManager): void => {
-  commandManager.add(COMMANDS.FILE_QUICK_OPEN, openQuickOpenDialog as CommandCallback)
+export const loadFileCommands = (_commandManager: CommandManager): void => {
+  // Intentionally empty: project/file-browser commands are no longer exposed as
+  // default app-level commands for the simplified document workflow.
 }

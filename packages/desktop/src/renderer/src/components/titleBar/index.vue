@@ -17,26 +17,20 @@
         class="title"
         @dblclick.stop="toggleMaxmizeOnMacOS"
       >
-        <span v-if="!filename">MarkText</span>
+        <span v-if="!filename">Marqen</span>
         <span v-else>
-          <span
-            v-for="(path, index) of paths"
-            :key="index"
-          >
-            {{ path }}
-            <el-icon
-              class="path-arrow"
-              :size="12"
-            >
-              <ArrowRight />
-            </el-icon>
-          </span>
           <span
             class="filename"
             :class="{ isOsx: platform === 'darwin' }"
             @click="rename"
           >
             {{ filename }}
+          </span>
+          <span
+            v-if="projectName"
+            class="workspace-badge"
+          >
+            {{ projectName }}
           </span>
           <span
             class="save-dot"
@@ -140,11 +134,9 @@ import { useLayoutStore } from '@/store/layout.js'
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { minimizePath, restorePath, maximizePath, closePath } from '../../assets/window-controls.js'
-import { PATH_SEPARATOR } from '../../config'
 import { isOsx as isOsxPlatform } from '@/util'
 import { useEditorStore } from '@/store/editor'
 import { useI18n } from 'vue-i18n'
-import { ArrowRight } from '@element-plus/icons-vue'
 import type { FileWordCount } from '@shared/types/files'
 
 interface ProjectInfo {
@@ -209,31 +201,27 @@ onMounted(async () => {
 const { titleBarStyle } = storeToRefs(preferencesStore)
 const { showTabBar } = storeToRefs(layoutStore)
 
-const paths = computed(() => {
-  if (!props.pathname) return []
-  const pathnameToken = props.pathname.split(PATH_SEPARATOR).filter((i) => i)
-  return pathnameToken.slice(0, pathnameToken.length - 1).slice(-3)
-})
-
 const showCustomTitleBar = computed(() => {
   return titleBarStyle.value === 'custom' && !isOsx
 })
 
+const projectName = computed(() => props.project?.name ?? '')
+
 watch(
-  () => props.filename,
-  (value) => {
+  () => [props.filename, projectName.value],
+  ([filename, workspaceName]) => {
     // Set filename when hover on dock
-    const hasOpenFolder = !!(props.project && props.project.name)
-    const projectName = props.project?.name ?? ''
+    const hasOpenFolder = !!workspaceName
     let title = ''
-    if (value) {
-      title = hasOpenFolder ? `${value} - ${projectName}` : `${value}`
+    if (filename) {
+      title = hasOpenFolder ? `${filename} - ${workspaceName} - Marqen` : `${filename} - Marqen`
     } else {
-      title = hasOpenFolder ? projectName : ''
+      title = hasOpenFolder ? `${workspaceName} - Marqen` : 'Marqen'
     }
 
     document.title = title
-  }
+  },
+  { immediate: true }
 )
 
 const handleWordClick = () => {
@@ -268,8 +256,13 @@ const handleMinimizeClick = () => {
   window.electron.windowControl.minimize()
 }
 
-const handleMenuClick = () => {
-  window.electron.windowControl.popupApplicationMenu({ x: 23, y: 20 })
+const handleMenuClick = (event: MouseEvent) => {
+  const target = event.currentTarget as HTMLElement
+  const rect = target.getBoundingClientRect()
+  window.electron.windowControl.popupApplicationMenu({
+    x: Math.round(rect.left + rect.width / 2),
+    y: Math.round(rect.bottom)
+  })
 }
 
 const rename = () => {
@@ -313,7 +306,7 @@ onBeforeUnmount(() => {
 <style scoped>
 .title-bar-editor-bg {
   height: var(--titleBarHeight);
-  background: var(--editorBgColor);
+  background: var(--marqenCanvas);
   position: relative;
   left: 0;
   top: 0;
@@ -322,10 +315,12 @@ onBeforeUnmount(() => {
 .title-bar {
   -webkit-app-region: drag;
   user-select: none;
-  background: transparent;
+  background: color-mix(in srgb, var(--marqenCanvas) 88%, transparent);
   height: var(--titleBarHeight);
   box-sizing: border-box;
   color: var(--editorColor50);
+  border-bottom: 1px solid rgba(43, 57, 49, 0.06);
+  backdrop-filter: blur(16px);
   position: fixed;
   left: 0;
   top: 0;
@@ -346,7 +341,8 @@ img {
   padding: 0 142px;
   height: 100%;
   line-height: var(--titleBarHeight);
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 560;
   text-align: center;
   transition: all 0.25s ease-in-out;
   & .filename {
@@ -419,19 +415,21 @@ div.title > span {
 .word-count {
   -webkit-app-region: no-drag;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
   color: var(--editorColor30);
   text-align: center;
   line-height: 24px;
-  padding: 0 5px;
+  padding: 0 7px;
   box-sizing: border-box;
   transition: all 0.25s ease-in-out;
   & > .text-center-vertical {
-    padding: 2px 5px;
-    border-radius: 3px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: 1px solid transparent;
   }
   &:hover > span {
-    background: var(--sideBarBgColor);
+    background: var(--itemBgColor);
+    border-color: var(--marqenLine);
     color: var(--sideBarTitleColor);
   }
 }
@@ -454,7 +452,29 @@ div.title > span {
   transform: translateX(-50%) translateY(-50%);
 }
 .frameless-titlebar-menu {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 28px;
+  margin-top: 2px;
   color: var(--sideBarColor);
+  cursor: default;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+  & > .text-center-vertical {
+    font-size: 17px;
+    line-height: 1;
+  }
+  &:hover {
+    background-color: var(--itemBgColor);
+    border-color: var(--marqenLine);
+    color: var(--sideBarTitleColor);
+  }
 }
 .frameless-titlebar-close:hover {
   background-color: rgb(228, 79, 79);
@@ -474,6 +494,24 @@ div.title > span {
   display: inline-block;
   vertical-align: middle;
   line-height: normal;
+}
+
+.workspace-badge {
+  display: inline-block;
+  max-width: 160px;
+  height: 18px;
+  margin-left: 8px;
+  padding: 0 8px;
+  border: 1px solid var(--marqenLine);
+  border-radius: 999px;
+  color: var(--marqenInkSoft);
+  background: color-mix(in srgb, var(--marqenAccentSoft) 70%, transparent);
+  font-size: 11px;
+  line-height: 18px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
 

@@ -56,6 +56,7 @@ export interface IpcInvokeChannels {
   'mt::fs::path-exists': { args: [path: string]; ret: boolean }
   'mt::fs::read-file': { args: [path: string, encoding?: string]; ret: string | Uint8Array }
   'mt::fs::readdir': { args: [path: string]; ret: string[] }
+  'mt::fs::set-hidden': { args: [path: string]; ret: void }
   'mt::fs::stat': { args: [path: string]; ret: SerializedStat }
   'mt::fs::unlink': { args: [path: string]; ret: void }
   'mt::fs::write-file': { args: [path: string, data: string | Uint8Array]; ret: void }
@@ -304,6 +305,7 @@ export interface KeyboardInfo {
 export interface BootInfo {
   platform: NodeJS.Platform
   arch: string
+  locale: string
   versions: Record<string, string>
   env: Record<string, string>
   paths: {

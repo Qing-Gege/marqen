@@ -66,25 +66,33 @@ export default function(keybindings: Keybindings): MenuItemConstructorOptions {
         }
       },
       {
-        type: 'separator'
-      },
-      {
-        id: 'inlineCodeMenuItem',
-        label: t('menu.format.inlineCode'),
-        type: 'checkbox',
-        accelerator: keybindings.getAccelerator('format.inline-code') ?? undefined,
-        click(_menuItem, focusedWindow) {
-          actions.inlineCode(focusedWindow as BrowserWindow | undefined)
-        }
-      },
-      {
-        id: 'inlineMathMenuItem',
-        label: t('menu.format.inlineMath'),
-        type: 'checkbox',
-        accelerator: keybindings.getAccelerator('format.inline-math') ?? undefined,
-        click(_menuItem, focusedWindow) {
-          actions.inlineMath(focusedWindow as BrowserWindow | undefined)
-        }
+        label: t('menu.format.highlightColor'),
+        submenu: [
+          {
+            label: t('menu.format.highlightYellow'),
+            click(_menuItem, focusedWindow) {
+              actions.highlightWithColor(focusedWindow as BrowserWindow | undefined, 'yellow')
+            }
+          },
+          {
+            label: t('menu.format.highlightGreen'),
+            click(_menuItem, focusedWindow) {
+              actions.highlightWithColor(focusedWindow as BrowserWindow | undefined, 'green')
+            }
+          },
+          {
+            label: t('menu.format.highlightBlue'),
+            click(_menuItem, focusedWindow) {
+              actions.highlightWithColor(focusedWindow as BrowserWindow | undefined, 'blue')
+            }
+          },
+          {
+            label: t('menu.format.highlightPink'),
+            click(_menuItem, focusedWindow) {
+              actions.highlightWithColor(focusedWindow as BrowserWindow | undefined, 'pink')
+            }
+          }
+        ]
       },
       {
         type: 'separator'
@@ -105,15 +113,6 @@ export default function(keybindings: Keybindings): MenuItemConstructorOptions {
         accelerator: keybindings.getAccelerator('format.hyperlink') ?? undefined,
         click(_menuItem, focusedWindow) {
           actions.hyperlink(focusedWindow as BrowserWindow | undefined)
-        }
-      },
-      {
-        id: 'imageMenuItem',
-        label: t('menu.format.image'),
-        type: 'checkbox',
-        accelerator: keybindings.getAccelerator('format.image') ?? undefined,
-        click(_menuItem, focusedWindow) {
-          actions.image(focusedWindow as BrowserWindow | undefined)
         }
       },
       {

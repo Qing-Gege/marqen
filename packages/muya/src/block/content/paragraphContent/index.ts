@@ -15,7 +15,6 @@ import type Content from '../../base/content';
 import type Parent from '../../base/parent';
 import type BulletList from '../../commonMark/bulletList';
 import type Paragraph from '../../commonMark/paragraph';
-import { HTML_TAGS, VOID_HTML_TAGS } from '../../../config';
 import { tokenizer } from '../../../inlineRenderer/lexer';
 import { isListItemState, isTaskListItemState } from '../../../state/types';
 import { isKeyboardEvent, isLengthEven } from '../../../utils';
@@ -37,8 +36,6 @@ enum UnindentType {
 }
 
 const debug = logger('paragraph:content');
-
-const HTML_BLOCK_REG = /^<([a-z\d-]+)(?=\s|>)[^<>]*>$/i;
 
 const BOTH_SIDES_FORMATS = [
     'strong',
@@ -151,51 +148,9 @@ class ParagraphContent extends Format {
 
         // eslint-disable-next-line regexp/no-super-linear-backtracking
         const TABLE_BLOCK_REG = /^\|.*?(\\*)\|.*?(\\*)\|/;
-        const MATH_BLOCK_REG = /^\$\$/;
         const { text } = this;
-        const codeBlockToken = text.match(/(^ {0,3}`{3,})([^` ]*)/);
         const tableMatch = TABLE_BLOCK_REG.exec(text);
-        const htmlMatch = HTML_BLOCK_REG.exec(text);
-        const mathMath = MATH_BLOCK_REG.exec(text);
-        const tagName
-            = htmlMatch && htmlMatch[1] && HTML_TAGS.find(t => t === htmlMatch[1]);
-
-        if (mathMath) {
-            const state = {
-                name: 'math-block',
-                text: '',
-                meta: {
-                    mathStyle: '',
-                },
-            };
-            const mathBlock = ScrollPage.loadBlock('math-block').create(
-                this.muya,
-                state,
-            );
-            this.parent!.replaceWith(mathBlock);
-            mathBlock.firstContentInDescendant().setCursor(0, 0);
-        }
-        else if (codeBlockToken) {
-            // Convert to code block
-            const lang = codeBlockToken[2];
-            const state = {
-                name: 'code-block',
-                meta: {
-                    lang,
-                    type: 'fenced',
-                },
-                text: '',
-            };
-            const codeBlock = ScrollPage.loadBlock(state.name).create(
-                this.muya,
-                state,
-            );
-
-            this.parent!.replaceWith(codeBlock);
-
-            codeBlock.lastContentInDescendant().setCursor(0, 0);
-        }
-        else if (
+        if (
             tableMatch
             && isLengthEven(tableMatch[1])
             && isLengthEven(tableMatch[2])
@@ -220,19 +175,6 @@ class ParagraphContent extends Format {
             const tableBody = tableBlock.firstChild as Parent;
             const secondRow = tableBody.find(1) as Parent;
             secondRow.firstContentInDescendant()?.setCursor(0, 0, true);
-        }
-        else if (tagName && VOID_HTML_TAGS.every(tag => tag !== tagName)) {
-            const state = {
-                name: 'html-block',
-                text: `<${tagName}>\n\n</${tagName}>`,
-            };
-            const htmlBlock = ScrollPage.loadBlock('html-block').create(
-                this.muya,
-                state,
-            );
-            this.parent!.replaceWith(htmlBlock);
-            const offset = tagName.length + 3;
-            htmlBlock.firstContentInDescendant().setCursor(offset, offset);
         }
         else {
             return super.enterHandler(event);

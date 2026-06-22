@@ -131,16 +131,6 @@
       v-else
       class="open-project"
     >
-      <div class="centered-group">
-        <el-button
-          text
-          bg
-          type="primary"
-          @click="openFolder"
-        >
-          {{ t('sideBar.tree.openFolder') }}
-        </el-button>
-      </div>
     </div>
   </div>
 </template>
@@ -194,10 +184,6 @@ const createCacheDirname = computed<string | undefined>(() => {
 })
 
 // Methods
-const openFolder = (): void => {
-  projectStore.ASK_FOR_OPEN_PROJECT()
-}
-
 const saveAll = (isClose: boolean): void => {
   editorStore.ASK_FOR_SAVE_ALL(isClose)
 }

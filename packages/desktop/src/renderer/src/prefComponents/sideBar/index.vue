@@ -162,17 +162,21 @@ onUnmounted(() => {
   -webkit-app-region: drag;
   display: flex;
   flex-direction: column;
-  background: var(--sideBarBgColor);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.62), rgba(244, 241, 234, 0)),
+    var(--sideBarBgColor);
   width: var(--prefSideBarWidth);
   height: 100vh;
   padding-top: 24px;
   box-sizing: border-box;
+  border-right: 1px solid var(--marqenLine);
   & h3 {
     margin: 0;
-    font-size: 20px;
-    font-weight: normal;
+    font-size: 22px;
+    font-weight: 650;
     text-align: center;
     color: var(--sideBarColor);
+    letter-spacing: 0;
   }
 }
 .search-wrapper {
@@ -229,11 +233,12 @@ onUnmounted(() => {
   -webkit-app-region: no-drag;
   overflow-y: auto;
   & .item {
-    width: 100%;
-    height: 38px;
+    width: calc(100% - 20px);
+    height: 40px;
     font-size: 16px;
     color: var(--sideBarColor);
-    padding-left: 16px;
+    margin: 2px 10px;
+    padding-left: 12px;
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
@@ -241,11 +246,18 @@ onUnmounted(() => {
     cursor: pointer;
     position: relative;
     user-select: none;
+    border-radius: 8px;
+    transition: background 0.16s ease, color 0.16s ease;
     & > svg {
       width: 18px;
       height: 18px;
       color: var(--sideBarColor);
       margin-right: 12px;
+    }
+    &.active {
+      background: var(--itemBgColor);
+      color: var(--sideBarTitleColor);
+      box-shadow: 0 1px 0 rgba(24, 53, 47, 0.04);
     }
     &.active > svg {
       color: var(--sideBarTitleColor);

@@ -5,12 +5,22 @@ import commandExists from 'command-exists'
 import { isFile2 } from 'common/filesystem'
 
 const pandocCommand = 'pandoc'
+const envPandocPath = 'MARQEN_PANDOC'
+const legacyEnvPandocPath = 'MARKTEXT_PANDOC'
 
 const getCommand = (): string => {
-  if (envPathExists()) {
-    return process.env.MARKTEXT_PANDOC as string
+  const configuredCommand = getConfiguredCommand()
+  if (configuredCommand) {
+    return configuredCommand
   }
   return pandocCommand
+}
+
+const getConfiguredCommand = (): string | null => {
+  if (envPathExists()) {
+    return (process.env[envPandocPath] || process.env[legacyEnvPandocPath]) as string
+  }
+  return null
 }
 
 interface PandocConverter {
@@ -32,11 +42,22 @@ const pandoc = ((from: string, to: string, ...args: string[]): PandocConverter =
       const proc = spawn(command, option)
       proc.on('error', reject)
       let data = ''
+      let stderr = ''
       proc.stdout.on('data', (chunk: Buffer | string) => {
         data += chunk.toString()
       })
-      proc.stdout.on('end', () => resolve(data))
+      proc.stderr.on('data', (chunk: Buffer | string) => {
+        stderr += chunk.toString()
+      })
+      proc.on('close', (code) => {
+        if (code === 0) {
+          resolve(data)
+        } else {
+          reject(new Error(stderr || `Pandoc exited with code ${code ?? 'unknown'}`))
+        }
+      })
       proc.stdout.on('error', reject)
+      proc.stderr.on('error', reject)
       proc.stdin.end()
     })) as PandocConverter
 
@@ -57,7 +78,8 @@ pandoc.exists = (): boolean => {
 }
 
 const envPathExists = (): boolean => {
-  return !!process.env.MARKTEXT_PANDOC && isFile2(process.env.MARKTEXT_PANDOC)
+  const configuredPath = process.env[envPandocPath] || process.env[legacyEnvPandocPath]
+  return !!configuredPath && isFile2(configuredPath)
 }
 
 export default pandoc

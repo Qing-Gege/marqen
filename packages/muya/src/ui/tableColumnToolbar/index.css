@@ -1,12 +1,12 @@
 .mu-float-wrapper.mu-table-column-tools-container {
     overflow: visible;
 
-    border-radius: 2px;
+    border-radius: 6px;
 }
 
 .mu-table-column-tools {
-    width: 160px;
-    height: 24px;
+    width: 226px;
+    height: 36px;
 }
 
 .mu-table-column-tools ul,
@@ -17,7 +17,7 @@
 
 .mu-table-column-tools ul {
     display: flex;
-    padding: 0 5px;
+    padding: 2px 6px;
 }
 
 .mu-table-column-tools li.item {
@@ -26,10 +26,11 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
 
     list-style: none;
+    border-radius: 4px;
     cursor: pointer;
 }
 
@@ -43,11 +44,11 @@
 
 .mu-table-column-tools li.item:last-of-type::before {
     position: absolute;
-    top: 5px;
-    left: -3px;
+    top: 7px;
+    left: -4px;
 
     width: 1px;
-    height: 14px;
+    height: 18px;
 
     background: var(--editor-color-10);
 
@@ -56,8 +57,8 @@
 
 .mu-table-column-tools li.item .icon-wrapper {
     display: flex;
-    width: 14px;
-    height: 14px;
+    width: 18px;
+    height: 18px;
 }
 
 .mu-table-column-tools li.item .icon-wrapper i.icon {
@@ -75,13 +76,13 @@
 
 .mu-table-column-tools li.item .icon-wrapper i.icon > i[class^='icon-'] {
     position: relative;
-    left: -14px;
+    left: -18px;
 
     display: inline-block;
     width: 100%;
     height: 100%;
 
-    filter: drop-shadow(14px 0 currentcolor);
+    filter: drop-shadow(18px 0 currentcolor);
 }
 
 .mu-table-column-tools li.item.active .icon-wrapper i.icon {

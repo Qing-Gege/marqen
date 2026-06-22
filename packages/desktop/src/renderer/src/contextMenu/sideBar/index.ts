@@ -6,8 +6,7 @@ import {
   getCUT,
   getPASTE,
   getRENAME,
-  getDELETE,
-  getShowInFolder
+  getDELETE
 } from './menuItems'
 import { popupContextMenu, type ContextMenuItem } from '../popupMenu'
 
@@ -24,9 +23,7 @@ export const showContextMenu = (
     getPASTE(),
     SEPARATOR,
     getRENAME(),
-    getDELETE(),
-    SEPARATOR,
-    getShowInFolder()
+    getDELETE()
   ]
 
   // PASTE entry (index 5) toggles based on the cached source path.

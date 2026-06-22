@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import { MUYA_DEFAULT_OPTIONS } from '../../config';
 import { MarkdownToState } from '../markdownToState';
 import ExportMarkdown from '../stateToMarkdown';
 
@@ -30,57 +29,26 @@ function toMarkdown(states: IStateLike[]): string {
     );
 }
 
-// Parity restoration for flowchart + sequence diagrams. The legacy muyajs
-// engine rendered ```flowchart``` (flowchart.js) and ```sequence```
-// (js-sequence-diagrams) fenced blocks as diagram blocks; the TS rewrite
-// dropped them. These specs lock the parse + round-trip behaviour so the
-// two diagram types stay first-class alongside mermaid / plantuml /
-// vega-lite.
-describe('diagram blocks — flowchart & sequence parity', () => {
-    it('parses a ```flowchart``` fence as a diagram block of type flowchart', () => {
-        const md = `\`\`\`flowchart
+describe('technical diagram fences', () => {
+    it.each(['flowchart', 'sequence', 'mermaid', 'plantuml', 'vega-lite'])(
+        'keeps ```%s``` as an editable code block',
+        (lang) => {
+            const md = `\`\`\`${lang}
 st=>start: Start
 e=>end: End
 st->e
 \`\`\`
 `;
-        const states = generate(md);
-        expect(states.length).toBe(1);
-        expect(states[0].name).toBe('diagram');
-        expect(states[0].meta!.type).toBe('flowchart');
-        // flowchart is not vega-lite, so the inner code lang stays yaml.
-        expect(states[0].meta!.lang).toBe('yaml');
-        expect(states[0].text).toContain('st=>start: Start');
-    });
+            const states = generate(md);
 
-    it('parses a ```sequence``` fence as a diagram block of type sequence', () => {
-        const md = `\`\`\`sequence
-Alice->Bob: Hello Bob
-Bob-->Alice: Hi Alice
-\`\`\`
-`;
-        const states = generate(md);
-        expect(states.length).toBe(1);
-        expect(states[0].name).toBe('diagram');
-        expect(states[0].meta!.type).toBe('sequence');
-        expect(states[0].meta!.lang).toBe('yaml');
-        expect(states[0].text).toContain('Alice->Bob: Hello Bob');
-    });
+            expect(states.length).toBe(1);
+            expect(states[0].name).toBe('code-block');
+            expect(states[0].meta!.lang).toBe(lang);
+            expect(states[0].text).toContain('st=>start: Start');
+        },
+    );
 
-    it('round-trips a flowchart diagram block back to a ```flowchart``` fence', () => {
-        const md = `\`\`\`flowchart
-st=>start: Start
-e=>end: End
-st->e
-\`\`\`
-`;
-        const out = toMarkdown(generate(md));
-        expect(out).toContain('```flowchart');
-        expect(out).toContain('st=>start: Start');
-        expect(out).toContain('st->e');
-    });
-
-    it('round-trips a sequence diagram block back to a ```sequence``` fence', () => {
+    it('round-trips technical fences without enabling diagram rendering', () => {
         const md = `\`\`\`sequence
 Alice->Bob: Hello Bob
 Bob-->Alice: Hi Alice
@@ -90,20 +58,5 @@ Bob-->Alice: Hi Alice
         expect(out).toContain('```sequence');
         expect(out).toContain('Alice->Bob: Hello Bob');
         expect(out).toContain('Bob-->Alice: Hi Alice');
-    });
-
-    it('still parses mermaid / plantuml / vega-lite (no regression)', () => {
-        for (const type of ['mermaid', 'plantuml', 'vega-lite'] as const) {
-            const md = `\`\`\`${type}\nfoo\n\`\`\`\n`;
-            const states = generate(md);
-            expect(states[0].name).toBe('diagram');
-            expect(states[0].meta!.type).toBe(type);
-        }
-    });
-});
-
-describe('sequenceTheme option', () => {
-    it('defaults to `hand` in MUYA_DEFAULT_OPTIONS', () => {
-        expect(MUYA_DEFAULT_OPTIONS.sequenceTheme).toBe('hand');
     });
 });

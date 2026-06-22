@@ -5,11 +5,8 @@ import type { CommandManager } from '../../commands'
 const MENU_ID_FORMAT_MAP: Readonly<Record<string, string>> = Object.freeze({
   strongMenuItem: 'strong',
   emphasisMenuItem: 'em',
-  inlineCodeMenuItem: 'inline_code',
   strikeMenuItem: 'del',
-  hyperlinkMenuItem: 'link',
-  imageMenuItem: 'image',
-  inlineMathMenuItem: 'inline_math'
+  hyperlinkMenuItem: 'link'
 })
 
 type Win = BrowserWindow | null | undefined
@@ -32,20 +29,16 @@ export const highlight = (win: Win): void => {
   format(win, 'mark')
 }
 
+export const highlightWithColor = (win: Win, color: string): void => {
+  format(win, `mark:${color}`)
+}
+
 export const hyperlink = (win: Win): void => {
   format(win, 'link')
 }
 
 export const image = (win: Win): void => {
   format(win, 'image')
-}
-
-export const inlineCode = (win: Win): void => {
-  format(win, 'inline_code')
-}
-
-export const inlineMath = (win: Win): void => {
-  format(win, 'inline_math')
 }
 
 export const strikethrough = (win: Win): void => {
@@ -76,8 +69,6 @@ export const loadFormatCommands = (commandManager: CommandManager): void => {
   commandManager.add(COMMANDS.FORMAT_HIGHLIGHT, highlight)
   commandManager.add(COMMANDS.FORMAT_HYPERLINK, hyperlink)
   commandManager.add(COMMANDS.FORMAT_IMAGE, image)
-  commandManager.add(COMMANDS.FORMAT_INLINE_CODE, inlineCode)
-  commandManager.add(COMMANDS.FORMAT_INLINE_MATH, inlineMath)
   commandManager.add(COMMANDS.FORMAT_STRIKE, strikethrough)
   commandManager.add(COMMANDS.FORMAT_STRONG, strong)
   commandManager.add(COMMANDS.FORMAT_SUBSCRIPT, subscript)

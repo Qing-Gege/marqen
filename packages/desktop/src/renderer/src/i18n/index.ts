@@ -1,8 +1,20 @@
 import { createI18n } from 'vue-i18n'
 import bus from '../bus'
+import { normalizeLanguage } from 'common/i18n'
 
 // Directly import translation files
 import enTranslations from '../../../../static/locales/en.json'
+import zhCNTranslations from '../../../../static/locales/zh-CN.json'
+
+const initialLocale = normalizeLanguage(window.i18nUtils?.initialLocale) ?? 'en'
+const resolveLocale = (locale: string | null | undefined): string | null => {
+  if (!locale || locale === 'system') return initialLocale
+  return normalizeLanguage(locale)
+}
+const initialMessages =
+  initialLocale === 'zh-CN'
+    ? { en: enTranslations, 'zh-CN': zhCNTranslations }
+    : { en: enTranslations }
 
 // Create the Vue i18n instance.
 // vue-i18n's options type intersection between Composition + Legacy modes is
@@ -10,9 +22,9 @@ import enTranslations from '../../../../static/locales/en.json'
 // at the call site rather than spreading `any` further.
 const i18n = createI18n({
   legacy: false,
-  locale: 'en', // default is en
+  locale: initialLocale,
   fallbackLocale: 'en',
-  messages: { en: enTranslations }, // Load en by default only
+  messages: initialMessages,
   // Disable linking to avoid '@' symbols being misinterpreted
   modifiers: {
     '@': () => '@'
@@ -65,26 +77,27 @@ const inflightLoads = new Map<string, Promise<Record<string, unknown> | undefine
 
 // Export language setter function
 export const setLanguage = async(locale: string): Promise<void> => {
-  if (!locale) return
+  const resolvedLocale = resolveLocale(locale)
+  if (!resolvedLocale) return
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const globalI18n = i18n.global as any
-  if (!globalI18n.availableLocales.includes(locale)) {
-    let pending = inflightLoads.get(locale)
+  if (!globalI18n.availableLocales.includes(resolvedLocale)) {
+    let pending = inflightLoads.get(resolvedLocale)
     if (!pending) {
-      pending = Promise.resolve(window.i18nUtils.loadTranslations(locale)).finally(() =>
-        inflightLoads.delete(locale)
+      pending = Promise.resolve(window.i18nUtils.loadTranslations(resolvedLocale)).finally(() =>
+        inflightLoads.delete(resolvedLocale)
       )
-      inflightLoads.set(locale, pending)
+      inflightLoads.set(resolvedLocale, pending)
     }
     const translation = await pending
     if (!translation) return // Failed to load locale file
 
-    if (!globalI18n.availableLocales.includes(locale)) {
-      globalI18n.setLocaleMessage(locale, translation)
-      console.log(`🌐 Loaded and set new locale: ${locale}`)
+    if (!globalI18n.availableLocales.includes(resolvedLocale)) {
+      globalI18n.setLocaleMessage(resolvedLocale, translation)
+      console.log(`🌐 Loaded and set new locale: ${resolvedLocale}`)
     }
   }
-  globalI18n.locale.value = locale
+  globalI18n.locale.value = resolvedLocale
 }
 
 // Export the current language getter function

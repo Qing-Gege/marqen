@@ -39,146 +39,6 @@
         />
       </template>
     </compound>
-
-    <compound>
-      <template #head>
-        <h6 class="title">
-          {{ t('preferences.editor.codeBlock.title') }}
-        </h6>
-      </template>
-      <template #children>
-        <range
-          :description="t('preferences.editor.codeBlock.fontSize')"
-          :value="codeFontSize"
-          :min="12"
-          :max="28"
-          unit="px"
-          :step="1"
-          :on-change="(value) => onSelectChange('codeFontSize', value)"
-        />
-        <font-text-box
-          :description="t('preferences.editor.codeBlock.fontFamily')"
-          :only-monospace="true"
-          :value="codeFontFamily"
-          :on-change="(value) => onSelectChange('codeFontFamily', value)"
-        />
-        <bool
-          :description="t('preferences.editor.codeBlock.showLineNumbers')"
-          :bool="codeBlockLineNumbers"
-          :on-change="(value) => onSelectChange('codeBlockLineNumbers', value)"
-        />
-        <bool
-          :description="t('preferences.editor.codeBlock.removeEmptyLines')"
-          :bool="trimUnnecessaryCodeBlockEmptyLines"
-          :on-change="(value) => onSelectChange('trimUnnecessaryCodeBlockEmptyLines', value)"
-        />
-        <bool
-          :description="t('preferences.editor.misc.wrapCodeBlocks')"
-          :bool="wrapCodeBlocks"
-          :on-change="(value) => onSelectChange('wrapCodeBlocks', value)"
-        />
-      </template>
-    </compound>
-
-    <compound>
-      <template #head>
-        <h6 class="title">
-          {{ t('preferences.editor.writingBehavior.title') }}
-        </h6>
-      </template>
-      <template #children>
-        <bool
-          :description="t('preferences.editor.writingBehavior.autoCloseBrackets')"
-          :bool="autoPairBracket"
-          :on-change="(value) => onSelectChange('autoPairBracket', value)"
-        />
-        <bool
-          :description="t('preferences.editor.writingBehavior.autoCompleteMarkdown')"
-          :bool="autoPairMarkdownSyntax"
-          :on-change="(value) => onSelectChange('autoPairMarkdownSyntax', value)"
-        />
-        <bool
-          :description="t('preferences.editor.writingBehavior.autoCloseQuotes')"
-          :bool="autoPairQuote"
-          :on-change="(value) => onSelectChange('autoPairQuote', value)"
-        />
-      </template>
-    </compound>
-
-    <compound>
-      <template #head>
-        <h6 class="title">
-          {{ t('preferences.editor.fileRepresentation.title') }}
-        </h6>
-      </template>
-      <template #children>
-        <cur-select
-          :description="t('preferences.editor.fileRepresentation.tabWidth')"
-          :value="tabSize"
-          :options="tabSizeOptions"
-          :on-change="(value) => onSelectChange('tabSize', value)"
-        />
-        <cur-select
-          :description="t('preferences.editor.fileRepresentation.lineSeparator')"
-          :value="endOfLine"
-          :options="getEndOfLineOptions()"
-          :on-change="(value) => onSelectChange('endOfLine', value)"
-        />
-        <cur-select
-          :description="t('preferences.editor.fileRepresentation.defaultEncoding')"
-          :value="defaultEncoding"
-          :options="defaultEncodingOptions"
-          :on-change="(value) => onSelectChange('defaultEncoding', value)"
-        />
-        <bool
-          :description="t('preferences.editor.fileRepresentation.autoDetectEncoding')"
-          :bool="autoGuessEncoding"
-          :on-change="(value) => onSelectChange('autoGuessEncoding', value)"
-        />
-        <bool
-          :description="t('preferences.editor.misc.autoNormalizeLineEndings')"
-          :bool="autoNormalizeLineEndings"
-          :on-change="(value) => onSelectChange('autoNormalizeLineEndings', value)"
-        />
-        <cur-select
-          :description="t('preferences.editor.fileRepresentation.trailingNewlines.title')"
-          :value="trimTrailingNewline"
-          :options="getTrimTrailingNewlineOptions()"
-          :on-change="(value) => onSelectChange('trimTrailingNewline', value)"
-        />
-      </template>
-    </compound>
-
-    <compound>
-      <template #head>
-        <h6 class="title">
-          {{ t('preferences.editor.misc.title') }}
-        </h6>
-      </template>
-      <template #children>
-        <cur-select
-          :description="t('preferences.editor.misc.textDirection.title')"
-          :value="textDirection"
-          :options="getTextDirectionOptions()"
-          :on-change="(value) => onSelectChange('textDirection', value)"
-        />
-        <bool
-          :description="t('preferences.editor.misc.hideQuickInsertHint')"
-          :bool="hideQuickInsertHint"
-          :on-change="(value) => onSelectChange('hideQuickInsertHint', value)"
-        />
-        <bool
-          :description="t('preferences.editor.misc.hideLinkPopup')"
-          :bool="hideLinkPopup"
-          :on-change="(value) => onSelectChange('hideLinkPopup', value)"
-        />
-        <bool
-          :description="t('preferences.editor.misc.autoCheck')"
-          :bool="autoCheck"
-          :on-change="(value) => onSelectChange('autoCheck', value)"
-        />
-      </template>
-    </compound>
   </div>
 </template>
 
@@ -190,45 +50,16 @@ import type { PreferencesState } from '@/store/preferences'
 import Compound from '../common/compound/index.vue'
 import FontTextBox from '../common/fontTextBox/index.vue'
 import Range from '../common/range/index.vue'
-import CurSelect from '../common/select/index.vue'
-import Bool from '../common/bool/index.vue'
 import TextBox from '../common/textBox/index.vue'
-import {
-  tabSizeOptions,
-  getEndOfLineOptions,
-  getTextDirectionOptions,
-  getTrimTrailingNewlineOptions,
-  getDefaultEncodingOptions
-} from './config'
 
 const { t } = useI18n()
 const preferenceStore = usePreferencesStore()
-
-const defaultEncodingOptions = getDefaultEncodingOptions()
 
 const {
   fontSize,
   editorFontFamily,
   lineHeight,
-  autoPairBracket,
-  autoPairMarkdownSyntax,
-  autoPairQuote,
-  tabSize,
-  endOfLine,
-  textDirection,
-  codeFontSize,
-  codeFontFamily,
-  codeBlockLineNumbers,
-  trimUnnecessaryCodeBlockEmptyLines,
-  hideQuickInsertHint,
-  hideLinkPopup,
-  autoCheck,
-  autoNormalizeLineEndings,
-  wrapCodeBlocks,
-  editorLineWidth,
-  defaultEncoding,
-  autoGuessEncoding,
-  trimTrailingNewline
+  editorLineWidth
 } = storeToRefs(preferenceStore)
 
 const onSelectChange = (type: keyof PreferencesState, value: unknown): void => {
