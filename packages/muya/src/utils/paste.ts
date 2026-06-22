@@ -3,8 +3,27 @@ import { IMAGE_EXT_REG, PARAGRAPH_TYPES, PREVIEW_DOMPURIFY_CONFIG } from '../con
 import { sanitize } from '../utils';
 
 const TIMEOUT = 1500;
+const HTML_BODY_REG = /<body\b[^>]*>([\s\S]*)<\/body>/i;
+const OFFICE_HTML_HINT_REG = /(?:\bmso-|@font-face|@page\b|@list\b|class="?Mso|urn:schemas-microsoft-com:office:office)/i;
 
 export const isOnline = () => navigator.onLine === true;
+
+function stripOfficeClipboardChrome(html: string) {
+    const bodyMatch = HTML_BODY_REG.exec(html);
+    if (bodyMatch && typeof bodyMatch[1] === 'string')
+        html = bodyMatch[1];
+
+    if (!OFFICE_HTML_HINT_REG.test(html))
+        return html;
+
+    return html
+        .replace(/<head\b[\s\S]*?<\/head>/gi, '')
+        .replace(/<style\b[\s\S]*?<\/style>/gi, '')
+        .replace(/<title\b[\s\S]*?<\/title>/gi, '')
+        .replace(/<xml\b[\s\S]*?<\/xml>/gi, '')
+        .replace(/<meta\b[^>]*>/gi, '')
+        .replace(/<link\b[^>]*>/gi, '');
+}
 
 export async function getPageTitle(url: string) {
     // No need to request the title when it's not url.
@@ -36,12 +55,7 @@ export async function getPageTitle(url: string) {
 }
 
 export async function normalizePastedHTML(html: string) {
-    // Only extract the `body.innerHTML` when the `html` is a full HTML Document.
-    if (/<body>[\s\S]*<\/body>/.test(html)) {
-        const match = /<body>([\s\S]*)<\/body>/.exec(html);
-        if (match && typeof match[1] === 'string')
-            html = match[1];
-    }
+    html = stripOfficeClipboardChrome(html);
 
     // Prevent XSS and sanitize HTML.
     const sanitizedHtml = sanitize(
