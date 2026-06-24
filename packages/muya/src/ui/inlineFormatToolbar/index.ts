@@ -375,6 +375,9 @@ export class InlineFormatToolbar extends BaseFloat {
             this._lastSelection = currentSelection;
             this._block = null;
             this._formats = [];
+            this._paragraphMenuOpen = false;
+            this.hide();
+            return;
         }
 
         const rect = range.getBoundingClientRect();
