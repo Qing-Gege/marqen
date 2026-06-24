@@ -51,6 +51,7 @@ const NON_EDITING_KEYS = new Set([
     'Alt',
     'Tab',
 ]);
+const PURE_MODIFIER_KEYS = new Set(['Alt', 'Control', 'Meta', 'Shift']);
 
 interface IHeadingState {
     name: 'atx-heading';
@@ -183,7 +184,10 @@ export class InlineFormatToolbar extends BaseFloat {
             if (wasPointerSelecting)
                 this._scheduleSelectionSync(80);
         });
-        eventCenter.attachDOMEvent(domNode, 'keyup', () => {
+        eventCenter.attachDOMEvent(domNode, 'keyup', (event) => {
+            if (isKeyboardEvent(event) && PURE_MODIFIER_KEYS.has(event.key))
+                return;
+
             this._scheduleSelectionSync();
         });
         eventCenter.attachDOMEvent(document, 'selectionchange', () => {
@@ -204,6 +208,9 @@ export class InlineFormatToolbar extends BaseFloat {
             return;
 
         const { key, shiftKey, metaKey, ctrlKey, altKey } = event;
+        if (PURE_MODIFIER_KEYS.has(key))
+            return;
+
         const selection = editor.selection.getSelection();
         if (!selection)
             return;

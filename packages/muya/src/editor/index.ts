@@ -16,13 +16,14 @@ import InlineRenderer from '../inlineRenderer';
 import { Search } from '../search';
 import Selection from '../selection';
 import JSONState from '../state';
-import { hasPick, isHTMLElement } from '../utils';
+import { hasPick, isHTMLElement, isKeyboardEvent } from '../utils';
 import { getBlock } from '../utils/dom';
 import logger from '../utils/logger';
 import { attachDragDropImageHandlers } from './dragDropImage';
 import { attachLinkMouseHandlers } from './linkMouseEvents';
 
 const debug = logger('editor:');
+const PURE_MODIFIER_KEYS = new Set(['Alt', 'Control', 'Meta', 'Shift']);
 
 export class Editor {
     jsonState: JSONState;
@@ -86,6 +87,14 @@ export class Editor {
         const { domNode } = this.muya;
 
         const eventHandler = (event: Event) => {
+            if (
+                isKeyboardEvent(event)
+                && (event.type === 'keydown' || event.type === 'keyup')
+                && PURE_MODIFIER_KEYS.has(event.key)
+            ) {
+                return;
+            }
+
             const { anchorBlock, isSelectionInSameBlock }
                 = this.selection.getSelection() ?? {};
             // Fix issue that language input can not get focus when it's empty(Firefox only)
