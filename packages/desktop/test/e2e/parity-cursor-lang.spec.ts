@@ -20,8 +20,7 @@ import {
 // empty paragraph's quick-insert hint updates immediately.
 
 // Place a collapsed caret at character offset `ch` inside the Nth (0-based)
-// non-empty paragraph. Prefer Milkdown/ProseMirror DOM while retaining the old
-// Muya selector as a fallback.
+// non-empty paragraph in Muya's rendered DOM.
 const placeCaretInParagraph = (
   page: Page,
   index: number,
@@ -29,7 +28,7 @@ const placeCaretInParagraph = (
 ): Promise<boolean> =>
   page.evaluate(
     ({ paragraphIndex, offset }) => {
-      const root = document.querySelector('.editor-component .ProseMirror, .editor-component') as HTMLElement | null
+      const root = document.querySelector('.editor-component') as HTMLElement | null
       if (!root) return false
       root.focus()
       const spans = Array.from(root.querySelectorAll('p, span.mu-paragraph-content'))
@@ -111,7 +110,7 @@ test.describe('Parity G8 — language switch refreshes inline hints', () => {
 
     const hintFor = (): Promise<string | null> =>
       page.evaluate(() => {
-        const p = document.querySelector('.editor-component .ProseMirror p, .editor-component span.mu-paragraph-content')
+        const p = document.querySelector('.editor-component span.mu-paragraph-content')
         return p ? p.getAttribute('data-placeholder') || p.getAttribute('empty-hint') || p.textContent : null
       })
 

@@ -24,11 +24,10 @@ const headingMenuChecked = async(app: ElectronApplication, id: string): Promise<
   }, id)
 }
 
-// Collapse the selection inside the heading content. Prefer Milkdown's h1 DOM,
-// retaining the old Muya span selector as a fallback.
+// Collapse the selection inside the heading content in Muya's rendered DOM.
 const placeCaretInHeading = async(page: Page): Promise<boolean> => {
   const ok = await page.evaluate(() => {
-    const root = document.querySelector('.editor-component .ProseMirror, .editor-component') as HTMLElement | null
+    const root = document.querySelector('.editor-component') as HTMLElement | null
     if (!root) return false
     const span = root.querySelector('h1, h1 span.mu-content') as HTMLElement | null
     if (!span) return false

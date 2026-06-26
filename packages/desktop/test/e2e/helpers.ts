@@ -254,16 +254,15 @@ export const getMarkdownContent = async(
 }
 
 export const typeIntoEditor = async(page: Page, text: string): Promise<void> => {
-  const editable = page.locator('.editor-component .ProseMirror, .editor-component [contenteditable="true"]').first()
+  const editable = page.locator('.editor-component [contenteditable="true"]').first()
   await editable.click({ timeout: 5000 })
   await page.keyboard.type(text, { delay: 0 })
 }
 
-// Place a DOM selection inside the editor. Prefer Milkdown/ProseMirror content,
-// while keeping the legacy Muya selector as a fallback for old fixtures.
+// Place a DOM selection inside Muya's rendered editor content.
 const commitSelection = (collapse: boolean) => {
   const root = document.querySelector(
-    '.editor-component .ProseMirror, .editor-component [contenteditable="true"], .editor-component'
+    '.editor-component [contenteditable="true"], .editor-component'
   ) as HTMLElement | null
   if (!root) return false
   root.focus()
