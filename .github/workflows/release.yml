@@ -38,20 +38,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: linux
-            os: ubuntu-22.04
-            platform: linux
           - name: windows-x64
             os: windows-latest
             platform: windows
-            arch: x64
-          - name: windows-arm64
-            os: windows-11-arm
-            platform: windows
-            arch: arm64
-          - name: macos-x64
-            os: macos-15-intel
-            platform: macos
             arch: x64
           - name: macos-arm64
             os: macos-15
@@ -66,10 +55,6 @@ jobs:
         if: matrix.platform == 'windows'
         shell: bash
         run: git config --global core.longpaths true
-
-      - name: Install Linux Build Dependencies
-        if: matrix.platform == 'linux'
-        run: sudo apt-get update && sudo apt-get install -y icnsutils graphicsmagick xz-utils libx11-dev libxkbfile-dev gnome-keyring libsecret-1-dev libfontconfig-dev rpm
 
       - name: Install Python 3.12
         uses: actions/setup-python@v5.6.0
@@ -106,13 +91,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           npm_config_user_agent: 'pnpm'
-          USE_ELECTRON_CLANG: ${{ matrix.platform == 'linux' && '0' || '' }}
-
-      - name: build-linux
-        if: matrix.platform == 'linux'
-        run: pnpm run build:linux
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Mac builds are unsigned (no Developer ID). Per-arch script: electron-builder's
       # --arm64/--x64 flags are additive over the config's arch list, so
@@ -142,11 +120,6 @@ jobs:
             dist/*.dmg
             dist/*.blockmap
             dist/*.yml
-            dist/*.AppImage
-            dist/*.snap
-            dist/*.deb
-            dist/*.rpm
-            dist/*.tar.gz
 
   release:
     name: Publish GitHub Release
