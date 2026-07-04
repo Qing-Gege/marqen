@@ -126,10 +126,10 @@ describe('format.format(\'clear\') with the caret inside the run', () => {
     });
 
     it('unwraps a link to its anchor text', () => {
-        // Caret rests inside the anchor text `Anthropic`.
-        const content = caretInFirstBlock(bootMuya('[Anthropic](https://example.com)\n'), 4);
+        // Caret rests inside the anchor text `Example`.
+        const content = caretInFirstBlock(bootMuya('[Example](https://example.com)\n'), 4);
         content.format('clear');
-        expect(content.text).toBe('Anthropic');
+        expect(content.text).toBe('Example');
         expect(content.text).not.toContain('](');
     });
 });

@@ -14,7 +14,6 @@ export default [
   // 0. Global ignores (must be first)
   {
     ignores: [
-      '.claude/**',
       '**/out/**',
       '**/dist/**',
       // The website ships with its own ESLint v8 config (React conventions).

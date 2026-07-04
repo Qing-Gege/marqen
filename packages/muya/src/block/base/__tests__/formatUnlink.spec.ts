@@ -3,8 +3,8 @@ import Format from '../format';
 
 // Regression for marktext `cb25b3d4` (PR-11b unlink port). `Format.unlink`
 // rewrites the block's source text — it replaces the link's raw markdown
-// (`[Anthropic](https://www.anthropic.com)`) with just the visible anchor
-// text (`Anthropic`), and re-positions the caret to the end of the
+// (`[Example](https://example.com)`) with just the visible anchor
+// text (`Example`), and re-positions the caret to the end of the
 // rewritten anchor. It also fires `muya-link-tools` with `reference: null`
 // so the popover hides immediately after the operation.
 //
@@ -36,16 +36,16 @@ function applyUnlink(text: string, range: { start: number; end: number }, anchor
 }
 
 describe('format.unlink — replaces link source with visible anchor', () => {
-    it('markdown `[Anthropic](url)` → `Anthropic`', () => {
-        const src = '[Anthropic](https://www.anthropic.com)';
-        const { text } = applyUnlink(src, { start: 0, end: src.length }, 'Anthropic');
-        expect(text).toBe('Anthropic');
+    it('markdown `[Example](url)` → `Example`', () => {
+        const src = '[Example](https://example.com)';
+        const { text } = applyUnlink(src, { start: 0, end: src.length }, 'Example');
+        expect(text).toBe('Example');
     });
 
     it('keeps surrounding text intact when the link is mid-paragraph', () => {
-        const src = 'see [Anthropic](https://www.anthropic.com) for details';
-        const { text } = applyUnlink(src, { start: 4, end: 4 + '[Anthropic](https://www.anthropic.com)'.length }, 'Anthropic');
-        expect(text).toBe('see Anthropic for details');
+        const src = 'see [Example](https://example.com) for details';
+        const { text } = applyUnlink(src, { start: 4, end: 4 + '[Example](https://example.com)'.length }, 'Example');
+        expect(text).toBe('see Example for details');
     });
 
     it('html `<a href=…>x</a>` → `x`', () => {
@@ -61,14 +61,14 @@ describe('format.unlink — replaces link source with visible anchor', () => {
     });
 
     it('places caret at end of the rewritten anchor', () => {
-        const src = 'hi [Anthropic](https://www.anthropic.com)!';
+        const src = 'hi [Example](https://example.com)!';
         const { setCursor } = applyUnlink(
             src,
-            { start: 3, end: 3 + '[Anthropic](https://www.anthropic.com)'.length },
-            'Anthropic',
+            { start: 3, end: 3 + '[Example](https://example.com)'.length },
+            'Example',
         );
-        // After rewrite, anchor ends at offset 3 + 'Anthropic'.length = 12.
-        expect(setCursor).toHaveBeenCalledWith(12, 12, true);
+        // After rewrite, anchor ends at offset 3 + 'Example'.length = 10.
+        expect(setCursor).toHaveBeenCalledWith(10, 10, true);
     });
 
     it('emits `muya-link-tools` with reference:null so the popover hides', () => {

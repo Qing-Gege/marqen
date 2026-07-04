@@ -171,7 +171,7 @@ Backslash escapes: \\* \\_ \\[ \\] \\\\ \\\` produce literal punctuation instead
 
 # 4. Links and Images
 
-Inline link with title: [Anthropic](https://www.anthropic.com "Hello Claude").
+Inline link with title: [Example](https://example.com "Example title").
 
 Autolink: <https://commonmark.org>.
 

@@ -463,8 +463,8 @@ class Format extends Content {
             image.click();
     }
 
-    // Replace the link's source text (e.g. `[Anthropic](https://…)`) with the
-    // visible anchor text only (`Anthropic`), stripping the markdown / HTML
+    // Replace the link's source text (e.g. `[Example](https://…)`) with the
+    // visible anchor text only (`Example`), stripping the markdown / HTML
     // around it. We keep the visible text rather than substituting the URL,
     // matching the contemporary norm (Notion, GDocs, Slack).
     unlink({ range, text }: { range: { start: number; end: number } | null; text: string }) {

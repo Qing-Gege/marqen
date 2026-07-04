@@ -1,192 +1,171 @@
-<p align="center"><img src="docs/assets/logo-small.png" alt="MarkText" width="100" height="100"></p>
+<p align="center">
+  <img src="docs/assets/logo-small.png" alt="Marqen" width="96" height="96">
+</p>
 
-<h1 align="center">MarkText</h1>
+<h1 align="center">Marqen</h1>
 
-<div align="center">
-  <a href="https://twitter.com/intent/tweet?via=marktextme&url=https://github.com/marktext/marktext/&text=What%20do%20you%20want%20to%20say%20to%20app?&hashtags=happyMarkText">
-    <img src="https://img.shields.io/twitter/url/https/github.com/marktext/marktext.svg?style=for-the-badge" alt="twitter">
-  </a>
-</div>
-<div align="center">
-  <strong>:high_brightness: Next generation markdown editor :crescent_moon:</strong><br>
-  A simple and elegant open-source markdown editor that focused on speed and usability.<br>
-  <sub>Available for Linux, macOS and Windows.</sub>
-</div>
+<p align="center">
+  <strong>一个给普通写作者使用的本地文档编辑器。</strong>
+  <br>
+  像写普通文档一样写教程、笔记、产品文档、说明书和文章，不必先理解 Markdown、文件路径或排版规则。
+</p>
 
-<br>
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2f6f68" alt="MIT License"></a>
+  <a href="package.json"><img src="https://img.shields.io/badge/node-%3E%3D20.19-47636a" alt="Node.js >= 20.19"></a>
+  <a href="package.json"><img src="https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-7c5f3f" alt="macOS Windows Linux"></a>
+</p>
 
-<div align="center">
-  <!-- License -->
-  <a href="LICENSE">
-    <img src="https://img.shields.io/github/license/marktext/marktext.svg" alt="LICENSE">
-  </a>
-  <!-- Downloads total -->
-  <a href="https://github.com/marktext/marktext/releases">
-    <img src="https://img.shields.io/github/downloads/marktext/marktext/total.svg" alt="total download">
-  </a>
-  <!-- Downloads latest release -->
-  <a href="https://github.com/marktext/marktext/releases/latest">
-    <img src="https://img.shields.io/github/downloads/marktext/marktext/latest/total.svg" alt="latest download">
-  </a>
-  <!-- sponsors -->
-  <a href="https://opencollective.com/marktext">
-    <img src="https://opencollective.com/marktext/tiers/silver-sponsors/badge.svg?label=SilverSponsors&color=brightgreen" alt="sponsors">
-  </a>
-</div>
+<p align="center">
+  <a href="#适合谁">适合谁</a>
+  <span> · </span>
+  <a href="#能做什么">能做什么</a>
+  <span> · </span>
+  <a href="#下载与安装">下载与安装</a>
+  <span> · </span>
+  <a href="#本地开发">本地开发</a>
+  <span> · </span>
+  <a href="#贡献">贡献</a>
+</p>
 
-<div align="center">
-  <h3>
-    <a href="https://github.com/marktext/marktext">
-      Website
-    </a>
-    <span> | </span>
-    <a href="https://github.com/marktext/marktext#features">
-      Features
-    </a>
-    <span> | </span>
-    <a href="https://github.com/marktext/marktext#download-and-installation">
-      Downloads
-    </a>
-    <span> | </span>
-    <a href="https://github.com/marktext/marktext#development">
-      Development
-    </a>
-    <span> | </span>
-    <a href="https://github.com/marktext/marktext#contribution">
-      Contribution
-    </a>
-  </h3>
-</div>
+![Marqen editor preview](docs/assets/marktext.png)
 
-<div align="center">
-  <sub>Translations:</sub>
-  <a href="docs/i18n/README-zh_cn.md#readme">
-    <span>:cn:</span>
-  </a>
-  <a href="docs/i18n/README-zh_tw.md#readme">
-    <span>:taiwan:</span>
-  </a>
-  <a href="docs/i18n/README-jp.md#readme">
-    <span>:jp:</span>
-  </a>
-  <a href="docs/i18n/README-fr.md#readme">
-    <span>:fr:</span>
-  </a>
-  <a href="docs/i18n/README-tr.md#readme">
-    <span>:tr:</span>
-  </a>
-  <a href="docs/i18n/README-es.md#readme">
-    <span>:es:</span>
-  </a>
-  <a href="docs/i18n/README-pt.md#readme">
-    <span>:portugal:</span>
-  </a>
-  <a href="docs/i18n/README-kr.md#readme">
-    <span>:kr:</span>
-  </a>
-</div>
+## 为什么做 Marqen
 
-<div align="center">
-  <sub>This Markdown editor that could. Built with ❤︎ by
-    <a href="https://github.com/Jocs">Jocs</a> and
-    <a href="https://github.com/marktext/marktext/graphs/contributors">
-      contributors
-    </a>
-    .
-  </sub>
-</div>
+很多人写的是「文档」，不是「Markdown 文件」。
 
-<br />
+他们要完成的是一份清楚的教程、一篇能发出去的文章、一份团队交接说明，或一段带图片和表格的产品文档。Marqen 的目标是把结构化写作变得更直接：打开、书写、插图、插表、检查版式、导出，而不是让用户先学习语法、资源目录、渲染模式和兼容性差异。
 
-<h2 align="center">Sponsors</h2>
+Marqen 仍然保留 Markdown 作为轻量、可移植的底层格式，但它不应该成为普通用户的心智负担。
 
-MarkText is an open-source Markdown editor powered by the support of its community. If MarkText improves your workflow, please consider [sponsoring the project](https://github.com/sponsors/marktext). Thank you to all the sponsors ❤️
+## 适合谁
 
-**Special Sponsor**
+| 用户 | Marqen 帮你省掉什么 |
+| --- | --- |
+| 写教程、说明书、FAQ 的人 | 不用手写语法，也能得到稳定的标题、列表、表格和图片排版。 |
+| 写产品文档、交接文档的人 | 本地保存，结构清楚，导出方便，适合反复修改和沉淀。 |
+| 写学习笔记、研究笔记的人 | 支持公式、代码块、图表等复杂内容，但日常书写仍然保持简单。 |
+| 不想被复杂排版打断的人 | 少一些按钮和样式陷阱，把注意力留给内容本身。 |
 
-| [<img src="docs/assets/sponsors/serpapi.png" width="150">](https://serpapi.com/?utm_source=marktext) | [Scrape Google and other search engines from our fast, easy, and complete API.](https://serpapi.com/?utm_source=marktext) |
-| ------------- |:-------------|
+Marqen 不想成为一个程序员优先的 Markdown 编辑器，也不想成为一个充满格式按钮的传统文字处理器。它更像一张安静、可靠、懂结构的写作桌面。
 
-## Screenshot
+## 能做什么
 
-![](docs/assets/marktext.png?raw=true)
+### 专注写作
 
-## Features
+![Focus mode](packages/website/public/docs/assets/focus.gif)
 
-- Realtime preview (WYSIWYG) and a clean and simple interface to get a distraction-free writing experience.
-- Support [CommonMark Spec](https://spec.commonmark.org), [GitHub Flavored Markdown Spec](https://github.github.com/gfm/) and selective support [Pandoc markdown](https://pandoc.org/MANUAL.html#pandocs-markdown).
-- Markdown extensions such as math expressions (KaTeX), front matter and emojis.
-- Support paragraphs and inline style shortcuts to improve your writing efficiency.
-- Output **HTML** and **PDF** files.
-- Various [themes](https://marktext.me/docs/themes): **Cadmium Light**, **Material Dark** etc.
-- Various editing modes: **Source Code mode**, **Typewriter mode**, **Focus mode**.
-- Paste images directly from clipboard.
+- 实时呈现最终文档效果，减少「源码/预览」来回切换。
+- 支持专注模式、打字机模式和多种主题。
+- 标题、列表、引用、分割线等结构通过直观操作完成。
 
-## Download and Installation
+### 插入图片、链接和表格
 
-![platform](https://img.shields.io/static/v1.svg?label=Platform&message=Linux%20x64%20|%20macOS%20x64%2Farm64%20|%20Windows%20x64%2Farm64&style=for-the-badge)
+| 图片工具 | 表格工具 |
+| --- | --- |
+| ![Image tools](packages/website/public/docs/assets/marktext-image-popup.png) | ![Table tools](packages/website/public/docs/assets/marktext-table-tools.png) |
 
-| ![](https://raw.githubusercontent.com/wiki/ryanoasis/nerd-fonts/screenshots/v1.0.x/mac-pass-sm.png)                                                                                         | ![](https://raw.githubusercontent.com/wiki/ryanoasis/nerd-fonts/screenshots/v1.0.x/windows-pass-sm.png)                                                                                         | ![](https://raw.githubusercontent.com/wiki/ryanoasis/nerd-fonts/screenshots/v1.0.x/linux-pass-sm.png)                                                                                                       |
-|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| [![Download for macOS](https://img.shields.io/badge/macOS-Download-blue)](https://github.com/marktext/marktext/releases/latest) | [![Download for Windows](https://img.shields.io/badge/Windows-Download-blue)](https://github.com/marktext/marktext/releases/latest) | [![Download for Linux](https://img.shields.io/badge/Linux-Download-blue)](https://github.com/marktext/marktext/releases/latest) |
+- 从剪贴板粘贴图片，或从本地选择图片。
+- 创建和调整表格，不必手写管道符。
+- 链接、图片、表格都有贴近内容的编辑工具。
 
-Want to see new features of the latest version? Please refer to [CHANGELOG](https://marktext.me/docs/changelog).
+### 导出和交付
 
-#### macOS
+![Export PDF settings](packages/website/public/docs/assets/marktext-export-pdf.png)
 
-Requires macOS 11 (Big Sur) or later. Universal builds aren't published — pick the matching `arm64` or `x64` installer.
+- 导出 PDF 和 HTML，适合分享、归档或发布。
+- 主题和导出样式保持一致，减少交付前的返工。
+- 本地优先，文档和资源留在自己的电脑上。
 
-You can either download the latest `marktext-mac-(arm64|x64)-%version%.dmg` from the [release page](https://github.com/marktext/marktext/releases/latest) or install MarkText using [**homebrew cask**](https://github.com/caskroom/homebrew-cask). To use Homebrew-Cask you just need to have [Homebrew](https://brew.sh/) installed.
+### 处理复杂内容
+
+![Quick insert](packages/website/public/docs/assets/marktext-quick-insert.png)
+
+- 支持公式、代码块、图表、任务列表等结构化内容。
+- 对高级内容提供显示和编辑能力，但默认界面保持克制。
+- 面向普通写作者隐藏实现细节，面向高级用户保留可控性。
+
+## 下载与安装
+
+Marqen 面向 macOS、Windows 和 Linux。发布包准备好后，可以从 [GitHub Releases](https://github.com/marqen/marqen/releases) 下载对应平台的安装文件。
+
+| 平台 | 说明 |
+| --- | --- |
+| macOS | 支持 Apple Silicon 和 Intel Mac，建议下载对应架构的安装包。 |
+| Windows | 支持 Windows 10 / 11，建议使用安装向导。 |
+| Linux | 计划提供 AppImage、deb、rpm 等常见格式。 |
+
+如果暂时没有适合你系统的构建包，可以从源码运行或构建。
+
+## 本地开发
+
+### 环境要求
+
+- Node.js >= 20.19.0
+- pnpm >= 10
+- macOS、Windows 或 Linux
+
+### 启动桌面应用
 
 ```bash
-brew install --cask mark-text
+pnpm install
+pnpm dev
 ```
 
-#### Windows
+### 常用命令
 
-Requires Windows 10 or 11. Both x64 and arm64 installers are published — pick the architecture that matches your machine.
+| 命令 | 用途 |
+| --- | --- |
+| `pnpm dev` | 启动桌面应用开发环境。 |
+| `pnpm build` | 构建桌面应用。 |
+| `pnpm build:mac` | 构建 macOS 安装包。 |
+| `pnpm build:win` | 构建 Windows 安装包。 |
+| `pnpm build:linux` | 构建 Linux 安装包。 |
+| `pnpm test` | 运行测试。 |
+| `pnpm typecheck` | 运行类型检查。 |
+| `pnpm check` | 运行 lint 和类型检查。 |
 
-Simply download and install MarkText via the setup wizard (`marktext-win-(x64|arm64)-%version%-setup.exe`) and choose whether to install per-user or machine wide. Alternatively, install MarkText using a package manager such as [Chocolatey](https://chocolatey.org/) or [Winget](https://docs.microsoft.com/en-us/windows/package-manager/winget/).
+## 项目结构
 
-To use Chocolatey, you need to have [Chocolatey](https://chocolatey.org/install) installed:
+```text
+.
+├── packages/
+│   ├── desktop/   Electron 桌面应用
+│   ├── muya/      新版编辑器核心
+│   ├── muyajs/    旧版编辑器兼容层
+│   └── website/   文档与官网
+├── docs/          README 图片和文档资源
+├── scripts/       构建、许可和本地化脚本
+└── package.json   工作区入口
+```
+
+## 设计原则
+
+- 面向用户意图命名：图片、表格、导出 PDF，而不是语法名词。
+- 默认隐藏实现细节：Markdown、路径、资源目录和兼容性设置只在需要时出现。
+- 让文档成为中心：工具应该安静、可预测，不抢走写作注意力。
+- 保持输出可信：用户看到什么，就应该能稳定导出、打印或发送。
+
+## 贡献
+
+欢迎参与 Marqen 的开发、测试、文档和设计改进。比较适合开始的方向：
+
+- 改善普通用户可见的文案和交互。
+- 补充图片、表格、导出、粘贴等核心写作流程的测试。
+- 简化偏技术化的设置项和菜单命名。
+- 修复跨平台安装、构建和文件处理问题。
+
+提交改动前建议运行：
 
 ```bash
-choco install marktext
+pnpm check
+pnpm test
 ```
 
-To use Winget, you need to have [Winget](https://docs.microsoft.com/en-us/windows/package-manager/winget/#install-winget) installed:
+## 致谢
 
-```bash
-winget install marktext
-```
+Marqen 基于 MarkText 和 Muya 的长期工作继续演进。感谢原项目作者、贡献者，以及所有推动开源写作工具变得更好的人。
 
-#### Linux
+## 许可证
 
-Please follow the [Linux installation instructions](https://marktext.me/docs/installation).
-
-#### Other
-
-All binaries for Linux, macOS and Windows can be downloaded from the [release page](https://github.com/marktext/marktext/releases/latest). If a version is unavailable for your system, then please open an [issue](https://github.com/marktext/marktext/issues).
-
-## Development
-
-If you wish to build MarkText yourself, please check out our [build instructions](https://marktext.me/docs/dev/build).
-
-- [User documentation](https://marktext.me/docs/introduction)
-- [Developer documentation](https://marktext.me/docs/dev/overview)
-
-If you have any questions regarding MarkText, you are welcome to write an issue. When doing so please use the default format found when opening an issue. Of course, if you submit a PR directly, it will be greatly appreciated.
-
-## Contribution
-
-MarkText is in development, please make sure to read the [Contributing Guide](.github/CONTRIBUTING.md) before making a pull request. Want to add some features to MarkText? Refer to our [roadmap](https://github.com/marktext/marktext/projects) and open issues.
-
-## Contributors
-
-Thank you to all the people who have already contributed to MarkText[[contributors](https://github.com/marktext/marktext/graphs/contributors)].
-
-<a href="https://github.com/marktext/marktext/graphs/contributors"><img src="https://opencollective.com/marktext/contributors.svg?width=890" /></a>
-
-## License
-
-[**MIT**](LICENSE).
+[MIT](LICENSE)
