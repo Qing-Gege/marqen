@@ -1,4 +1,4 @@
-name: Release MarkText
+name: Release Marqen
 
 on:
   push:
@@ -114,8 +114,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Mac builds are unsigned (no Developer ID); see release notes for the
-      # user-side xattr/codesign workaround. Per-arch script: electron-builder's
+      # Mac builds are unsigned (no Developer ID). Per-arch script: electron-builder's
       # --arm64/--x64 flags are additive over the config's arch list, so
       # electron-builder.yml must not pin mac.target arches for the flag to
       # actually restrict the build to a single arch.
@@ -134,7 +133,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: marktext-${{ matrix.name }}
+          name: marqen-${{ matrix.name }}
           retention-days: 7
           if-no-files-found: error
           path: |
@@ -191,16 +190,10 @@ jobs:
               echo ""
             fi
             echo "## ⚠️ Note for macOS users"
-            echo "Builds are unsigned (no Apple Developer ID). After dragging MarkText into Applications, clear the quarantine flag once:"
-            echo '```'
-            echo 'xattr -cr /Applications/marktext.app'
-            echo '```'
+            echo "Builds are unsigned for now. If macOS says the app cannot be opened because the developer cannot be verified, open System Settings → Privacy & Security and allow Marqen there. You can also Control-click Marqen in Applications and choose Open."
             echo ""
             echo "## Verifying downloads"
-            echo "All artifacts are listed with their SHA-256 in \`SHA256SUMS.txt\`. Verify with:"
-            echo '```'
-            echo 'sha256sum -c SHA256SUMS.txt --ignore-missing'
-            echo '```'
+            echo "\`SHA256SUMS.txt\` lists the SHA-256 value for every download file for users who want to verify file integrity."
           } > release_body.md
 
       - name: Publish release

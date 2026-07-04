@@ -1,6 +1,6 @@
 {
   "name": "marqen",
-  "version": "0.20.3-dev",
+  "version": "0.20.3",
   "description": "Marqen",
   "main": "./out/main/index.js",
   "author": {
@@ -11,10 +11,10 @@
       "name": "Marqen"
     }
   ],
-  "homepage": "https://github.com/marqen/marqen",
+  "homepage": "https://github.com/Qing-Gege/marqen",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/marqen/marqen.git"
+    "url": "git+https://github.com/Qing-Gege/marqen.git"
   },
   "scripts": {
     "minify-locales": "tsx ../../scripts/minify-locales.ts",

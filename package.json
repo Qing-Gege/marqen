@@ -1,9 +1,9 @@
 {
   "name": "marqen-monorepo",
-  "version": "0.20.3-dev",
+  "version": "0.20.3",
   "description": "Marqen monorepo root",
   "private": true,
-  "homepage": "https://github.com/marqen/marqen",
+  "homepage": "https://github.com/Qing-Gege/marqen",
   "packageManager": "pnpm@10.33.4",
   "engines": {
     "node": ">=20.19.0",

@@ -16,8 +16,8 @@
       <li>Export documents for sharing</li>
     </ul>
   </description>
-  <url type="homepage">https://github.com/marqen/marqen/</url>
-  <url type="bugtracker">https://github.com/marqen/marqen/issues</url>
+  <url type="homepage">https://github.com/Qing-Gege/marqen/</url>
+  <url type="bugtracker">https://github.com/Qing-Gege/marqen/issues</url>
   <categories>
     <category>Utility</category>
     <category>TextEditor</category>
@@ -52,6 +52,7 @@
     <content_attribute id="money-gambling">none</content_attribute>
   </content_rating>
   <releases>
+    <release date="2026-07-04" version="0.20.3"/>
     <release date="2022-03-07" version="0.17.1"/>
     <release date="2022-02-24" version="0.17.0"/>
     <release date="2020-12-28" version="0.16.3"/>
